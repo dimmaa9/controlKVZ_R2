@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org">
+<!-- Head -->
+<head>
+    <title>Головна</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+
+    <!--  Social tags -->
+    <meta name="keywords"
+          content="Awesome Dashboard UI Kit, Bootstrap, Template, Theme, Freebies, MIT license, Free, Download">
+    <meta name="description"
+          content="Awesome Dashboard UI Kit is a beautiful Open Source Bootstrap 4 Dashboard UI Kit crafted by Htmlstream.">
+    <meta name="author" content="htmlstream.com">
+
+    <!-- Schema.org -->
+    <meta itemprop="name" content="Awesome Dashboard UI Kit">
+    <meta itemprop="description"
+          content="Awesome Dashboard UI Kit is a beautiful Open Source Bootstrap 4 Dashboard UI Kit crafted by Htmlstream.">
+    <meta itemprop="image" content="assets/img-temp/aduik-preview.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@htmlstream">
+    <meta name="twitter:title" content="Awesome Dashboard UI Kit">
+    <meta name="twitter:description"
+          content="Awesome Dashboard UI Kit is a beautiful Open Source Bootstrap 4 Dashboard UI Kit crafted by Htmlstream.">
+    <meta name="twitter:creator" content="@htmlstream">
+    <meta name="twitter:image" content="assets/img-temp/aduik-preview.png">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Htmlstream">
+    <meta property="og:title" content="Awesome Dashboard UI Kit">
+    <meta property="og:description"
+          content="Awesome Dashboard UI Kit is a beautiful Open Source Bootstrap 4 Dashboard UI Kit crafted by Htmlstream.">
+    <meta property="og:url" content="https://htmlstream.com/preview/awesome-dashboard-ui-kit/">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="assets/img-temp/aduik-preview.png">
+    <meta property="og:image:secure_url" content="assets/img-temp/aduik-preview.png">
+
+    <!-- Web Fonts -->
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+    <!-- Components Vendor Styles -->
+    <link rel="stylesheet" th:href="@{/vendor/themify-icons/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css}">
+
+    <!-- Theme Styles -->
+    <link rel="stylesheet" th:href="@{/css/theme.css}">
+</head>
+<!-- End Head -->
+
+<!-- Body -->
+<body>
+<header th:replace="~{fragments/slide-bar :: header(${user})}"></header>
+
+<!-- Main -->
+<main class="u-main">
+    <aside th:replace="~{fragments/slide-bar :: bar(1)}"></aside>
+    <!-- Content -->
+    <div class="u-content">
+        <!-- Content Body -->
+        <div class="u-body">
+            <!-- Doughnut Chart -->
+            <div class="row">
+                <div class="col-sm-6 col-xl-3 mb-5">
+                    <!-- Card -->
+                    <div class="card">
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <!-- Chart with Info -->
+                            <div class="media align-items-center py-2">
+                                <!-- Chart with Info - Info -->
+                                <div class="media-body">
+                                    <h5 class="h5 text-muted mb-2">Загальна сума майна</h5>
+                                    <span class="h2 font-weight-normal mb-0" th:text="'₴' + ${totalSum}">$162,400</span>
+                                </div>
+                                <!-- End Chart with Info - Info -->
+
+                                <!-- Chart with Info - Chart -->
+                                <div class="text-right ml-2" style="max-width: 70px;">
+                                    <div class="mb-2">
+                                        <canvas class="js-area-chart-small"
+                                                width="100"
+                                                height="20"
+                                                data-extend='[{
+																	"data": [2000, 0, 40, 40, 4, 60, 100, 90, 90],
+                                  "borderColor": "#444bf8"
+																}]'></canvas>
+                                    </div>
+
+                                    <span class="text-success">
+												+5.2%
+												<span class="ti-arrow-up"></span>
+											</span>
+                                </div>
+                                <!-- End Chart with Info - Chart -->
+                            </div>
+                            <!-- End Chart with Info -->
+                        </div>
+                        <!-- End Card Body -->
+                    </div>
+                    <!-- End Card -->
+                </div>
+
+                <div class="col-sm-6 col-xl-3 mb-5">
+                    <!-- Card -->
+                    <div class="card">
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <!-- Chart with Info -->
+                            <div class="media align-items-center py-2">
+                                <!-- Chart with Info - Info -->
+                                <div class="media-body">
+                                    <h5 class="h5 text-muted mb-2">Необхідно одиниць майна</h5>
+                                    <span class="h2 font-weight-normal mb-0" th:text="${countPb}">$36,900</span>
+                                </div>
+                                <!-- End Chart with Info - Info -->
+
+                                <!-- Chart with Info - Chart -->
+                                <div class="text-right ml-2" style="max-width: 70px;">
+                                    <div class="mb-2">
+                                        <canvas class="js-area-chart-small"
+                                                width="100"
+                                                height="20"
+                                                data-extend='[{
+																	"data": [80, 100, 50, 50, 0, 60, 60, 100, 80],
+                                  "borderColor": "#f1be25"
+																}]'></canvas>
+                                    </div>
+
+                                    <span class="text-success">
+												+6.2%
+												<span class="ti-arrow-up"></span>
+											</span>
+                                </div>
+                                <!-- End Chart with Info - Chart -->
+                            </div>
+                            <!-- End Chart with Info -->
+                        </div>
+                        <!-- End Card Body -->
+                    </div>
+                    <!-- End Card -->
+                </div>
+
+                <div class="col-sm-6 col-xl-3 mb-5">
+                    <!-- Card -->
+                    <div class="card">
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <!-- Chart with Info -->
+                            <div class="media align-items-center py-2">
+                                <!-- Chart with Info - Info -->
+                                <div class="media-body">
+                                    <h5 class="h5 text-muted mb-2">Кількість майна</h5>
+                                    <span class="h2 font-weight-normal mb-0" th:text="${allThings}">$48,800</span>
+                                </div>
+                                <!-- End Chart with Info - Info -->
+
+                                <!-- Chart with Info - Chart -->
+                                <div class="text-right ml-2" style="max-width: 70px;">
+                                    <div class="mb-2">
+                                        <canvas class="js-area-chart-small"
+                                                width="100"
+                                                height="20"
+                                                data-extend='[{ "data": [90, 80, 100, 40, 40, 0, 20, 10, 30], "borderColor": "#2cd2f6"}]'>
+                                        </canvas>
+                                    </div>
+
+                                    <span class="text-success">+9.0%<span class="ti-arrow-up"></span></span>
+                                </div>
+                                <!-- End Chart with Info - Chart -->
+                            </div>
+                            <!-- End Chart with Info -->
+                        </div>
+                        <!-- End Card Body -->
+                    </div>
+                    <!-- End Card -->
+                </div>
+
+                <div class="col-sm-6 col-xl-3 mb-5">
+                    <!-- Card -->
+                    <div class="card">
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <!-- Chart with Info -->
+                            <div class="media align-items-center py-2">
+                                <!-- Chart with Info - Info -->
+                                <div class="media-body">
+                                    <h5 class="h5 text-muted mb-2">Кількість підрозділів</h5>
+                                    <span class="h2 font-weight-normal mb-0" th:text="${parentUnits}">484</span>
+                                </div>
+                                <!-- End Chart with Info - Info -->
+
+                                <!-- Chart with Info - Chart -->
+                                <div class="text-right ml-2" style="max-width: 70px;">
+                                    <div class="mb-2">
+                                        <canvas class="js-area-chart-small"
+                                                width="100"
+                                                height="20"
+                                                data-extend='[{
+																	"data": [80, 100, 50, 50, 0, 60, 60, 100, 80],
+                                  "borderColor": "#f12559"
+																}]'></canvas>
+                                    </div>
+
+                                    <span class="text-danger">
+												-4.2%
+												<span class="ti-arrow-down"></span>
+											</span>
+                                </div>
+                                <!-- End Chart with Info - Chart -->
+                            </div>
+                            <!-- End Chart with Info -->
+                        </div>
+                        <!-- End Card Body -->
+                    </div>
+                    <!-- End Card -->
+                </div>
+            </div>
+            <!-- End Doughnut Chart -->
+
+            <div class="row">
+                <div class="col-md-6 mb-5">
+                    <!-- Revenue Chart -->
+                    <div class="card h-100">
+                        <!-- Card Header -->
+                        <header class="card-header d-flex align-items-center justify-content-between">
+                            <h2 class="h4 card-header-title">Кількість майна за станом по категоріям</h2>
+                        </header>
+                        <!-- End Card Header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body pt-0">
+                            <!-- Chart Legends -->
+                            <ul class="list-inline mb-4">
+                                <li class="list-inline-item d-inline-flex align-items-center mr-4">
+                                    <span class="u-indicator u-indicator-xxs position-static bg-success  border-0 mr-2"></span>
+                                    В наявності
+                                </li>
+                                <li class="list-inline-item d-inline-flex align-items-center mr-4">
+                                    <span class="u-indicator u-indicator-xxs position-static bg-warning border-0 mr-2"></span>
+                                    Потреба
+                                </li>
+                                <li class="list-inline-item d-inline-flex align-items-center mr-4">
+                                    <span class="u-indicator u-indicator-xxs position-static bg-danger border-0 mr-2"></span>
+                                    Ремонт
+                                </li>
+                            </ul>
+                            <!-- End Chart Legends -->
+
+                            <!-- Chart -->
+                            <div class="mx-n3" style="height: 340px;">
+                                <canvas class="js-area-chart"
+                                        width="100"
+                                        height="320"></canvas>
+                            </div>
+                            <!-- End Chart -->
+                        </div>
+                        <!-- End Card Body -->
+                    </div>
+                    <!-- End Revenue Chart -->
+                </div>
+
+                <div class="col-md-6 mb-5">
+                    <!-- Performance Chart -->
+                    <div class="card h-100">
+                        <!-- Card Header -->
+                        <header class="card-header d-flex align-items-center justify-content-between">
+                            <h2 class="h4 card-header-title" th:text="|За станом у ${user.getUnit()}|"></h2>
+
+                        </header>
+                        <!-- End Card Header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <!-- Chart -->
+                            <div class="mx-auto mb-6" style="max-width: 240px; max-height: 240px;">
+                                <canvas class="js-doughnut-chart"
+                                        width="240"
+                                        height="240"></canvas>
+                            </div>
+                            <!-- End Chart -->
+
+                            <!-- Chart Legends -->
+                            <ul class="list-inline d-flex align-items-center justify-content-center text-center mb-0">
+                                <li class="list-inline-item px-5 mr-0">
+                                    <div class="h2 font-weight-normal mb-1" style="color: #00880e" th:text="|${vn}%|">45%</div>
+                                    <div class="text-muted" >В наявності</div>
+                                </li>
+                                <li class="list-inline-item px-5 mr-0">
+                                    <div class="h2 font-weight-normal mb-1" style="color: #ff9f00" th:text="|${pb}%|">15%</div>
+                                    <div class="text-muted">Потреба</div>
+                                </li>
+                                <li class="list-inline-item px-5 mr-0">
+                                    <div class="h2 font-weight-normal mb-1" style="color: #ff0000" th:text="|${rm}%|">15%</div>
+                                    <div class="text-muted">Ремонт</div>
+                                </li>
+                            </ul>
+                            <!-- End Chart Legends -->
+                        </div>
+                        <!-- End Card Body -->
+                    </div>
+                    <!-- End Performance Chart -->
+                </div>
+            </div>
+        </div>
+        <!-- End Content Body -->
+
+        <!-- Footer -->
+        <footer th:replace="~{fragments/slide-bar :: footer}"></footer>
+        <!-- End Footer -->
+    </div>
+    <!-- End Content -->
+</main>
+<!-- End Main -->
+
+<!-- Global Vendor -->
+<script th:src="@{/vendor/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/vendor/jquery-migrate/jquery-migrate.min.js}"></script>
+<script th:src="@{/vendor/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/dist/js/bootstrap.min.js}"></script>
+
+<!-- Plugins -->
+<script th:src="@{/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js}"></script>
+<script th:src="@{/vendor/chart.js/dist/Chart.min.js}"></script>
+<script th:src="@{/vendor/chartjs-plugin-style/dist/chartjs-plugin-style.min.js}"></script>
+
+<!-- Initialization  -->
+<script th:src="@{/js/sidebar-nav.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+
+<script th:src="@{/js/charts/area-chart.js}"></script>
+<script th:src="@{/js/charts/area-chart-small.js}"></script>
+<script th:src="@{/js/charts/doughnut-chart.js}"></script>
+</body>
+<!-- End Body -->
+</html>

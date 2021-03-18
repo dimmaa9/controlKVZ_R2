@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org">
+	<!-- Head -->
+	<head>
+		<title>Log In | Awesome Dashboard UI Kit</title>
+
+		<!-- Meta -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+
+		<!--  Social tags -->
+		<meta name="keywords" content="Awesome Dashboard UI Kit, Bootstrap, Template, Theme, Freebies, MIT license, Free, Download">
+		<meta name="description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+		<meta name="author" content="htmlstream.com">
+
+		<!-- Schema.org -->
+		<meta itemprop="name" content="Awesome Dashboard UI Kit">
+		<meta itemprop="description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+		<meta itemprop="image" content="assets/img-temp/aduik-preview.png">
+
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@htmlstream">
+		<meta name="twitter:title" content="Awesome Dashboard UI Kit">
+		<meta name="twitter:description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+		<meta name="twitter:creator" content="@htmlstream">
+		<meta name="twitter:image" content="assets/img-temp/aduik-preview.png">
+
+		<!-- Open Graph -->
+		<meta property="og:type" content="website">
+		<meta property="og:site_name" content="Htmlstream">
+		<meta property="og:title" content="Awesome Dashboard UI Kit">
+		<meta property="og:description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+		<meta property="og:url" content="https://htmlstream.com/preview/awesome-dashboard-ui-kit/">
+		<meta property="og:locale" content="en_US">
+		<meta property="og:image" content="assets/img-temp/aduik-preview.png">
+		<meta property="og:image:secure_url" content="assets/img-temp/aduik-preview.png">
+
+		<!-- Web Fonts -->
+		<link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+		<!-- Components Vendor Styles -->
+		<link rel="stylesheet" th:href="@{/vendor/themify-icons/themify-icons.css}">
+
+		<!-- Theme Styles -->
+		<link rel="stylesheet" th:href="@{/css/theme.css}">
+	</head>
+	<!-- End Head -->
+
+	<!-- Body -->
+	<body>
+		<!-- Main -->
+		<main class="d-flex flex-column u-hero u-hero--end mnh-100vh" style="background-image: url(/img-temp/bg/bg-1.png);">
+			<form th:action="@{/login}" method="post" id="signin" autocomplete="off">
+				<div class="container py-11 my-auto">
+					<div class="row align-items-center">
+
+						<div class="col-md-6 col-lg-5 offset-lg-1 mb-4 mb-md-0">
+							<!-- Card -->
+							<div class="card">
+								<!-- Card Body -->
+								<div class="card-body p-4 p-lg-7">
+									<h2 class="text-center mb-4">Вхід</h2>
+
+									<h4 class="text-center text-danger mb-4" th:if="${param.error}">Невірні данні для авторизації</h4>
+									<h4 class="text-center text-danger mb-4" th:if="${param.logout}">Ви успішно вийшли з аккаунту</h4>
+
+									<!-- Sign in Form -->
+									<form action="/">
+										<!-- Email -->
+										<div class="form-group">
+											<label for="login">Логін</label>
+											<input id="login" class="form-control" type="text" placeholder="Ваш логін" name="username">
+										</div>
+										<!-- End Email -->
+
+										<!-- Password -->
+										<div class="form-group">
+											<label for="password">Пароль</label>
+											<input id="password" class="form-control" type="password" placeholder="Введіть пароль" name="password">
+										</div>
+										<!-- End Password -->
+
+										<button type="submit" class="btn btn-block btn-wide btn-primary text-uppercase">Увійти</button>
+
+
+									</form>
+									<!-- End Sign in Form -->
+								</div>
+								<!-- End Card Body -->
+							</div>
+							<!-- End Card -->
+						</div>
+
+						<div class="col-md-6 col-lg-5 offset-lg-1">
+							<h2 class="h1">Система обліку<br class="d-none d-md-block"> засобів зв'язку</h2>
+							<br><br>
+							<!-- Benefits -->
+							<ul class="list-unstyled mb-11">
+								<!-- Benefit -->
+								<li class="mb-4">
+									<div class="media align-items-center">
+										<div class="u-icon u-icon-sm rounded-circle bg-white text-primary mr-3">
+											<span class="ti-lock"></span>
+										</div>
+
+										<div class="media-body">
+											<h3 class="text-dark mb-0">Забезпечення надійності всіх даних та ресурсів ЗСУ</h3>
+										</div>
+									</div>
+								</li>
+								<!-- End Benefit -->
+
+								<!-- Benefit -->
+								<li class="mb-4">
+									<div class="media align-items-center">
+										<div class="u-icon u-icon-sm rounded-circle bg-white text-primary mr-3">
+											<span class="ti-briefcase"></span>
+										</div>
+
+										<div class="media-body">
+											<h3 class="text-dark mb-0">Звітність про матеріальні засоби частини (підрозділи у ній) та підведення остаточних результатів</h3>
+										</div>
+									</div>
+								</li>
+								<!-- End Benefit -->
+
+								<!-- Benefit -->
+								<li class="mb-4">
+									<div class="media align-items-center">
+										<div class="u-icon u-icon-sm rounded-circle bg-white text-primary mr-3">
+											<span class="ti-cup"></span>
+										</div>
+
+										<div class="media-body">
+											<h3 class="text-dark mb-0">Якість конторолювання та ведення бази даних всього майна</h3>
+										</div>
+									</div>
+								</li>
+								<!-- End Benefit -->
+							</ul>
+							<!-- End Benefits -->
+
+
+						</div>
+					</div>
+				</div>
+			</form>
+
+
+			<!-- Footer -->
+			<footer th:replace="~{fragments/slide-bar :: footer}"></footer>
+			<!-- End Footer -->
+		</main>
+		<!-- End Main -->
+	</body>
+	<!-- End Body -->
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- Header (Topbar) -->
+<header th:fragment="header(user)" class="u-header">
+    <!-- Header Left Section -->
+    <div class="u-header-left">
+        <!-- Header Logo -->
+        <a class="u-header-logo" href="/">
+            <img class="u-header-logo__icon" th:src="@{/svg/logo-mini.svg}" alt="Awesome Icon">
+            <img class="u-header-logo__text" th:src="@{/svg/logo-text-light.svg}" alt="Awesome">
+        </a>
+        <!-- End Header Logo -->
+    </div>
+    <!-- End Header Left Section -->
+
+    <!-- Header Middle Section -->
+    <div class="u-header-middle">
+        <!-- Sidebar Invoker -->
+        <div class="u-header-section">
+            <a class="js-sidebar-invoker u-header-invoker u-sidebar-invoker" href="#"
+               data-is-close-all-except-this="true"
+               data-target="#sidebar">
+                <span class="ti-align-left u-header-invoker__icon u-sidebar-invoker__icon--open"></span>
+                <span class="ti-align-justify u-header-invoker__icon u-sidebar-invoker__icon--close"></span>
+            </a>
+        </div>
+        <!-- End Sidebar Invoker -->
+
+        <!-- Header Search -->
+        <div class="u-header-section justify-content-sm-start flex-grow-1 py-0">
+            <div class="u-header-search"
+                 data-search-mobile-invoker="#headerSearchMobileInvoker"
+                 data-search-target="#headerSearch">
+                <!-- Header Search Invoker (Mobile Mode) -->
+                <a id="headerSearchMobileInvoker" class="u-header-search__mobile-invoker align-items-center" href="#">
+                    <span class="ti-search"></span>
+                </a>
+                <!-- End Header Search Invoker (Mobile Mode) -->
+
+                <!-- Header Search Form -->
+                <div id="headerSearch" class="u-header-search-form">
+                    <form action="/" class="w-100">
+                        <div class="input-group h-100">
+                            <button class="btn-link input-group-prepend u-header-search__btn" type="submit">
+                                <span class="ti-search"></span>
+                            </button>
+                            <input class="form-control u-header-search__field" type="search" placeholder="Пошук...">
+                        </div>
+                    </form>
+                </div>
+                <!-- End Header Search Form -->
+            </div>
+        </div>
+        <!-- End Header Search -->
+
+
+        <!-- User Profile -->
+        <div class="u-header-section u-header-section--profile">
+            <div class="u-header-dropdown dropdown">
+                <a class="link-muted d-flex align-items-center" href="#" role="button" id="userProfileInvoker"
+                   aria-haspopup="true" aria-expanded="false"
+                   data-toggle="dropdown"
+                   data-offset="0">
+                    <img class="u-header-avatar img-fluid rounded-circle mr-md-3" th:src="@{/img-temp/avatars/img1.jpg}"
+                         alt="User Profile">
+                    <span class="text-dark d-none d-md-inline-flex align-items-center" th:text="|${user.name} (${user.unit})|">
+								Bruce Goodman
+								<span class="ti-angle-down text-muted ml-4"></span>
+							</span>
+                </a>
+
+                <div class="u-header-dropdown__menu dropdown-menu dropdown-menu-right"
+                     aria-labelledby="userProfileInvoker" style="width: 260px;">
+                    <div class="card p-3">
+
+                        <div class="card-body p-0">
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-3">
+                                    <a class="link-dark" href="#">Переглянути профіль</a>
+                                </li>
+                                <li class="mb-3">
+                                    <a class="link-dark" href="#">Налаштування</a>
+                                </li>
+                                <li>
+                                    <a class="link-dark" href="/logout">Вихід</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End User Profile -->
+    </div>
+    <!-- End Header Middle Section -->
+</header>
+<!-- End Header (Topbar) -->
+
+<!-- Sidebar -->
+<aside th:fragment="bar(num)" id="sidebar" class="u-sidebar">
+    <div class="u-sidebar-inner">
+        <!-- Sidebar Header -->
+        <header class="u-sidebar-header">
+            <!-- Sidebar Logo -->
+            <a class="u-sidebar-logo" href="/">
+                <img class="u-sidebar-logo__icon" th:src="@{/svg/logo-mini.svg}" alt="Awesome Icon">
+                <img class="u-sidebar-logo__text" th:src="@{/svg/logo-text-light.svg}" alt="Awesome">
+            </a>
+            <!-- End Sidebar Logo -->
+        </header>
+        <!-- End Sidebar Header -->
+
+        <!-- Sidebar Nav -->
+        <nav class="u-sidebar-nav">
+            <!-- Sidebar Nav Menu -->
+            <ul class="u-sidebar-nav-menu u-sidebar-nav-menu--top-level">
+                <!-- Головна -->
+                <li class="u-sidebar-nav-menu__item">
+                    <a class="u-sidebar-nav-menu__link" th:classappend="${num == 1 ? 'active' : ''}" href="/">
+                        <span class="ti-dashboard u-sidebar-nav-menu__item-icon"></span>
+                        <span class="u-sidebar-nav-menu__item-title">Головна</span>
+                    </a>
+                </li>
+                <!-- End Головна -->
+
+
+                <!-- Tables -->
+                <li class="u-sidebar-nav-menu__item">
+                    <a class="u-sidebar-nav-menu__link" th:classappend="${num == 2 ? 'active' : ''}" href="/table">
+                        <span class="ti-layout u-sidebar-nav-menu__item-icon"></span>
+                        <span class="u-sidebar-nav-menu__item-title">Таблиця</span>
+                    </a>
+                </li>
+                <!-- End Tables -->
+
+                <!-- Техніка -->
+                <li class="u-sidebar-nav-menu__item">
+                    <a class="u-sidebar-nav-menu__link" th:classappend="${num == 7 ? 'active' : ''}" href="/object">
+                        <span class="ti-car u-sidebar-nav-menu__item-icon"></span>
+                        <span class="u-sidebar-nav-menu__item-title">Техніка</span>
+                    </a>
+                </li>
+                <!-- End Техніка -->
+
+                <!-- Підрозділи -->
+                <li class="u-sidebar-nav-menu__item">
+                    <a class="u-sidebar-nav-menu__link" th:classappend="${num == 3 ? 'active' : ''}" href="/units">
+                        <span class="ti-layers-alt u-sidebar-nav-menu__item-icon"></span>
+                        <span class="u-sidebar-nav-menu__item-title">Підрозділи</span>
+                    </a>
+                </li>
+                <!-- End Підрозділи -->
+
+                <!-- Користувачі -->
+                <li class="u-sidebar-nav-menu__item">
+                    <a class="u-sidebar-nav-menu__link" th:classappend="${num == 4 ? 'active' : ''}" href="/">
+                        <span class="ti-user u-sidebar-nav-menu__item-icon"></span>
+                        <span class="u-sidebar-nav-menu__item-title">Користувачі</span>
+                    </a>
+                </li>
+                <!-- End Користувачі -->
+
+
+                <li class="u-sidebar-nav-menu__divider"></li>
+
+                <!-- Documentation -->
+                <li class="u-sidebar-nav-menu__item">
+                    <a class="u-sidebar-nav-menu__link" th:classappend="${num == 5 ? 'active' : ''}"
+                       href="/">
+                        <span class="ti-files u-sidebar-nav-menu__item-icon"></span>
+                        <span class="u-sidebar-nav-menu__item-title">Документи</span>
+                    </a>
+                </li>
+                <!-- End Documentation -->
+
+                <!-- Free Download -->
+                <li class="u-sidebar-nav-menu__item">
+                    <a class="u-sidebar-nav-menu__link" th:classappend="${num == 6 ? 'active' : ''}"
+                       href="/generate" target="_blank">
+                        <span class="ti-save u-sidebar-nav-menu__item-icon"></span>
+                        <span class="u-sidebar-nav-menu__item-title">Завантажити</span>
+                    </a>
+                </li>
+                <!-- End Free Download -->
+            </ul>
+            <!-- End Sidebar Nav Menu -->
+        </nav>
+        <!-- End Sidebar Nav -->
+    </div>
+</aside>
+<!-- End Sidebar -->
+
+<!-- Footer -->
+<footer th:fragment="footer" class="u-footer d-md-flex align-items-md-center text-center text-md-left text-muted">
+    <!-- Footer Menu -->
+    <ul class="list-inline mb-3 mb-md-0">
+        <li class="list-inline-item mr-4">
+            <a class="text-muted" href="https://www.mil.gov.ua/" target="_blank">Міністерство оборони</a>
+        </li>
+    </ul>
+    <!-- End Footer Menu -->
+
+    <!-- Copyright -->
+    <span class="text-muted ml-auto">&copy; 2021 <a class="text-muted" href="https://htmlstream.com/"
+                                                    target="_blank">ВІТІ</a>. Всі права захищенні.</span>
+    <!-- End Copyright -->
+</footer>
+<!-- End Footer -->
+</body>
+</html>
