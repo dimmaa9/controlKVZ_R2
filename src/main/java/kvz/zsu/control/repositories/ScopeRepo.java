@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ScopeRepo extends JpaRepository<Scope, Long> {
-
     Scope findByScope(String scope);
+
 }

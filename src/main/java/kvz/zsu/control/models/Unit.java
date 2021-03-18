@@ -21,14 +21,12 @@ public class Unit {
     //Вложеность
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Unit parentUnit;
+
     @OneToMany(mappedBy="parentUnit", cascade = CascadeType.ALL)
     private List<Unit> units = new ArrayList<>();
 
     @OneToMany(mappedBy = "unit", fetch = FetchType.EAGER)
     private List<Thing> thingList;
-
-    @OneToMany(mappedBy="unit", cascade = CascadeType.ALL)
-    private List<User> users = new ArrayList<>();
 
     @Override
     public String toString() {

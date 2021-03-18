@@ -16,7 +16,6 @@ public class Type {
     private Long id;
 
     private String type;
-    private Boolean isCompletType;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Scope scope;

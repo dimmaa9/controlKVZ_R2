@@ -33,54 +33,10 @@ public class IndexController {
     private final TypeService typeService;
 
     @GetMapping("/")
-    public String getIndex(Model model, @AuthenticationPrincipal User user) {
-        user = getUser(user);
-        model.addAttribute("totalSum", user.getUnit().getThingList().stream().mapToDouble(Thing::getPrice).sum());
-        model.addAttribute("vn", thingService.getCountThingVn(user.getUnit()));
-        model.addAttribute("pb", thingService.getCountThingPb(user.getUnit()));
-        model.addAttribute("rm", thingService.getCountThingRm(user.getUnit()));
-        model.addAttribute("allThings", user.getUnit().getThingList().size());
-        model.addAttribute("parentUnits", user.getUnit().getUnits().size());
-        model.addAttribute("countPb", user.getUnit().getThingList().stream().filter(x -> x.getState().getState().equals("Потреба")).collect(Collectors.toList()).size());
+    public String getIndex() {
+
         return "index";
     }
-
-
-    @RequestMapping(value = "/type")
-    @ResponseBody
-    public Map<Long, String> getTypes(@RequestParam(value = "_scope_") Long id) {
-        Map<Long, Map<Long, String>> types = typeService.getTypes(id);
-        return types.get(id);
-    }
-
-    @RequestMapping(value = "/obj")
-    @ResponseBody
-    public Map<Long, String> getObject(@RequestParam(value = "_type_") Long id) {
-        Map<Long, Map<Long, String>> objects = objectService.getObject(id);
-        return objects.get(id);
-    }
-
-
-
-    @GetMapping("/generate")
-    public ResponseEntity getPDF(@AuthenticationPrincipal User user) throws Exception {
-        byte[] contents;
-        try {
-
-            contents = FileUtils.readFileToByteArray(new File("document.xlsx"));
-            HttpHeaders headers = new HttpHeaders();
-
-            // Here you have to set the actual filename of your pdf
-            String filename = "dodatok.xlsx";
-            headers.setContentDispositionFormData(filename, filename);
-            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-            ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
-            return response;
-        } catch (Exception e) {
-            return new ResponseEntity("Err", HttpStatus.NOT_ACCEPTABLE);
-        }
-    }
-
 
     @ModelAttribute("user")
     public User getUser(@AuthenticationPrincipal User user) {

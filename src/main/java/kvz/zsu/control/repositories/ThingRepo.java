@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ThingRepo extends JpaRepository<Thing, Long> {
-
+    Thing findByGeneralNeed(int generalNeed);
 }

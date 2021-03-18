@@ -71,7 +71,7 @@
         <!-- Content Body -->
         <div class="u-body">
             <div style="display: flex; margin-bottom: 20px">
-                <h1 style="margin-top: auto; margin-bottom: auto" class="h2 mb-2" th:text="|Засоби звязку ${user.unit}|">Створення</h1>
+                <h1 style="margin-top: auto; margin-bottom: auto" class="h2 mb-2">Засоби</h1>
                 <a style="margin-left: 30px;" type="button" class="btn btn-primary btn-pill text-light" href="/table/create">Додати</a>
             </div>
 
@@ -100,28 +100,20 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Назва</th>
-                                <th>Вид</th>
-                                <th>Категорія</th>
-                                <th>Ціна</th>
-                                <th style="width: 135px;">Стан</th>
+                                <th>Назва засобу</th>
+                                <th>Підрозділ</th>
+                                <th>Укомплектованість</th>
                                 <th class="text-center">Подія</th>
                             </tr>
                             </thead>
 
                             <tbody th:each="thing, num : ${things}">
-                                <tr th:if="${thing.parentThing == null}" th:classappend="${thing.things.size() != 0 ? 'view' : ''}">
+                                <tr>
                                     <td class="font-weight-semi-bold" th:text="${num.count}">1</td>
-                                    <td class="font-weight-semi-bold" th:text="${thing.object}">object</td>
-                                    <td class="font-weight-semi-bold" th:text="${thing.object.type}">type</td>
-                                    <td class="font-weight-semi-bold" th:text="${thing.category}">category</td>
-                                    <td class="font-weight-semi-bold" th:text="${'₴ ' + thing.price}">₴ 56,900</td>
-                                    <td>
-                                        <span th:classappend="|${thing.state.state == 'В наявності' ? 'badge-secondary' : ''}
-                                                               ${thing.state.state == 'Потреба' ? 'badge-warning' : ''}
-                                                               ${thing.state.state == 'Ремонт' ? 'badge-danger' : ''}|"
-                                               class="badge badge-md badge-pill" th:text="${thing.state}">Manager</span>
-                                    </td>
+                                    <td class="font-weight-semi-bold" th:text="${thing.object.objectName}">object</td>
+                                    <td class="font-weight-semi-bold" th:text="${thing.unit.nameUnit}">object</td>
+                                    <td class="font-weight-semi-bold" th:text="|${values.get(thing)}%|">type</td>
+
                                     <td class="text-center">
                                         <!-- Actions -->
                                         <div class="dropdown">
@@ -151,68 +143,6 @@
                                             <!-- End Actions Menu -->
                                         </div>
                                         <!-- End Actions -->
-                                    </td>
-                                </tr>
-                                <tr th:if="${thing.things != null}" th:classappend="${thing.things == null ? '' : 'fold' }">
-                                    <td colspan="8" class="bg-primary-soft">
-                                        <div class="table-responsive fold-content">
-                                            <table class="table table-hover mb-0">
-                                                <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Назва</th>
-                                                    <th>Вид</th>
-                                                    <th>Категорія</th>
-                                                    <th>Ціна</th>
-                                                    <th style="width: 135px;">Стан</th>
-                                                    <th class="text-center">Подія</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr th:each="t, count2 : ${thing.things}">
-                                                    <td class="font-weight-semi-bold" th:text="${count2.count }">1</td>
-                                                    <td class="font-weight-semi-bold" th:text="${t.object}">object</td>
-                                                    <td class="font-weight-semi-bold" th:text="${t.object.type}">type</td>
-                                                    <td class="font-weight-semi-bold" th:text="${t.category}">category</td>
-                                                    <td class="font-weight-semi-bold" th:text="${'₴ ' + t.price}">₴ 56,900</td>
-                                                    <td>
-                                                        <span th:classappend="|${t.state.state == 'В наявності' ? 'badge-secondary' : ''}
-                                                               ${t.state.state == 'Потреба' ? 'badge-warning' : ''}
-                                                               ${t.state.state == 'Ремонт' ? 'badge-danger' : ''}|"
-                                                              class="badge badge-md badge-pill" th:text="${t.state}">Manager</span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <!-- Actions -->
-                                                        <div class="dropdown">
-                                                            <!-- Actions Invoker -->
-                                                            <a id="basicTable1MenuInvoker1" class="u-icon-sm link-muted" href="#"
-                                                               role="button" aria-haspopup="true" aria-expanded="false"
-                                                               data-toggle="dropdown"
-                                                               data-offset="8">
-                                                                <span class="ti-more"></span>
-                                                            </a>
-                                                            <!-- End Actions Invoker -->
-                                                            <!-- Actions Menu -->
-                                                            <div class="dropdown-menu dropdown-menu-right" style="width: 150px;">
-                                                                <div class="card border-0 p-3">
-                                                                    <ul class="list-unstyled mb-0">
-                                                                        <li class="mb-3">
-                                                                            <a class="d-block link-dark" th:href="@{'/table/edit/' + ${t.id}}">Редагувати</a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a class="d-block link-dark" th:href="@{'/table/delete/' + ${t.id}}">Видалити</a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                            <!-- End Actions Menu -->
-                                                        </div>
-                                                        <!-- End Actions -->
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
                                     </td>
                                 </tr>
                             </tbody>

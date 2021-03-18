@@ -25,13 +25,6 @@ public class UnitController {
         return "units";
     }
 
-    @GetMapping("/create")
-    public String getCreatePage(Model model, @AuthenticationPrincipal User user) {
-        Unit unit = new Unit();
-        unit.setParentUnit(user.getUnit());
-        model.addAttribute("unit", unit);
-        return "units-create";
-    }
 
     @GetMapping("/edit/{id}")
     public ModelAndView getEditPage(@PathVariable("id") Long id) {
@@ -56,8 +49,4 @@ public class UnitController {
         return userService.findById(user.getId());
     }
 
-    @ModelAttribute("units")
-    public List<Unit> getUnits(@AuthenticationPrincipal User user) {
-        return getUser(user).getUnit().getUnits();
-    }
 }

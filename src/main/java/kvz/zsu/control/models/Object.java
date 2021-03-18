@@ -17,12 +17,16 @@ public class Object {
 
     private String objectName;
 
+    private Double price;
+
     @ManyToOne(fetch = FetchType.EAGER)
     private Type type;
 
 
     @OneToMany(mappedBy = "object", cascade = CascadeType.ALL)
     private List<Thing> thingList;
+
+
 
     @Override
     public String toString() {

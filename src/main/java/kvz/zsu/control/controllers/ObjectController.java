@@ -32,38 +32,6 @@ public class ObjectController {
     private final TypeService typeService;
 
 
-    @GetMapping
-    public String getView() {
-        return "table-objects";
-    }
-
-    @GetMapping("/create")
-    public String getCreate(Model model) {
-        Object object = new Object();
-        model.addAttribute("object", object);
-
-        return "create-object";
-    }
-
-    @PostMapping(value = "/save")
-    public String saveObject(Object object) {
-        objectService.save(object);
-
-        return "redirect:/object";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id) {
-        objectService.deleteById(id);
-        return "redirect:/object";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("object", objectService.findById(id));
-
-        return "edit-object";
-    }
 
 
     @ModelAttribute("user")

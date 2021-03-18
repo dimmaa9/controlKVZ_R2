@@ -15,32 +15,26 @@ public class Thing {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double price;
-    private Integer category;
-
     @ManyToOne(fetch = FetchType.EAGER)
     private Object object;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private State state;
-
-    //Вложеность
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    private Thing parentThing;
-    @OneToMany(mappedBy="parentThing", cascade = CascadeType.ALL)
-    private List<Thing> things = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Unit unit;
+
+    //За штатом
+    private Integer generalNeed;
+
+    //В наявності
+    private Integer generalHave;
 
     @Override
     public String toString() {
         return "Thing{" +
                 "id=" + id +
-                ", price=" + price +
-                ", category=" + category +
-                ", state=" + state +
+                ", object=" + object +
                 ", unit=" + unit +
+                ", generalNeed=" + generalNeed +
+                ", generalHave=" + generalHave +
                 '}';
     }
 }
