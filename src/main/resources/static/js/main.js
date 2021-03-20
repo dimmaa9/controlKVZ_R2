@@ -120,3 +120,9 @@ function sendAjaxRequest2() {
     });
 }
 
+$('#empid').change(function () {
+    let selectedItem = $('#empid').val();
+    console.log(selectedItem);
+});
+
+
