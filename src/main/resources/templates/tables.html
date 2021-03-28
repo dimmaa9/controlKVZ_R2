@@ -72,22 +72,29 @@
 
 
         <div class="u-body">
-            <select class="selectpicker" id="empid" multiple title="Choose" >
-                <option>Сухопутні війська</option>
-                <option>Повітряні Сили</option>
-                <option>Військово-Морські Сили</option>
-                <option>Десантно-штурмові війська</option>
-                <option>Сили спеціальних операцій</option>
-            </select>
-            <select class="selectpicker" id="empid1" multiple title="Choose" >
-                <option>Сухопутні війська</option>
-                <option>Повітряні Сили</option>
-                <option>Військово-Морські Сили</option>
-                <option>Десантно-штурмові війська</option>
-                <option>Сили спеціальних операцій</option>
-            </select>
+            <!--фильтр-->
+            <div>
+                <!-- по units -->
+                <h4 class="h4 mb-2"> По підрозділам</h4>
+                <div id="selector-div" style="display: flex;">
+                    <select class="selectpicker" multiple data-actions-box="true" required="required" name="_units_1" id="_units_1">
+                        <option th:each="unit : ${unitsParentNull}" th:value="${unit.id}"
+                                th:text="${unit.nameUnit}"></option>
+                    </select>
+                </div>
 
+                <!-- по object -->
+                <h4 class="h4 mb-2"> По техніці</h4>
+                <div id="selector-div-object" style="display: flex;">
+                    <select class="selectpicker" multiple data-actions-box="true" required="required" name="_scope_" id="_scope_">
+                        <option th:each="scope : ${scopes}" th:value="${scope.id}"
+                                th:text="${scope.scope}"></option>
+                    </select>
 
+                </div>
+            </div>
+
+            <hr/>
 
             <br><br>
             <div style="display: flex; margin-bottom: 20px">
@@ -184,6 +191,7 @@
 </main>
 <!-- End Main -->
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!-- Global Vendor -->
 <script th:src="@{/vendor/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{/vendor/jquery-migrate/jquery-migrate.min.js}"></script>
@@ -194,11 +202,10 @@
 <script th:src="@{/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js}"></script>
 <!-- Initialization  -->
 <script th:src="@{/js/sidebar-nav.js}"></script>
-<script th:src="@{/js/main.js}"></script>
+
+
 <script th:src="@{/js/bootstrap-select.min.js}"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+<script th:src="@{/js/main.js}"></script>
 
 <!--&lt;!&ndash; (Optional) Latest compiled and minified JavaScript translation files &ndash;&gt;-->
 <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>-->

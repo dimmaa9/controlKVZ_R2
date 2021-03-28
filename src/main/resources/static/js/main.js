@@ -83,8 +83,8 @@ $(function () {
     });
 });
 
-$(document).ready(function() {
-    $('#_scope_').change(function() {
+$(document).ready(function () {
+    $('#_scope_').change(function () {
         sendAjaxRequest();
     });
 });
@@ -92,37 +92,83 @@ $(document).ready(function() {
 function sendAjaxRequest() {
     let s = $("#_scope_").val();
     console.log(s);
-    $.get( "/type?_scope_=" + s, function( data ) {
+    $.get("/type?_scope_=" + s, function (data) {
         $('#_type_').empty();
-        $.each(data, function(k, v) {
-                let option = "<option value = " + k + ">" + v +  "</option>";
-                $("#_type_").append(option);
+        $.each(data, function (k, v) {
+            let option = "<option value = " + k + ">" + v + "</option>";
+            $("#_type_").append(option);
         });
     });
 }
 
 
-$(document).ready(function() {
-    $('#_type_').change(function() {
-        sendAjaxRequest2();
-    });
-});
+//test
 
-function sendAjaxRequest2() {
-    let s = $("#_type_").val();
-    console.log(s);
-    $.get( "obj?_type_=" + s, function( data ) {
-        $('#_object_').empty();
-        $.each(data, function(k, v) {
-            let option = "<option value = " + k + ">" + v +  "</option>";
-            $("#_object_").append(option);
-        });
-    });
+function showmass(id) {
+    if (!mass.includes(id)) {
+        return true;
+    } else return false;
 }
 
-$('#empid').change(function () {
-    let selectedItem = $('#empid').val();
-    console.log(selectedItem);
+function addElement(id) {
+    if (showmass(id)) {
+        let html = '<select class="selectpicker" multiple data-actions-box="true" required="required" name="_units_' + id + '" id="_units_' + id + '"></select>';
+        $('#selector-div').append(html);
+        $('#_units_' + id).selectpicker('render');
+        mass.push(id);
+    }
+}
+
+function fillElement(id, data) {
+    $('#_units_' + id).empty();
+    $.each(data, function (k, v) {
+        let option = "<option value = " + k + ">" + v + "</option>";
+        $('#_units_' + id).append(option);
+    });
+    $('#_units_' + id).selectpicker('refresh');
+}
+
+
+let mass = [1];
+
+$(document).ready(function () {
+
+    $(document).on('change', '.selectpicker', function () {
+        let checkId = $(this).prop('id').split('_')[2] * 1;
+        let s = $('#_units_' + checkId).val();
+
+
+        if (s == undefined) {
+            s = '';
+        }
+        console.log(s.toString());
+
+        $.get("/table/units?_units_=" + s.toString(), function (data) {
+            // size data
+            let size = 0;
+            $.each(data, function () {
+                size++;
+            });
+
+            if (size > 0) {
+                addElement(checkId + 1);
+                fillElement(checkId + 1, data);
+            } else if (size === 0) {
+                $.each(mass, function (k, v) {
+                    if (v > checkId) {
+                        $('#_units_' + v).selectpicker('destroy');
+                        $('#_units_' + v).remove();
+                    }
+                });
+                mass.splice(checkId, mass[mass.length - 1] - checkId);
+
+                console.log('mass = ' + mass.toString());
+            }
+
+        });
+
+    });
 });
+
 
 
