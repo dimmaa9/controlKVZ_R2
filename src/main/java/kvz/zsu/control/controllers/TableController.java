@@ -31,9 +31,9 @@ public class TableController {
         return "tables";
     }
 
-    @RequestMapping(value = "/units")
+    @GetMapping(value = "/units")
     @ResponseBody
-    public Map<Long, String> getTypes(@RequestParam(value = "_units_") String arr) {
+    public Map<Long, String> getUnits(@RequestParam(value = "_units_") String arr) {
         if(arr.equals("")){
             return new HashMap<>();
         }
@@ -46,6 +46,29 @@ public class TableController {
     }
 
 
+    @GetMapping("/scopes")
+    @ResponseBody public Map<Long, String> getTypes(@RequestParam(value = "_scope_") String arr) {
+        if (arr.equals(""))
+            return new HashMap<>();
+
+        List<Integer> list = new ArrayList<>();
+        for (var item : arr.split(","))
+            list.add(Integer.parseInt(item));
+
+        return scopeService.findByAllId(list);
+    }
+
+    @GetMapping("/types")
+    @ResponseBody public  Map<Long, String > getObjects(@RequestParam(value = "_type_") String arr) {
+        if (arr.equals(""))
+            return new HashMap<>();
+
+        List<Integer> list = new ArrayList<>();
+        for (var item : arr.split(","))
+            list.add(Integer.parseInt(item));
+
+        return typeService.findByAllId(list);
+    }
 
 
     //ModelAttribute
