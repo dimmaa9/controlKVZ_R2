@@ -30,6 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().loginPage("/login")
                 .permitAll().defaultSuccessUrl("/")
                 .and()
+                .rememberMe().key("remitt-login").rememberMeParameter("rememberMe").userDetailsService(userDetailsService())
+                .and()
                 .logout().invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -41,7 +43,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
-
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

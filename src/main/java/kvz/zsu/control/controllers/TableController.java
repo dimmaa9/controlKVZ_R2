@@ -7,11 +7,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/table")
@@ -23,6 +22,7 @@ public class TableController {
     private final ScopeService scopeService;
     private final TypeService typeService;
     private final ObjectService objectService;
+    private final UnitService unitService;
 
     @GetMapping
     public String getTable(Model model) {
@@ -30,6 +30,22 @@ public class TableController {
 
         return "tables";
     }
+
+    @RequestMapping(value = "/units")
+    @ResponseBody
+    public Map<Long, String> getTypes(@RequestParam(value = "_units_") String arr) {
+        if(arr.equals("")){
+            return new HashMap<>();
+        }
+
+        List<Integer> list = new ArrayList<>();
+        for(var item: arr.split(",")){
+            list.add(Integer.parseInt(item));
+        }
+        return unitService.findByAllId(list);
+    }
+
+
 
 
     //ModelAttribute
@@ -51,6 +67,11 @@ public class TableController {
     @ModelAttribute("objects")
     public List<Object> objectList() {
         return objectService.findAll();
+    }
+
+    @ModelAttribute("unitsParentNull")
+    public List<Unit> unitList() {
+        return unitService.findAll().stream().filter(x -> x.getParentUnit() == null).collect(Collectors.toList());
     }
 
     @ModelAttribute("user")

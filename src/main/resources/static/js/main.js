@@ -83,8 +83,8 @@ $(function () {
     });
 });
 
-$(document).ready(function() {
-    $('#_scope_').change(function() {
+$(document).ready(function () {
+    $('#_scope_').change(function () {
         sendAjaxRequest();
     });
 });
@@ -92,37 +92,138 @@ $(document).ready(function() {
 function sendAjaxRequest() {
     let s = $("#_scope_").val();
     console.log(s);
-    $.get( "/type?_scope_=" + s, function( data ) {
+    $.get("/type?_scope_=" + s, function (data) {
         $('#_type_').empty();
-        $.each(data, function(k, v) {
-                let option = "<option value = " + k + ">" + v +  "</option>";
-                $("#_type_").append(option);
+        $.each(data, function (k, v) {
+            let option = "<option value = " + k + ">" + v + "</option>";
+            $("#_type_").append(option);
         });
     });
 }
 
 
-$(document).ready(function() {
-    $('#_type_').change(function() {
-        sendAjaxRequest2();
-    });
-});
+//test
 
-function sendAjaxRequest2() {
-    let s = $("#_type_").val();
-    console.log(s);
-    $.get( "obj?_type_=" + s, function( data ) {
-        $('#_object_').empty();
-        $.each(data, function(k, v) {
-            let option = "<option value = " + k + ">" + v +  "</option>";
-            $("#_object_").append(option);
-        });
-    });
+let mass = [1];
+
+function showmass(id) {
+    if (!mass.includes(id)) {
+        return true;
+    } else return false;
 }
 
-$('#empid').change(function () {
-    let selectedItem = $('#empid').val();
-    console.log(selectedItem);
+function addElement(id) {
+    if (showmass(id)) {
+        let html = '<select class="selectpicker" multiple title="Choose" required="required" name="_units_' + id + '" id="_units_' + id + '"></select>';
+        $('#selector-div').append(html);
+        $('#_units_' + id).selectpicker('render');
+        mass.push(id);
+    }
+}
+
+function returnData(id) {
+    let d;
+    let value = $('#_units_' + id).val();
+    $.get("/table/units?_units_=" + value.toString(), function (data) {
+        d = data;
+    });
+    console.log(d)
+    return d;
+}
+
+function fillElement(id, data) {
+    $('#_units_' + id).empty();
+    $.each(data, function (k, v) {
+        let option = "<option value = " + k + ">" + v + "</option>";
+        $('#_units_' + id).append(option);
+    });
+    $('#_units_' + id).selectpicker('refresh');
+}
+
+function showElement(id) {
+    $('#_units_' + id).selectpicker('show');
+}
+
+function hideElement(id) {
+    $('#_units_' + id).selectpicker('hide');
+}
+
+
+$(document).ready(function () {
+    $('.selectpicker').change(function () {
+
+        let data = returnData(mass[v]);
+        let size = 0;
+        $.each(data, function () {
+            size++;
+        });
+
+        if (size > 0) {
+            addElement(mass[v]);
+            showElement(mass[v]);
+            fillElement(mass[v], data);
+
+        } else if (size === 0) {
+            hideElement(mass[v]);
+        }
+    });
+
+
+    //auto(mass[0]);
+
+    //let idCounter = 2;
+    //
+    // $('#_units_1').change(function () {
+    //     let s = $('#_units_1').val();
+    //
+    //     if (idCounter === 2) {
+    //         let html = '<select class="selectpicker" multiple title="Choose" required="required" name="_units_' + idCounter + '" id="_units_' + idCounter + '"></select>';
+    //         $('#selector-div').append(html);
+    //         $('#_units_' + idCounter).selectpicker('render');
+    //         idCounter++;
+    //     }
+    //
+    //     if (s.toString() === "") {
+    //         $('#_units_2').selectpicker('hide');
+    //     } else {
+    //         $('#_units_2').selectpicker('show');
+    //     }
+    //
+    //     $.get("/table/units?_units_=" + s.toString(), function (data) {
+    //         console.log(data);
+    //
+    //         $("#_units_2").empty();
+    //
+    //         $.each(data, function (k, v) {
+    //             let option = "<option value = " + k + ">" + v + "</option>";
+    //             $('#_units_2').append(option);
+    //         });
+    //
+    //         $("#_units_2").selectpicker('refresh');
+    //     });
+    // });
 });
+
+// $(document).ready(function () {
+//     $('#_units_1').change(function () {
+//
+//         let s = $("#_units_1").val();
+//         console.log(s.toString());
+//
+//         $.get("/table/units?_units_=" + s.toString(), function (data) {
+//
+//             $("#_units_2").empty();
+//
+//             $.each(data, function (k, v) {
+//                 let option = "<option value = " + k + ">" + v + "</option>";
+//                 $('#_units_2').append(option);
+//             });
+//
+//             $('.selectpicker').selectpicker('refresh');
+//         });
+//
+//     });
+// });
+
 
 
