@@ -31,7 +31,11 @@ public class ObjectController {
     private final ScopeService scopeService;
     private final TypeService typeService;
 
+    @GetMapping
+    public String getObjectTable() {
 
+        return "table-objects";
+    }
 
 
     @ModelAttribute("user")
