@@ -77,6 +77,8 @@
 
 })(jQuery);
 
+
+
 $(function () {
     $(".fold-table tr.view").on("click", function () {
         $(this).toggleClass("open").next(".fold").toggleClass("open");
@@ -104,8 +106,6 @@ function sendAjaxRequest() {
 
 //test
 
-let mass = [1];
-
 function showmass(id) {
     if (!mass.includes(id)) {
         return true;
@@ -114,21 +114,11 @@ function showmass(id) {
 
 function addElement(id) {
     if (showmass(id)) {
-        let html = '<select class="selectpicker" multiple title="Choose" required="required" name="_units_' + id + '" id="_units_' + id + '"></select>';
+        let html = '<select class="selectpicker" multiple data-actions-box="true" required="required" name="_units_' + id + '" id="_units_' + id + '"></select>';
         $('#selector-div').append(html);
         $('#_units_' + id).selectpicker('render');
         mass.push(id);
     }
-}
-
-function returnData(id) {
-    let d;
-    let value = $('#_units_' + id).val();
-    $.get("/table/units?_units_=" + value.toString(), function (data) {
-        d = data;
-    });
-    console.log(d)
-    return d;
 }
 
 function fillElement(id, data) {
@@ -140,90 +130,47 @@ function fillElement(id, data) {
     $('#_units_' + id).selectpicker('refresh');
 }
 
-function showElement(id) {
-    $('#_units_' + id).selectpicker('show');
-}
 
-function hideElement(id) {
-    $('#_units_' + id).selectpicker('hide');
-}
-
+let mass = [1];
 
 $(document).ready(function () {
-    $('.selectpicker').change(function () {
 
-        let data = returnData(mass[v]);
-        let size = 0;
-        $.each(data, function () {
-            size++;
+    $(document).on('change', '.selectpicker', function () {
+        let checkId = $(this).prop('id').split('_')[2] * 1;
+        let s = $('#_units_' + checkId).val();
+
+
+        if (s == undefined) {
+            s = '';
+        }
+        console.log(s.toString());
+
+        $.get("/table/units?_units_=" + s.toString(), function (data) {
+            // size data
+            let size = 0;
+            $.each(data, function () {
+                size++;
+            });
+
+            if (size > 0) {
+                addElement(checkId + 1);
+                fillElement(checkId + 1, data);
+            } else if (size === 0) {
+                $.each(mass, function (k, v) {
+                    if (v > checkId) {
+                        $('#_units_' + v).selectpicker('destroy');
+                        $('#_units_' + v).remove();
+                    }
+                });
+                mass.splice(checkId, mass[mass.length - 1] - checkId);
+
+                console.log('mass = ' + mass.toString());
+            }
+
         });
 
-        if (size > 0) {
-            addElement(mass[v]);
-            showElement(mass[v]);
-            fillElement(mass[v], data);
-
-        } else if (size === 0) {
-            hideElement(mass[v]);
-        }
     });
-
-
-    //auto(mass[0]);
-
-    //let idCounter = 2;
-    //
-    // $('#_units_1').change(function () {
-    //     let s = $('#_units_1').val();
-    //
-    //     if (idCounter === 2) {
-    //         let html = '<select class="selectpicker" multiple title="Choose" required="required" name="_units_' + idCounter + '" id="_units_' + idCounter + '"></select>';
-    //         $('#selector-div').append(html);
-    //         $('#_units_' + idCounter).selectpicker('render');
-    //         idCounter++;
-    //     }
-    //
-    //     if (s.toString() === "") {
-    //         $('#_units_2').selectpicker('hide');
-    //     } else {
-    //         $('#_units_2').selectpicker('show');
-    //     }
-    //
-    //     $.get("/table/units?_units_=" + s.toString(), function (data) {
-    //         console.log(data);
-    //
-    //         $("#_units_2").empty();
-    //
-    //         $.each(data, function (k, v) {
-    //             let option = "<option value = " + k + ">" + v + "</option>";
-    //             $('#_units_2').append(option);
-    //         });
-    //
-    //         $("#_units_2").selectpicker('refresh');
-    //     });
-    // });
 });
-
-// $(document).ready(function () {
-//     $('#_units_1').change(function () {
-//
-//         let s = $("#_units_1").val();
-//         console.log(s.toString());
-//
-//         $.get("/table/units?_units_=" + s.toString(), function (data) {
-//
-//             $("#_units_2").empty();
-//
-//             $.each(data, function (k, v) {
-//                 let option = "<option value = " + k + ">" + v + "</option>";
-//                 $('#_units_2').append(option);
-//             });
-//
-//             $('.selectpicker').selectpicker('refresh');
-//         });
-//
-//     });
-// });
 
 
 

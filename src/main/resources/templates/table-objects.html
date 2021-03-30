@@ -43,6 +43,7 @@
 
     <!-- Web Fonts -->
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/data-tables/datatables.min.css}">
 
     <!-- Components Vendor Styles -->
     <link rel="stylesheet" th:href="@{/vendor/themify-icons/themify-icons.css}">
@@ -96,12 +97,12 @@
                 <div class="card-body pt-0">
                     <!-- Table -->
                     <div class="table-responsive">
-                        <table class="table table-hover mb-0 fold-table">
+                        <table class="table table-hover mb-0 fold-table" id="myTable">
                             <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Назва</th>
-                                <th>Вид</th>
+                                <th>Тип</th>
                                 <th>Область</th>
                                 <th class="text-center">Подія</th>
                             </tr>
@@ -173,6 +174,8 @@
 <script th:src="@{/js/main.js}"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:src="@{/data-tables/datatables.min.js}"></script>
+<script th:src="@{/data-tables/datatables.js}"></script>
 </body>
 <!-- End Body -->
 </html>
