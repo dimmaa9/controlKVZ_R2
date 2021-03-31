@@ -25,6 +25,10 @@ public class ObjectService {
         return repo.findAll();
     }
 
+    public Object findByName(String name) {
+        return repo.findByObjectName(name);
+    }
+
     public Map<Long, String> findAllByTypeId(Long id) {
         Map<Long, String> map = new HashMap<>();
         repo.findAll().stream()
