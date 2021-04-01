@@ -83,25 +83,6 @@ $(function () {
     });
 });
 
-$(document).ready(function () {
-    $('#_scope_').change(function () {
-        sendAjaxRequest();
-    });
-});
-
-function sendAjaxRequest() {
-    let s = $("#_scope_").val();
-    console.log(s);
-    $.get("/type?_scope_=" + s, function (data) {
-        $('#_type_').empty();
-        $.each(data, function (k, v) {
-            let option = "<option value = " + k + ">" + v + "</option>";
-            $("#_type_").append(option);
-        });
-    });
-}
-
-
 //test
 
 function showmass(id) {
@@ -112,7 +93,7 @@ function showmass(id) {
 
 function addElement(id) {
     if (showmass(id)) {
-        let html = '<select class="selectpicker" multiple data-actions-box="true" required="required" name="_units_' + id + '" id="_units_' + id + '"></select>';
+        let html = '<select class="selectpicker unit" data-size="10" multiple data-actions-box="true" data-live-search="true" required="required" name="_units_' + id + '" id="_units_' + id + '"></select>';
         $('#selector-div').append(html);
         $('#_units_' + id).selectpicker('render');
         mass.push(id);
@@ -131,19 +112,14 @@ function fillElement(id, data) {
 
 let mass = [1];
 
-$(document).ready(function () {
+let valueScope = null, valueType = null, valueObject = null;
 
-    $(document).on('change', '.selectpicker', function () {
+$(document).ready(function () {
+    $(document).on('change', '.unit', function () {
         let checkId = $(this).prop('id').split('_')[2] * 1;
         let s = $('#_units_' + checkId).val();
 
-
-        if (s == undefined) {
-            s = '';
-        }
-        console.log(s.toString());
-
-        $.get("/table/units?_units_=" + s.toString(), function (data) {
+        $.get("/table/units?_units_=" + String(s) + "", function (data) {
             // size data
             let size = 0;
             $.each(data, function () {
@@ -153,7 +129,52 @@ $(document).ready(function () {
             if (size > 0) {
                 addElement(checkId + 1);
                 fillElement(checkId + 1, data);
+
+                let i = 1;
+                $('#_tbody_').empty();
+
+                $.get("/table/unit?unit=" + String(s) +
+                        "&valueScope=" + String(valueScope) +
+                        "&valueType=" + String(valueType) +
+                        "&valueObject=" + String(valueObject), function (dataIneger) {
+                    if(valueScope != null && valueType != null && valueObject != null){
+                        $("#title").text("Укомплектованість 3");
+                    }else {
+                        $.each(dataIneger, function (key, value) {
+                            let option = '<tr>' + '<td class="font-weight-semi-bold">' + i++ + '</td>' +
+                                '<td class="font-weight-semi-bold">' + key + '</td>' +
+                                '<td class="font-weight-semi-bold">' + value + '%</td>' +
+                                '<td class="text-center">' +
+                                '<div class="dropdown">' +
+                                '<a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"' +
+                                'role="button" aria-haspopup="true" aria-expanded="false"' +
+                                'data-toggle="dropdown"' +
+                                'data-offset="8">' +
+                                '<span class="ti-more"></span>' +
+                                '</a>' +
+                                '<div class="dropdown-menu dropdown-menu-right" style="width: 150px;">' +
+                                '<div class="card border-0 p-3">' +
+                                '<ul class="list-unstyled mb-0">' +
+                                '<li class="mb-3">' +
+                                '<a class="d-block link-dark" href="/table/edit/'  +
+                                '">Редагувати</a>' +
+                                '</li>' +
+                                '<li>' +
+                                '<a class="d-block link-dark" href="/table/delete/'  +
+                                '">Видалити</a>' +
+                                '</li>' +
+                                '</ul>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</td>' + '</tr>';
+                            $('#_tbody_').append(option);
+                        });
+                    }
+                });
+
             } else if (size === 0) {
+                $('#_tbody_').empty();
                 $.each(mass, function (k, v) {
                     if (v > checkId) {
                         $('#_units_' + v).selectpicker('destroy');
@@ -166,9 +187,119 @@ $(document).ready(function () {
             }
 
         });
+    });
+});
+
+$(document).ready(function () {
+    $(document).on('change', '#_scope_', function () {
+        let id = $(this).prop('id');
+        let s = $('#_scope_').val();
+
+
+        if (s.toString() == '') {
+            valueScope = null;
+            valueType = null;
+            valueObject = null;
+        } else {
+            valueScope = s;
+            valueType = null;
+            valueObject = null;
+        }
+        $.get("/table/scopes?_scope_=" + s.toString(), function (data) {
+            // size data
+            let size = 0;
+            $.each(data, function () {
+                size++;
+            });
+
+            if (size > 0) {
+                let html = '<select class="selectpicker" data-size="10" data-live-search="true" multiple data-actions-box="true" required="required" name="_type_" id="_type_"></select>';
+                $('#selector-div-object').append(html);
+                $('#_type_').selectpicker('render');
+
+                $('#_type_').empty();
+                $.each(data, function (k, v) {
+                    let option = "<option value = " + k + ">" + v + "</option>";
+                    $('#_type_').append(option);
+                });
+                $('#_type_').selectpicker('refresh');
+
+
+            } else if (size === 0) {
+                $('#_type_').selectpicker('destroy');
+                $('#_type_').remove();
+                $('#_object_').selectpicker('destroy');
+                $('#_object_').remove();
+            }
+        });
+    });
+});
+
+$(document).ready(function () {
+    $(document).on('change', '#_type_', function () {
+        let s = $('#_type_').val();
+        if (s.toString() == '') {
+            valueType = null;
+            valueObject = null;
+        } else {
+            valueType = s;
+            valueObject = null;
+        }
+
+        $.get("/table/types?_type_=" + s.toString(), function (data) {
+            // size data
+            let size = 0;
+            $.each(data, function () {
+                size++;
+            });
+
+            if (size > 0) {
+                let html = '<select class="selectpicker" data-size="10" data-live-search="true" multiple data-actions-box="true" required="required" name="_object_" id="_object_"></select>';
+                $('#selector-div-object').append(html);
+                $('#_object_').selectpicker('render');
+
+                $('#_object_').empty();
+                $.each(data, function (k, v) {
+                    let option = "<option style='max-width: 200px' value = " + k + ">" + v + "</option>";
+                    $('#_object_').append(option);
+                });
+                $('#_object_').selectpicker('refresh');
+            } else if (size === 0) {
+                $('#_object_').selectpicker('destroy');
+                $('#_object_').remove();
+            }
+        });
+    });
+});
+
+$(document).ready(function () {
+    $(document).on('change', '#_object_', function () {
+        let s = $('#_object_').val();
+        if (s.toString() == '') {
+            valueObject = null;
+        } else {
+            valueObject = s;
+            $('#title').text("Укомплектованість" + s);
+        }
 
     });
 });
+
+
+
+
+$(window).load(function () {
+    $('#load-spinner').hide();
+});
+
+$(document).ajaxStart(function () {
+    $('#card-table').hide();
+    $('#load-spinner').show();
+}).ajaxStop(function () {
+    $('#load-spinner').hide();
+    $('#card-table').show();
+});
+
 
 
 

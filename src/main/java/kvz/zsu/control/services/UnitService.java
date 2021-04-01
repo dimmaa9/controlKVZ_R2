@@ -36,12 +36,12 @@ public class UnitService {
 
     public Map<Long, String> findByAllId(List<Integer> idArr) {
         List<Unit> unitList = new ArrayList<>();
-        for (var item: idArr ) {
+        for (var item : idArr) {
             unitList.add(findById(item.longValue()));
         }
         Map<Long, String> returnMap = new HashMap<>();
-        for(var item: unitList){
-            for (var item2: item.getUnits()){
+        for (var item : unitList) {
+            for (var item2 : item.getUnits()) {
                 returnMap.put(item2.getId(), item2.getNameUnit());
             }
         }
@@ -49,6 +49,18 @@ public class UnitService {
         return returnMap;
     }
 
+    public List<Unit> unitsAllByUnitID(Long id) {
+        Unit thisUnit = findById(id);
+        List<Unit> units = new ArrayList<>();
+        units.add(thisUnit);
 
-
+        if(thisUnit.getUnits() != null || thisUnit.getUnits().size() != 0){
+            for (var item : thisUnit.getUnits()){
+                units.addAll(unitsAllByUnitID(item.getId()));
+            }
+            return units;
+        }else {
+            return units;
+        }
+    }
 }
