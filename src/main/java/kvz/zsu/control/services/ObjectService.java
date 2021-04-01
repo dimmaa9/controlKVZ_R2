@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ObjectService {
@@ -29,6 +30,10 @@ public class ObjectService {
         return repo.findByObjectName(name);
     }
 
+    public List<Object> findByAllName(String name) {
+        return repo.findAll().stream().filter(x -> x.getObjectName().equals(name)).collect(Collectors.toList());
+    }
+
     public Map<Long, String> findAllByTypeId(Long id) {
         Map<Long, String> map = new HashMap<>();
         repo.findAll().stream()
@@ -49,5 +54,10 @@ public class ObjectService {
 
     public void deleteById(Long id) {
         repo.deleteById(id);
+    }
+
+    public boolean isExist(String name) {
+
+        return !repo.findByObjectName(name).getObjectName().equals("") ;
     }
 }

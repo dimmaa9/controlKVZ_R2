@@ -11,17 +11,13 @@ import kvz.zsu.control.services.UserService;
 import lombok.AllArgsConstructor;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.bouncycastle.util.Arrays;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,28 +41,7 @@ public class ObjectController {
         return "table-objects";
     }
 
-    @PostMapping
-    public String mapReapExcelDatatoDB(@RequestParam("file") MultipartFile reapExcelDataFile) {
-        int row = 18;
 
-        try(XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream())){
-            listObjectService = new ArrayList<>();
-
-            Sheet sheet = workbook.getSheetAt(0);
-            String name = sheet.getRow(row).getCell(1).getStringCellValue();
-
-            Object object = objectService.findByName(name);
-
-            listObjectService.add(object);
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-
-        return "redirect:/object";
-
-    }
 
 
     @ModelAttribute("user")

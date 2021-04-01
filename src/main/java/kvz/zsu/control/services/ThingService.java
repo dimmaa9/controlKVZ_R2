@@ -26,6 +26,7 @@ public class ThingService {
         thingRepo.save(thing);
     }
 
+
     public Thing findById(Long id) {
         return thingRepo.findById(id).get();
     }
