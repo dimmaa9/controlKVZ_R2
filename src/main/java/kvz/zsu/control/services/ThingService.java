@@ -1,5 +1,6 @@
 package kvz.zsu.control.services;
 
+import kvz.zsu.control.models.Object;
 import kvz.zsu.control.models.Thing;
 import kvz.zsu.control.models.Unit;
 import kvz.zsu.control.repositories.ThingRepo;
@@ -49,54 +50,147 @@ public class ThingService {
     }
 
 
-    //Відсоток укомплектованості по Thing
-    //Формула которую придумал Ярик
-    //Реализация Димона Биньковського
-    //Печатал и форматировал код Бандура Тарас
-    //Кит Валентин на дне открытых дверей
-    public Map<Thing, Integer> staffing() {
-        Map<Thing, Integer> map = new HashMap<>();
+    //
 
-        for (var item : findAll()) {
-            List<List<Integer>> y = calculationStaffing(item);
-            y.add(Arrays.asList(item.getGeneralHave(), item.getGeneralNeed()));
-            int x = showIntFinal(y);
-            map.put(item, x);
+    public Integer integerNeed(List<Thing> things) {
+        Integer need = 0;
+        for (var item : things) {
+            need += item.getGeneralNeed();
         }
-        return map;
+        return need;
     }
 
-    public Integer showIntFinal(List<List<Integer>> list) {
-        AtomicInteger sumHave = new AtomicInteger();
-        AtomicInteger sumNeed = new AtomicInteger();
-
-        list.forEach(x -> {
-            sumHave.addAndGet(x.get(0));
-            sumNeed.addAndGet(x.get(1));
-        });
-
-        return (int) sumHave.get() * 100 / sumNeed.get();
+    public Integer integerHave(List<Thing> things) {
+        Integer have = 0;
+        for (var item : things) {
+            have += item.getGeneralHave();
+        }
+        return have;
     }
 
-    public List<List<Integer>> calculationStaffing(Thing thing) {
-        //1) Have  2) Need
-        List<List<Integer>> list = new ArrayList<>();
+    public Integer percentUnit(Unit unit) {
+        Integer need = 0, have = 0;
 
-        for (var item : findAll().stream().filter(x -> x.getObject().equals(thing.getObject())).collect(Collectors.toList())) {
-            if (item.getUnit().getParentUnit() == null)
-                continue;
+        List<Unit> unitList = unitsAllByUnit(unit);
 
-            if (item.getUnit().getParentUnit().equals(thing.getUnit())) {
-                list.add(Arrays.asList(item.getGeneralHave(), item.getGeneralNeed()));
-                if (item.getUnit().getUnits() != null) {
-                    List<List<Integer>> tList = calculationStaffing(item);
-                    list.addAll(tList);
+        if (unitList != null || unitList.size() != 0) {
+            for (var item : unitList) {
+                if (item.getThingList().size() != 0 || item.getThingList() != null) {
+                    need += integerNeed(item.getThingList());
+                    have += integerHave(item.getThingList());
                 }
             }
         }
-        return list;
+
+        if(need == 0)
+            return 0;
+
+        return (int)Math.round((have * 100.0) / need);
     }
 
-    //Конец формулы Ярика
+    public List<Unit> unitsAllByUnit(Unit unit) {
+        List<Unit> units = new ArrayList<>();
+        units.add(unit);
 
+        if (unit.getUnits() != null || unit.getUnits().size() != 0) {
+            for (var item : unit.getUnits()) {
+                units.addAll(unitsAllByUnit(item));
+            }
+            return units;
+        } else {
+            return units;
+        }
+    }
+
+    public Integer percentUnitByObject(Unit unit, Object object){
+        Integer need = 0, have = 0;
+
+        List<Unit> unitList = unitsAllByUnit(unit);
+
+        if (unitList != null || unitList.size() != 0) {
+            for (var item : unitList) {
+                if (item.getThingList().size() != 0 || item.getThingList() != null) {
+                    Thing thing = null;
+                    for (var i : item.getThingList()){
+                        if(i.getObject() == object)
+                            thing = i;
+                    }
+
+                    if(thing != null){
+                        have += thing.getGeneralHave();
+                        need += thing.getGeneralNeed();
+                    }
+                }
+            }
+        }
+
+        if(need == 0)
+            return 0;
+
+        return (int)Math.round((have * 100.0) / need);
+    }
+
+    public Integer percentUnitByObjectList(Unit unit, List<Object> objectList){
+        Integer need = 0, have = 0;
+
+        List<Unit> unitList = unitsAllByUnit(unit);
+
+        if (unitList != null || unitList.size() != 0) {
+            for (var item : unitList) {
+                if (item.getThingList().size() != 0 || item.getThingList() != null) {
+                    List<Thing> things = new ArrayList<>();
+                    for (var i : item.getThingList()){
+                        for (var j = 0; j < objectList.size(); j++){
+                            if(i.getObject() == objectList.get(j)){
+                                things.add(i);
+                            }
+                        }
+                    }
+
+                    if(things.size() != 0){
+                        for (var thing : things){
+                            have += thing.getGeneralHave();
+                            need += thing.getGeneralNeed();
+                        }
+                    }
+                }
+            }
+        }
+
+        if(need == 0)
+            return 0;
+
+        return (int)Math.round((have * 100.0) / need);
+    }
+
+    public Integer percentUnitListByObjectList(List<Unit> unitList, List<Object> objectList){
+        Integer need = 0, have = 0;
+
+        if (unitList != null || unitList.size() != 0) {
+            for (var item : unitList) {
+                if (item.getThingList().size() != 0 || item.getThingList() != null) {
+                    List<Thing> things = new ArrayList<>();
+                    for (var i : item.getThingList()){
+                        for (var j = 0; j < objectList.size(); j++){
+                            if(i.getObject() == objectList.get(j)){
+                                things.add(i);
+                            }
+                        }
+                    }
+
+                    if(things.size() != 0){
+                        for (var thing : things){
+                            have += thing.getGeneralHave();
+                            need += thing.getGeneralNeed();
+                        }
+                    }
+                }
+            }
+        }
+
+        if(need == 0)
+            return 0;
+
+        return (int)Math.round((have * 100.0) / need);
+    }
 }

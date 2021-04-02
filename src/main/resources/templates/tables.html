@@ -69,110 +69,59 @@
 
     <!-- Content -->
     <div class="u-content">
-
-
         <div class="u-body">
-
-
-            <div id="selector-div" style="display: flex;">
-
-                <select class="selectpicker" multiple title="Choose" required="required" name="_units_1" id="_units_1">
-                    <option th:each="unit : ${unitsParentNull}" th:value="${unit.id}"
-                            th:text="${unit.nameUnit}"></option>
-                </select>
-
-
-            </div>
-
-
-            <!--            <select class="selectpicker units2" multiple title="Choose" required="required" name="_units_2" id="_units_2">-->
-            <!--            </select>-->
-
-
-            <br><br>
-            <div style="display: flex; margin-bottom: 20px">
-                <h1 style="margin-top: auto; margin-bottom: auto" class="h2 mb-2">Засоби</h1>
-                <a style="margin-left: 30px;" type="button" class="btn btn-primary btn-pill text-light"
-                   href="/table/create">Додати</a>
-            </div>
-
-            <!-- Breadcrumb -->
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/">Головна</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Таблиця</li>
-                </ol>
-            </nav>
-            <!-- End Breadcrumb -->
-
-            <!-- Card -->
-            <div class="card mb-5">
-                <!-- Card Header -->
-                <header class="card-header">
-                    <h2 class="h4 card-header-title">Засоби</h2>
-                </header>
-                <!-- End Card Header -->
-
-                <!-- Crad Body -->
-                <div class="card-body pt-0">
-                    <!-- Table -->
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0 fold-table">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Назва засобу</th>
-                                <th>Підрозділ</th>
-                                <th>Укомплектованість</th>
-                                <th class="text-center">Подія</th>
-                            </tr>
-                            </thead>
-
-                            <tbody th:each="thing, num : ${things}">
-                            <tr>
-                                <td class="font-weight-semi-bold" th:text="${num.count}">1</td>
-                                <td class="font-weight-semi-bold" th:text="${thing.object.objectName}">object</td>
-                                <td class="font-weight-semi-bold" th:text="${thing.unit.nameUnit}">object</td>
-                                <td class="font-weight-semi-bold" th:text="|${values.get(thing)}%|">type</td>
-
-                                <td class="text-center">
-                                    <!-- Actions -->
-                                    <div class="dropdown">
-                                        <!-- Actions Invoker -->
-                                        <a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"
-                                           role="button" aria-haspopup="true" aria-expanded="false"
-                                           data-toggle="dropdown"
-                                           data-offset="8">
-                                            <span class="ti-more"></span>
-                                        </a>
-                                        <!-- End Actions Invoker -->
-                                        <!-- Actions Menu -->
-                                        <div class="dropdown-menu dropdown-menu-right" style="width: 150px;">
-                                            <div class="card border-0 p-3">
-                                                <ul class="list-unstyled mb-0">
-                                                    <li class="mb-3">
-                                                        <a class="d-block link-dark"
-                                                           th:href="@{'/table/edit/' + ${thing.id}}">Редагувати</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="d-block link-dark"
-                                                           th:href="@{'/table/delete/' + ${thing.id}}">Видалити</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <!-- End Actions Menu -->
-                                    </div>
-                                    <!-- End Actions -->
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- End Table -->
+            <div style="display: flex; justify-content: space-between">
+                <ul class="nav nav-pills" id="demo-docs-tab" role="tablist" style="display: flex; flex-direction: row">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="demo-docs-tab-tab1" data-toggle="tab"
+                           href="#demo-docs-tab-tab1-content" role="tab" aria-controls="demo-docs-tab-tab1-content"
+                           aria-selected="true">По підрозділам</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="demo-docs-tab-tab2" data-toggle="tab" href="#demo-docs-tab-tab2-content"
+                           role="tab" aria-controls="demo-docs-tab-tab2-content" aria-selected="false">По техніці</a>
+                    </li>
+                    <li class="nav-item" style="margin-left: 20px; display: flex; align-items: center"
+                        id="load-spinner">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </li>
+                </ul>
+                <div>
+                    <button type="button" class="btn btn-outline-primary" id="btnAll">Показати результат</button>
+                    <button type="button" class="btn btn-outline-danger" id="btnClear">Очистити</button>
                 </div>
-                <!-- Crad Body -->
             </div>
+            <div class="tab-content" id="demo-docs-tabContent">
+                <div class="tab-pane bg-light fade p-3 show active" id="demo-docs-tab-tab1-content" role="tabpanel"
+                     aria-labelledby="demo-docs-tab-tab1">
+                    <div id="selector-div" style="display: flex;">
+                        <select class="selectpicker unit" data-size="10" multiple data-actions-box="true"
+                                data-live-search="true" required="required" name="_units_1" id="_units_1">
+                            <option th:each="unit : ${unitsParentNull}" th:value="${unit.id}"
+                                    th:text="${unit.nameUnit}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="tab-pane bg-light fade p-3" id="demo-docs-tab-tab2-content" role="tabpanel"
+                     aria-labelledby="demo-docs-tab-tab2">
+                    <div id="selector-div-object" style="display: flex;">
+                        <select class="selectpicker" data-size="10" data-live-search="true" multiple
+                                data-actions-box="true"
+                                required="required" name="_scope_" id="_scope_">
+                            <option th:each="scope : ${scopes}" th:value="${scope.id}"
+                                    th:text="${scope.scope}"></option>
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+
+            <!--фильтр-->
+            <hr/>
+            <br>
+            <div id="div-table"></div>
         </div>
         <!-- End Content Body -->
 

@@ -26,28 +26,26 @@ public class TableController {
 
     @GetMapping
     public String getTable(Model model) {
-        model.addAttribute("values", thingService.staffing());
-
         return "tables";
     }
 
     @GetMapping(value = "/units")
     @ResponseBody
     public Map<Long, String> getUnits(@RequestParam(value = "_units_") String arr) {
-        if(arr.equals("")){
+        if (arr.equals("") || arr.equals("undefined")) {
             return new HashMap<>();
         }
 
         List<Integer> list = new ArrayList<>();
-        for(var item: arr.split(",")){
+        for (var item : arr.split(",")) {
             list.add(Integer.parseInt(item));
         }
         return unitService.findByAllId(list);
     }
 
-
     @GetMapping("/scopes")
-    @ResponseBody public Map<Long, String> getTypes(@RequestParam(value = "_scope_") String arr) {
+    @ResponseBody
+    public Map<Long, String> getTypes(@RequestParam(value = "_scope_") String arr) {
         if (arr.equals(""))
             return new HashMap<>();
 
@@ -59,7 +57,8 @@ public class TableController {
     }
 
     @GetMapping("/types")
-    @ResponseBody public  Map<Long, String > getObjects(@RequestParam(value = "_type_") String arr) {
+    @ResponseBody
+    public Map<Long, String> getObjects(@RequestParam(value = "_type_") String arr) {
         if (arr.equals(""))
             return new HashMap<>();
 
@@ -68,6 +67,194 @@ public class TableController {
             list.add(Integer.parseInt(item));
 
         return typeService.findByAllId(list);
+    }
+
+    @GetMapping("/filterAll")
+    @ResponseBody
+    public List<List<String>> getAllData(@RequestParam(value = "unit") String unitStr,
+                                   @RequestParam(value = "valueScope") String valueScope,
+                                   @RequestParam(value = "valueType") String valueType,
+                                   @RequestParam(value = "valueObject") String valueObject) {
+        boolean flag = true;
+        List<Unit> unitList = new ArrayList<>();
+        for (var item : unitStr.split(",")){
+            unitList.add(unitService.findById(Long.parseLong(item)));
+        }
+
+        List<List<String>> lists = new ArrayList<>();
+
+        List<String> s0 = new ArrayList<>();
+        s0.add("");
+        for (var unit : unitList){
+            s0.add(unit.getNameUnit());
+        }
+        lists.add(s0);
+
+        if(valueObject.equals("null") && valueType.equals("null")){
+
+            List<Scope> scopeList = new ArrayList<>();
+            for (var item : valueScope.split(",")){
+                scopeList.add(scopeService.findById(Long.parseLong(item)));
+            }
+
+            if(scopeList.size() <= unitList.size()){
+                flag = false;
+            }
+
+            Map<Scope, List<Object>> scopeMap = new HashMap<>();
+            for (var item : scopeList){
+                List<Type> types = item.getTypeList();
+                List<Object> objects = new ArrayList<>();
+                for (var t : types){
+                    objects.addAll(t.getObjectList());
+                }
+                scopeMap.put(item, objects);
+            }
+
+            for(int i = 0; i < scopeList.size(); i++){
+                List<String> listOutput = new ArrayList<>();
+                listOutput.add(scopeList.get(i).getScope());
+                for (int j = 0; j < unitList.size(); j++){
+                    listOutput.add(thingService.percentUnitByObjectList(
+                            unitList.get(j), scopeMap.get(scopeList.get(i))).toString());
+                }
+                lists.add(listOutput);
+            }
+        }else if(valueObject.equals("null")){
+            List<Type> typeList = new ArrayList<>();
+            for (var item : valueType.split(",")){
+                typeList.add(typeService.findById(Long.parseLong(item)));
+            }
+
+            if(typeList.size() <= unitList.size()){
+                flag = false;
+            }
+
+            Map<Type, List<Object>> typeMap = new HashMap<>();
+            for (var item : typeList){
+                typeMap.put(item, item.getObjectList());
+            }
+
+            for(int i = 0; i < typeList.size(); i++){
+                List<String> listOutput = new ArrayList<>();
+                listOutput.add(typeList.get(i).getType());
+                for (int j = 0; j < unitList.size(); j++){
+                    listOutput.add(thingService.percentUnitByObjectList(
+                            unitList.get(j), typeMap.get(typeList.get(i))).toString());
+                }
+                lists.add(listOutput);
+            }
+
+        }else{
+            List<Object> objectList = new ArrayList<>();
+            for (var item : valueObject.split(",")){
+                objectList.add(objectService.findById(Long.parseLong(item)));
+            }
+
+            if(objectList.size() <= unitList.size()){
+                flag = false;
+            }
+
+            for(int i = 0; i < objectList.size(); i++){
+                List<String> listOutput = new ArrayList<>();
+                listOutput.add(objectList.get(i).getObjectName());
+                for (int j = 0; j < unitList.size(); j++){
+                    listOutput.add(thingService.percentUnitByObject(
+                            unitList.get(j), objectList.get(i)).toString());
+                }
+                lists.add(listOutput);
+            }
+        }
+
+        if(!flag){
+            List<List<String>> lists1 = new ArrayList<>();
+            String[][] array = new String[lists.get(0).size()][lists.size()];
+            for (int i = 0; i < lists.size(); i++){
+                for(int j = 0; j < lists.get(i).size(); j++){
+                    array[j][i] = lists.get(i).get(j);
+                }
+            }
+
+            for (int i = 0; i < array.length; i++){
+                List<String> list = new ArrayList<>();
+                for (int j = 0; j < array[i].length; j++){
+                    list.add(array[i][j]);
+                }
+                lists1.add(list);
+            }
+            return lists1;
+        }else {
+            return lists;
+        }
+    }
+
+
+    @GetMapping("/filterUnit")
+    @ResponseBody
+    public Map<String, String> getUnitsData(@RequestParam(value = "unit") String unitStr){
+        List<Unit> unitList = new ArrayList<>();
+        for (var item : unitStr.split(",")){
+            unitList.add(unitService.findById(Long.parseLong(item)));
+        }
+
+        //nameUnit, %
+        Map<String, String> stringMap = new HashMap<>();
+        for (var item : unitList)
+            stringMap.put(item.getNameUnit(), thingService.percentUnit(item).toString());
+
+        return stringMap;
+    }
+
+    @GetMapping("/filterObject")
+    @ResponseBody
+    public Map<String, String> getObjectData(@RequestParam(value = "valueScope") String valueScope,
+                                             @RequestParam(value = "valueType") String valueType,
+                                             @RequestParam(value = "valueObject") String valueObject){
+        Map<String, String> stringMap = new HashMap<>();
+        List<Unit> unitsAll = unitService.findAll();
+
+        if(valueObject.equals("null") && valueType.equals("null")){
+            List<Scope> scopeList = new ArrayList<>();
+            for (var item : valueScope.split(",")){
+                scopeList.add(scopeService.findById(Long.parseLong(item)));
+            }
+            Map<Scope, List<Object>> scopeMap = new HashMap<>();
+            for (var item : scopeList){
+                List<Type> types = item.getTypeList();
+                List<Object> objects = new ArrayList<>();
+                for (var t : types){
+                    objects.addAll(t.getObjectList());
+                }
+                scopeMap.put(item, objects);
+            }
+
+            for (var item : scopeList){
+                stringMap.put(item.getScope(), thingService.percentUnitListByObjectList(unitsAll, scopeMap.get(item)).toString());
+            }
+        }else if(valueObject.equals("null")){
+            List<Type> typeList = new ArrayList<>();
+            for (var item : valueType.split(",")){
+                typeList.add(typeService.findById(Long.parseLong(item)));
+            }
+
+            for (var item : typeList){
+                stringMap.put(item.getType(), thingService.percentUnitListByObjectList(unitsAll, item.getObjectList()).toString());
+            }
+
+        }else{
+            List<Object> objectList = new ArrayList<>();
+            for (var item : valueObject.split(",")){
+                objectList.add(objectService.findById(Long.parseLong(item)));
+            }
+
+            for (var item : objectList){
+                List<Object> object0 = new ArrayList<>();
+                object0.add(item);
+                stringMap.put(item.getObjectName(), thingService.percentUnitListByObjectList(unitsAll, object0).toString());
+            }
+        }
+
+        return stringMap;
     }
 
 

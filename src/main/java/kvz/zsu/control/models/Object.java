@@ -26,8 +26,6 @@ public class Object {
     @OneToMany(mappedBy = "object", cascade = CascadeType.ALL)
     private List<Thing> thingList;
 
-
-
     @Override
     public String toString() {
         return objectName;
