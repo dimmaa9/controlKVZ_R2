@@ -70,12 +70,7 @@
     <div class="u-content">
         <!-- Content Body -->
         <div class="u-body">
-            <div style="display: flex; margin-bottom: 20px">
-                <h1 style="margin-top: auto; margin-bottom: auto" class="h2 mb-2"
-                    th:text="|Підпорядковані підрозділи ${user.unit}|">Створення</h1>
-                <a style="margin-left: 30px;" type="button" class="btn btn-primary btn-pill text-light"
-                   href="/units/create">Додати</a>
-            </div>
+
 
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
@@ -98,11 +93,12 @@
                 <div class="card-body pt-0">
                     <!-- Table -->
                     <div class="table-responsive">
+
                         <table class="table table-hover mb-0 fold-table">
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Назва</th>
+                                <th>Підрозділ</th>
                                 <th>Подія</th>
                             </tr>
                             </thead>
@@ -110,22 +106,46 @@
                             <tbody th:each="unit, num : ${units}">
                             <tr>
                                 <td class="font-weight-semi-bold" th:text="${num.count}">1</td>
-                                <td class="font-weight-semi-bold" th:text="${unit.nameUnit}">object</td>
+                                <td class="font-weight-semi-bold" th:text="${unit.nameUnit}">name unit</td>
                                 <td class="font-weight-semi-bold">
-                                    <a class="btn btn-primary btn-pill text-light"
-                                       th:href="@{'/units/edit/' + ${unit.id}}">
-                                        <span class="font-weight-semi-bold" >Редагувати</span>
-                                    </a>
-                                    <a class="btn btn-primary btn-pill text-light"
-                                       th:href="|@{#exampleModalCenter${unit.id}}|">
-                                        <span class="font-weight-semi-bold">Видалити</span>
-                                    </a>
-                                    <!-- End Actions -->
+                                    <form th:action="@{'/units/' + ${unit.id}}" method="post" enctype="multipart/form-data">
+                                        <input type="file" th:name="file"/>
+                                        <input th:type="submit" value="Import"/>
+                                    </form>
+                                    <!-- End Actions </form>-->
                                 </td>
+<!--                                <td class="text-center">-->
+<!--                                    &lt;!&ndash; Actions &ndash;&gt;-->
+<!--                                    <div class="dropdown">-->
+<!--                                        &lt;!&ndash; Actions Invoker &ndash;&gt;-->
+<!--                                        <a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"-->
+<!--                                           role="button" aria-haspopup="true" aria-expanded="false"-->
+<!--                                           data-toggle="dropdown"-->
+<!--                                           data-offset="8">-->
+<!--                                            <span class="ti-more"></span>-->
+<!--                                        </a>-->
+<!--                                        &lt;!&ndash; End Actions Invoker &ndash;&gt;-->
+<!--                                        &lt;!&ndash; Actions Menu &ndash;&gt;-->
+<!--                                        <div class="dropdown-menu dropdown-menu-right" style="width: 150px;">-->
+<!--                                            <div class="card border-0 p-3">-->
+<!--                                                <ul class="list-unstyled mb-0">-->
+<!--                                                    <li class="mb-3">-->
+<!--                                                        <a class="d-block link-dark" th:href="@{'/units/generate/' + ${unit.id}}">Експортувати</a>-->
+<!--                                                    </li>-->
+
+<!--                                                </ul>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        &lt;!&ndash; End Actions Menu &ndash;&gt;-->
+<!--                                    </div>-->
+<!--                                    &lt;!&ndash; End Actions &ndash;&gt;-->
+<!--                                </td>-->
+
                             </tr>
 
                             </tbody>
                         </table>
+
                     </div>
                     <!-- End Table -->
                 </div>

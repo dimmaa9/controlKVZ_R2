@@ -1,27 +1,24 @@
 package kvz.zsu.control.controllers;
 
+import kvz.zsu.control.excel.ObjectExcelExporterImporter;
 import kvz.zsu.control.models.Object;
-import kvz.zsu.control.models.Thing;
+import kvz.zsu.control.models.Type;
 import kvz.zsu.control.models.User;
 import kvz.zsu.control.services.ObjectService;
 import kvz.zsu.control.services.ThingService;
 import kvz.zsu.control.services.TypeService;
 import kvz.zsu.control.services.UserService;
 import lombok.AllArgsConstructor;
-import org.apache.commons.io.FileUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 @AllArgsConstructor
@@ -37,6 +34,42 @@ public class IndexController {
 
         return "index";
     }
+
+//    @GetMapping("/generate")
+//    public void exportToExcel (HttpServletResponse response) throws IOException, InvalidFormatException {
+//        DateFormat dataFormat = new SimpleDateFormat("dd-MM-yyyy_HH:mm:ss");
+//        String fileName = "attachement; filename=" + "dodatok_" + dataFormat.format(new Date()) + ".xlsx";
+//
+//        response.setContentType("application/octet-stream");
+//        response.setHeader("Content-Disposition", fileName);
+//
+//        Map<String, List<String>> map = new HashMap<>();
+//        List<Type> typeList = typeService.findAll();
+//        System.out.println(typeList.toString());
+//        for (Type type : typeList) {
+//
+//            List<String> list = new ArrayList<>();
+//            var objectList = objectService.findAll();
+//
+//            for (Object object : objectList) {
+//                if (object.getType().equals(type)) {
+//                    list.add(object.getObjectName());
+//                }
+//            }
+//
+//            map.put(type.getType(), list);
+//        }
+//
+//        ObjectExcelExporterImporter excelExporter = new ObjectExcelExporterImporter(map);
+//        excelExporter.export(response);
+//    }
+
+    @GetMapping("/test")
+    public String getTest() {
+        return "test/test";
+    }
+
+
 
     @ModelAttribute("user")
     public User getUser(@AuthenticationPrincipal User user) {

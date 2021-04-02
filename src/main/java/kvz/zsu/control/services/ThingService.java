@@ -28,6 +28,7 @@ public class ThingService {
         thingRepo.save(thing);
     }
 
+
     public Thing findById(Long id) {
         return thingRepo.findById(id).get();
     }
@@ -38,6 +39,10 @@ public class ThingService {
 
     public List<Thing> findAllByIdUnit(Long id) {
         return thingRepo.findAll().stream().filter(x -> x.getUnit().getId().equals(id)).collect(Collectors.toList());
+    }
+
+    public void deleteByUnit(Unit unit) {
+        unit.getThingList().forEach(x -> thingRepo.deleteById(x.getId()));
     }
 
     public Thing createThing() {
