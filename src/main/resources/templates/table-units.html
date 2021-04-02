@@ -108,13 +108,38 @@
                                 <td class="font-weight-semi-bold" th:text="${num.count}">1</td>
                                 <td class="font-weight-semi-bold" th:text="${unit.nameUnit}">name unit</td>
                                 <td class="font-weight-semi-bold">
-
                                     <form th:action="@{'/units/' + ${unit.id}}" method="post" enctype="multipart/form-data">
                                         <input type="file" th:name="file"/>
                                         <input th:type="submit" value="Import"/>
                                     </form>
                                     <!-- End Actions </form>-->
                                 </td>
+<!--                                <td class="text-center">-->
+<!--                                    &lt;!&ndash; Actions &ndash;&gt;-->
+<!--                                    <div class="dropdown">-->
+<!--                                        &lt;!&ndash; Actions Invoker &ndash;&gt;-->
+<!--                                        <a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"-->
+<!--                                           role="button" aria-haspopup="true" aria-expanded="false"-->
+<!--                                           data-toggle="dropdown"-->
+<!--                                           data-offset="8">-->
+<!--                                            <span class="ti-more"></span>-->
+<!--                                        </a>-->
+<!--                                        &lt;!&ndash; End Actions Invoker &ndash;&gt;-->
+<!--                                        &lt;!&ndash; Actions Menu &ndash;&gt;-->
+<!--                                        <div class="dropdown-menu dropdown-menu-right" style="width: 150px;">-->
+<!--                                            <div class="card border-0 p-3">-->
+<!--                                                <ul class="list-unstyled mb-0">-->
+<!--                                                    <li class="mb-3">-->
+<!--                                                        <a class="d-block link-dark" th:href="@{'/units/generate/' + ${unit.id}}">Експортувати</a>-->
+<!--                                                    </li>-->
+
+<!--                                                </ul>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        &lt;!&ndash; End Actions Menu &ndash;&gt;-->
+<!--                                    </div>-->
+<!--                                    &lt;!&ndash; End Actions &ndash;&gt;-->
+<!--                                </td>-->
 
                             </tr>
 

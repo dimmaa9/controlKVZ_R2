@@ -1,6 +1,7 @@
 package kvz.zsu.control.services;
 
 import kvz.zsu.control.models.Thing;
+import kvz.zsu.control.models.Unit;
 import kvz.zsu.control.repositories.ThingRepo;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,10 @@ public class ThingService {
 
     public List<Thing> findAllByIdUnit(Long id) {
         return thingRepo.findAll().stream().filter(x -> x.getUnit().getId().equals(id)).collect(Collectors.toList());
+    }
+
+    public void deleteByUnit(Unit unit) {
+        unit.getThingList().forEach(x -> thingRepo.deleteById(x.getId()));
     }
 
     public Thing createThing() {

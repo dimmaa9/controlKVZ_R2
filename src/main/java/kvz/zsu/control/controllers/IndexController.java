@@ -35,34 +35,34 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("/generate")
-    public void exportToExcel (HttpServletResponse response) throws IOException, InvalidFormatException {
-        DateFormat dataFormat = new SimpleDateFormat("dd-MM-yyyy_HH:mm:ss");
-        String fileName = "attachement; filename=" + "dodatok_" + dataFormat.format(new Date()) + ".xlsx";
-
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", fileName);
-
-        Map<String, List<String>> map = new HashMap<>();
-        List<Type> typeList = typeService.findAll();
-        System.out.println(typeList.toString());
-        for (Type type : typeList) {
-
-            List<String> list = new ArrayList<>();
-            var objectList = objectService.findAll();
-
-            for (Object object : objectList) {
-                if (object.getType().equals(type)) {
-                    list.add(object.getObjectName());
-                }
-            }
-
-            map.put(type.getType(), list);
-        }
-
-        ObjectExcelExporterImporter excelExporter = new ObjectExcelExporterImporter(map);
-        excelExporter.export(response);
-    }
+//    @GetMapping("/generate")
+//    public void exportToExcel (HttpServletResponse response) throws IOException, InvalidFormatException {
+//        DateFormat dataFormat = new SimpleDateFormat("dd-MM-yyyy_HH:mm:ss");
+//        String fileName = "attachement; filename=" + "dodatok_" + dataFormat.format(new Date()) + ".xlsx";
+//
+//        response.setContentType("application/octet-stream");
+//        response.setHeader("Content-Disposition", fileName);
+//
+//        Map<String, List<String>> map = new HashMap<>();
+//        List<Type> typeList = typeService.findAll();
+//        System.out.println(typeList.toString());
+//        for (Type type : typeList) {
+//
+//            List<String> list = new ArrayList<>();
+//            var objectList = objectService.findAll();
+//
+//            for (Object object : objectList) {
+//                if (object.getType().equals(type)) {
+//                    list.add(object.getObjectName());
+//                }
+//            }
+//
+//            map.put(type.getType(), list);
+//        }
+//
+//        ObjectExcelExporterImporter excelExporter = new ObjectExcelExporterImporter(map);
+//        excelExporter.export(response);
+//    }
 
     @GetMapping("/test")
     public String getTest() {
