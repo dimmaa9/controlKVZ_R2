@@ -7,15 +7,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/table")
@@ -27,110 +22,249 @@ public class TableController {
     private final ScopeService scopeService;
     private final TypeService typeService;
     private final ObjectService objectService;
-    private final StateService stateService;
+    private final UnitService unitService;
 
     @GetMapping
     public String getTable(Model model) {
-        model.addAttribute("things", thingService.findAll());
         return "tables";
     }
 
-    @GetMapping("/create")
-    public String getCreate(Model model) {
-        model.addAttribute("thing", thingService.createThing());
-        return "create-thing";
+    @GetMapping(value = "/units")
+    @ResponseBody
+    public Map<Long, String> getUnits(@RequestParam(value = "_units_") String arr) {
+        if (arr.equals("") || arr.equals("undefined")) {
+            return new HashMap<>();
+        }
+
+        List<Integer> list = new ArrayList<>();
+        for (var item : arr.split(",")) {
+            list.add(Integer.parseInt(item));
+        }
+        return unitService.findByAllId(list);
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable(name = "id") Long id, @AuthenticationPrincipal User user) {
-        if (thingService.findById(id).getUnit().getId().equals(user.getUnit().getId())) {
-            thingService.deleteById(id);
-            return "redirect:/table";
-        } else {
-            return "redirect:/table";
+    @GetMapping("/scopes")
+    @ResponseBody
+    public Map<Long, String> getTypes(@RequestParam(value = "_scope_") String arr) {
+        if (arr.equals(""))
+            return new HashMap<>();
+
+        List<Integer> list = new ArrayList<>();
+        for (var item : arr.split(","))
+            list.add(Integer.parseInt(item));
+
+        return scopeService.findByAllId(list);
+    }
+
+    @GetMapping("/types")
+    @ResponseBody
+    public Map<Long, String> getObjects(@RequestParam(value = "_type_") String arr) {
+        if (arr.equals(""))
+            return new HashMap<>();
+
+        List<Integer> list = new ArrayList<>();
+        for (var item : arr.split(","))
+            list.add(Integer.parseInt(item));
+
+        return typeService.findByAllId(list);
+    }
+
+    @GetMapping("/filterAll")
+    @ResponseBody
+    public List<List<String>> getAllData(@RequestParam(value = "unit") String unitStr,
+                                   @RequestParam(value = "valueScope") String valueScope,
+                                   @RequestParam(value = "valueType") String valueType,
+                                   @RequestParam(value = "valueObject") String valueObject) {
+        boolean flag = true;
+        List<Unit> unitList = new ArrayList<>();
+        for (var item : unitStr.split(",")){
+            unitList.add(unitService.findById(Long.parseLong(item)));
+        }
+
+        List<List<String>> lists = new ArrayList<>();
+
+        List<String> s0 = new ArrayList<>();
+        s0.add("");
+        for (var unit : unitList){
+            s0.add(unit.getNameUnit());
+        }
+        lists.add(s0);
+
+        if(valueObject.equals("null") && valueType.equals("null")){
+
+            List<Scope> scopeList = new ArrayList<>();
+            for (var item : valueScope.split(",")){
+                scopeList.add(scopeService.findById(Long.parseLong(item)));
+            }
+
+            if(scopeList.size() <= unitList.size()){
+                flag = false;
+            }
+
+            Map<Scope, List<Object>> scopeMap = new HashMap<>();
+            for (var item : scopeList){
+                List<Type> types = item.getTypeList();
+                List<Object> objects = new ArrayList<>();
+                for (var t : types){
+                    objects.addAll(t.getObjectList());
+                }
+                scopeMap.put(item, objects);
+            }
+
+            for(int i = 0; i < scopeList.size(); i++){
+                List<String> listOutput = new ArrayList<>();
+                listOutput.add(scopeList.get(i).getScope());
+                for (int j = 0; j < unitList.size(); j++){
+                    listOutput.add(thingService.percentUnitByObjectList(
+                            unitList.get(j), scopeMap.get(scopeList.get(i))).toString());
+                }
+                lists.add(listOutput);
+            }
+        }else if(valueObject.equals("null")){
+            List<Type> typeList = new ArrayList<>();
+            for (var item : valueType.split(",")){
+                typeList.add(typeService.findById(Long.parseLong(item)));
+            }
+
+            if(typeList.size() <= unitList.size()){
+                flag = false;
+            }
+
+            Map<Type, List<Object>> typeMap = new HashMap<>();
+            for (var item : typeList){
+                typeMap.put(item, item.getObjectList());
+            }
+
+            for(int i = 0; i < typeList.size(); i++){
+                List<String> listOutput = new ArrayList<>();
+                listOutput.add(typeList.get(i).getType());
+                for (int j = 0; j < unitList.size(); j++){
+                    listOutput.add(thingService.percentUnitByObjectList(
+                            unitList.get(j), typeMap.get(typeList.get(i))).toString());
+                }
+                lists.add(listOutput);
+            }
+
+        }else{
+            List<Object> objectList = new ArrayList<>();
+            for (var item : valueObject.split(",")){
+                objectList.add(objectService.findById(Long.parseLong(item)));
+            }
+
+            if(objectList.size() <= unitList.size()){
+                flag = false;
+            }
+
+            for(int i = 0; i < objectList.size(); i++){
+                List<String> listOutput = new ArrayList<>();
+                listOutput.add(objectList.get(i).getObjectName());
+                for (int j = 0; j < unitList.size(); j++){
+                    listOutput.add(thingService.percentUnitByObject(
+                            unitList.get(j), objectList.get(i)).toString());
+                }
+                lists.add(listOutput);
+            }
+        }
+
+        if(!flag){
+            List<List<String>> lists1 = new ArrayList<>();
+            String[][] array = new String[lists.get(0).size()][lists.size()];
+            for (int i = 0; i < lists.size(); i++){
+                for(int j = 0; j < lists.get(i).size(); j++){
+                    array[j][i] = lists.get(i).get(j);
+                }
+            }
+
+            for (int i = 0; i < array.length; i++){
+                List<String> list = new ArrayList<>();
+                for (int j = 0; j < array[i].length; j++){
+                    list.add(array[i][j]);
+                }
+                lists1.add(list);
+            }
+            return lists1;
+        }else {
+            return lists;
         }
     }
 
-    @GetMapping("/edit/{id}")
-    public ModelAndView editPage(@PathVariable(name = "id") Long id, @AuthenticationPrincipal User user) {
-        ModelAndView mav = new ModelAndView("edit-thing");
-        Thing thing = thingService.findById(id);
 
-        if (thing.getUnit().getId().equals(user.getUnit().getId())) {
-            mav.addObject("thing", thing);
-            return mav;
-        } else {
-            return new ModelAndView("redirect:/table");
-        }
-    }
-
-
-    //Create RequestMapping
-    @RequestMapping(value = "/create", params = {"addThing"})
-    public ModelAndView addThing(Thing thing) {
-        ModelAndView mv = new ModelAndView("create-thing");
-        mv.addObject("thing", thingService.addThing(thing));
-        return mv;
-    }
-
-    @RequestMapping(value = "/create", params = {"removeThing"})
-    public ModelAndView removeRowInCreate(Thing thing, HttpServletRequest req) {
-        ModelAndView mv = new ModelAndView("create-thing");
-        mv.addObject("thing", thingService.removeThing(thing, Long.valueOf(req.getParameter("removeThing"))));
-        return mv;
-    }
-
-    @RequestMapping(value = "/create", params = {"save"})
-    public String saveThing(Thing thing, BindingResult bindingResult, @AuthenticationPrincipal User user) {
-        if (bindingResult.hasErrors()) {
-            return "redirect:/table";
+    @GetMapping("/filterUnit")
+    @ResponseBody
+    public Map<String, String> getUnitsData(@RequestParam(value = "unit") String unitStr){
+        List<Unit> unitList = new ArrayList<>();
+        for (var item : unitStr.split(",")){
+            unitList.add(unitService.findById(Long.parseLong(item)));
         }
 
-        thing.setUnit(user.getUnit());
-        thing.getThings().forEach(x -> {
-            x.setUnit(user.getUnit());
-            x.setParentThing(thing);
-            thingService.save(x);
-        });
-        thingService.save(thing);
-        return "redirect:/table";
+        //nameUnit, %
+        Map<String, String> stringMap = new HashMap<>();
+        for (var item : unitList)
+            stringMap.put(item.getNameUnit(), thingService.percentUnit(item).toString());
+
+        return stringMap;
     }
 
-    //Edit RequestMapping
-    @RequestMapping(value = "/edit/{id}", params = {"addThing"})
-    public ModelAndView addThing(@PathVariable(name = "id") Long id, Thing thing) {
-        ModelAndView mv = new ModelAndView("edit-thing");
-        mv.addObject("thing", thingService.addThing(thing));
-        return mv;
-    }
+    @GetMapping("/filterObject")
+    @ResponseBody
+    public Map<String, String> getObjectData(@RequestParam(value = "valueScope") String valueScope,
+                                             @RequestParam(value = "valueType") String valueType,
+                                             @RequestParam(value = "valueObject") String valueObject){
+        Map<String, String> stringMap = new HashMap<>();
+        List<Unit> unitsAll = unitService.findAll();
 
-    @RequestMapping(value = "/edit/{id}", params = {"removeThing"})
-    public ModelAndView removeRowInEdit(Thing thing, HttpServletRequest req) {
-        ModelAndView mv = new ModelAndView("edit-thing");
-        Thing thingRm = thing.getThings().get(Integer.parseInt(req.getParameter("removeThing")));
-        mv.addObject("thing", thingService.removeThing(thing, Long.valueOf(req.getParameter("removeThing"))));
-        thingService.deleteById(thingRm.getId());
-        return mv;
-    }
+        if(valueObject.equals("null") && valueType.equals("null")){
+            List<Scope> scopeList = new ArrayList<>();
+            for (var item : valueScope.split(",")){
+                scopeList.add(scopeService.findById(Long.parseLong(item)));
+            }
+            Map<Scope, List<Object>> scopeMap = new HashMap<>();
+            for (var item : scopeList){
+                List<Type> types = item.getTypeList();
+                List<Object> objects = new ArrayList<>();
+                for (var t : types){
+                    objects.addAll(t.getObjectList());
+                }
+                scopeMap.put(item, objects);
+            }
 
-    @RequestMapping(value = "/edit/{id}", params = {"save"})
-    public String saveThingEdit(Thing thing, BindingResult bindingResult, @AuthenticationPrincipal User user) {
-        //return saveThing(thing, bindingResult, user);
-        if (bindingResult.hasErrors()) {
-            return "redirect:/table";
+            for (var item : scopeList){
+                stringMap.put(item.getScope(), thingService.percentUnitListByObjectList(unitsAll, scopeMap.get(item)).toString());
+            }
+        }else if(valueObject.equals("null")){
+            List<Type> typeList = new ArrayList<>();
+            for (var item : valueType.split(",")){
+                typeList.add(typeService.findById(Long.parseLong(item)));
+            }
+
+            for (var item : typeList){
+                stringMap.put(item.getType(), thingService.percentUnitListByObjectList(unitsAll, item.getObjectList()).toString());
+            }
+
+        }else{
+            List<Object> objectList = new ArrayList<>();
+            for (var item : valueObject.split(",")){
+                objectList.add(objectService.findById(Long.parseLong(item)));
+            }
+
+            for (var item : objectList){
+                List<Object> object0 = new ArrayList<>();
+                object0.add(item);
+                stringMap.put(item.getObjectName(), thingService.percentUnitListByObjectList(unitsAll, object0).toString());
+            }
         }
-        thing.setUnit(user.getUnit());
-        thing.getThings().forEach(x -> {
-            x.setUnit(user.getUnit());
-            thingService.save(x);
-        });
-        thingService.save(thing);
-        return "redirect:/table";
+
+        return stringMap;
     }
 
 
     //ModelAttribute
-    @ModelAttribute("scops")
+    @ModelAttribute("things")
+    public List<Thing> getThings() {
+        return thingService.findAll();
+    }
+
+    @ModelAttribute("scopes")
     public List<Scope> scopeList() {
         return scopeService.findAll();
     }
@@ -145,9 +279,9 @@ public class TableController {
         return objectService.findAll();
     }
 
-    @ModelAttribute("states")
-    public List<State> stateList() {
-        return stateService.findAll();
+    @ModelAttribute("unitsParentNull")
+    public List<Unit> unitList() {
+        return unitService.findAll().stream().filter(x -> x.getParentUnit() == null).collect(Collectors.toList());
     }
 
     @ModelAttribute("user")

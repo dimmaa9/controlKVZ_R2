@@ -43,6 +43,7 @@
 
     <!-- Web Fonts -->
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/data-tables/datatables.min.css}">
 
     <!-- Components Vendor Styles -->
     <link rel="stylesheet" th:href="@{/vendor/themify-icons/themify-icons.css}">
@@ -73,6 +74,11 @@
             <div style="display: flex; margin-bottom: 20px">
                 <h1 style="margin-top: auto; margin-bottom: auto" class="h2 mb-2">Техніка</h1>
                 <a style="margin-left: 30px;" type="button" class="btn btn-primary btn-pill text-light" href="/object/create">Додати</a>
+
+                <form th:action="@{/object}" method="post" enctype="multipart/form-data">
+                    <input style="margin-left: 50px" type="file" th:name="file"/>
+                    <input  th:type="submit" value="Import"/>
+                </form>
             </div>
 
             <!-- Breadcrumb -->
@@ -88,7 +94,6 @@
             <div class="card mb-5">
                 <!-- Card Header -->
                 <header class="card-header">
-                    <h2 class="h4 card-header-title">Засоби</h2>
                 </header>
                 <!-- End Card Header -->
 
@@ -96,12 +101,12 @@
                 <div class="card-body pt-0">
                     <!-- Table -->
                     <div class="table-responsive">
-                        <table class="table table-hover mb-0 fold-table">
+                        <table class="table table-hover mb-0 fold-table" id="myTable">
                             <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Назва</th>
-                                <th>Вид</th>
+                                <th>Тип</th>
                                 <th>Область</th>
                                 <th class="text-center">Подія</th>
                             </tr>
@@ -173,6 +178,8 @@
 <script th:src="@{/js/main.js}"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:src="@{/data-tables/datatables.min.js}"></script>
+<script th:src="@{/data-tables/datatables.js}"></script>
 </body>
 <!-- End Body -->
 </html>

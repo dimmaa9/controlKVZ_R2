@@ -1,15 +1,13 @@
 package kvz.zsu.control.services;
 
+import kvz.zsu.control.models.Object;
 import kvz.zsu.control.models.Thing;
 import kvz.zsu.control.models.Unit;
 import kvz.zsu.control.repositories.ThingRepo;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,9 +24,10 @@ public class ThingService {
         return thingRepo.findAll();
     }
 
-    public void save (Thing thing) {
+    public void save(Thing thing) {
         thingRepo.save(thing);
     }
+
 
     public Thing findById(Long id) {
         return thingRepo.findById(id).get();
@@ -42,95 +41,156 @@ public class ThingService {
         return thingRepo.findAll().stream().filter(x -> x.getUnit().getId().equals(id)).collect(Collectors.toList());
     }
 
-    public Thing createThing(){
+    public void deleteByUnit(Unit unit) {
+        unit.getThingList().forEach(x -> thingRepo.deleteById(x.getId()));
+    }
+
+    public Thing createThing() {
         return new Thing();
     }
 
-    public Thing addThing(Thing thing) {
-        Thing thingTemp = new Thing();
-        thingTemp.setParentThing(thing);
-        thing.getThings().add(thingTemp);
-        return thing;
-    }
 
-    public Thing removeThing(Thing thing, Long id) {
-        thing.getThings().remove(id.intValue());
-        return thing;
-    }
+    //
 
-    public int getCountThingVn(Unit unit) {
-        List<Thing> things = unit.getThingList();
-        int countAll = things.size();
-        int countVn = things.stream().filter(x -> x.getState().getState().equals("В наявності")).collect(Collectors.toList()).size();
-        return (int) ((100 * countVn) / countAll);
-    }
-
-    public int getCountThingPb(Unit unit) {
-        List<Thing> things = unit.getThingList();
-        int countAll = things.size();
-        int countPb = things.stream().filter(x -> x.getState().getState().equals("Потреба")).collect(Collectors.toList()).size();
-        return (int) ((100 * countPb) / countAll);
-    }
-
-    public int getCountThingRm(Unit unit) {
-        List<Thing> things = unit.getThingList();
-        int countAll = things.size();
-        int countRm = things.stream().filter(x -> x.getState().getState().equals("Ремонт")).collect(Collectors.toList()).size();
-        return (int) ((100 * countRm) / countAll);
-    }
-
-    public List<Integer> getListCountVnInCategory(Unit unit) {
-        List<Thing> things = unit.getThingList().stream().filter(x -> x.getState().getState().equals("В наявності")).collect(Collectors.toList());
-        int c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0;
-        for (var item: things) {
-            if (item.getCategory().equals(1))
-                c1++;
-            else if (item.getCategory().equals(2))
-                c2++;
-            else if (item.getCategory().equals(3))
-                c3++;
-            else if (item.getCategory().equals(4))
-                c4++;
-            else if (item.getCategory().equals(5))
-                c5++;
+    public Integer integerNeed(List<Thing> things) {
+        Integer need = 0;
+        for (var item : things) {
+            need += item.getGeneralNeed();
         }
-        return Arrays.asList(c1, c2, c3, c4, c5);
+        return need;
     }
 
-    public List<Integer> getListCountPbInCategory(Unit unit) {
-        List<Thing> things = unit.getThingList().stream().filter(x -> x.getState().getState().equals("Потреба")).collect(Collectors.toList());
-        int c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0;
-        for (var item: things) {
-            if (item.getCategory().equals(1))
-                c1++;
-            else if (item.getCategory().equals(2))
-                c2++;
-            else if (item.getCategory().equals(3))
-                c3++;
-            else if (item.getCategory().equals(4))
-                c4++;
-            else if (item.getCategory().equals(5))
-                c5++;
+    public Integer integerHave(List<Thing> things) {
+        Integer have = 0;
+        for (var item : things) {
+            have += item.getGeneralHave();
         }
-        return Arrays.asList(c1, c2, c3, c4, c5);
+        return have;
     }
 
-    public List<Integer> getListCountRmInCategory(Unit unit) {
-        List<Thing> things = unit.getThingList().stream().filter(x -> x.getState().getState().equals("Ремонт")).collect(Collectors.toList());
-        int c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0;
-        for (var item: things) {
-            if (item.getCategory().equals(1))
-                c1++;
-            else if (item.getCategory().equals(2))
-                c2++;
-            else if (item.getCategory().equals(3))
-                c3++;
-            else if (item.getCategory().equals(4))
-                c4++;
-            else if (item.getCategory().equals(5))
-                c5++;
+    public Integer percentUnit(Unit unit) {
+        Integer need = 0, have = 0;
+
+        List<Unit> unitList = unitsAllByUnit(unit);
+
+        if (unitList != null || unitList.size() != 0) {
+            for (var item : unitList) {
+                if (item.getThingList().size() != 0 || item.getThingList() != null) {
+                    need += integerNeed(item.getThingList());
+                    have += integerHave(item.getThingList());
+                }
+            }
         }
-        return Arrays.asList(c1, c2, c3, c4, c5);
+
+        if(need == 0)
+            return 0;
+
+        return (int)Math.round((have * 100.0) / need);
     }
 
+    public List<Unit> unitsAllByUnit(Unit unit) {
+        List<Unit> units = new ArrayList<>();
+        units.add(unit);
+
+        if (unit.getUnits() != null || unit.getUnits().size() != 0) {
+            for (var item : unit.getUnits()) {
+                units.addAll(unitsAllByUnit(item));
+            }
+            return units;
+        } else {
+            return units;
+        }
+    }
+
+    public Integer percentUnitByObject(Unit unit, Object object){
+        Integer need = 0, have = 0;
+
+        List<Unit> unitList = unitsAllByUnit(unit);
+
+        if (unitList != null || unitList.size() != 0) {
+            for (var item : unitList) {
+                if (item.getThingList().size() != 0 || item.getThingList() != null) {
+                    Thing thing = null;
+                    for (var i : item.getThingList()){
+                        if(i.getObject() == object)
+                            thing = i;
+                    }
+
+                    if(thing != null){
+                        have += thing.getGeneralHave();
+                        need += thing.getGeneralNeed();
+                    }
+                }
+            }
+        }
+
+        if(need == 0)
+            return 0;
+
+        return (int)Math.round((have * 100.0) / need);
+    }
+
+    public Integer percentUnitByObjectList(Unit unit, List<Object> objectList){
+        Integer need = 0, have = 0;
+
+        List<Unit> unitList = unitsAllByUnit(unit);
+
+        if (unitList != null || unitList.size() != 0) {
+            for (var item : unitList) {
+                if (item.getThingList().size() != 0 || item.getThingList() != null) {
+                    List<Thing> things = new ArrayList<>();
+                    for (var i : item.getThingList()){
+                        for (var j = 0; j < objectList.size(); j++){
+                            if(i.getObject() == objectList.get(j)){
+                                things.add(i);
+                            }
+                        }
+                    }
+
+                    if(things.size() != 0){
+                        for (var thing : things){
+                            have += thing.getGeneralHave();
+                            need += thing.getGeneralNeed();
+                        }
+                    }
+                }
+            }
+        }
+
+        if(need == 0)
+            return 0;
+
+        return (int)Math.round((have * 100.0) / need);
+    }
+
+    public Integer percentUnitListByObjectList(List<Unit> unitList, List<Object> objectList){
+        Integer need = 0, have = 0;
+
+        if (unitList != null || unitList.size() != 0) {
+            for (var item : unitList) {
+                if (item.getThingList().size() != 0 || item.getThingList() != null) {
+                    List<Thing> things = new ArrayList<>();
+                    for (var i : item.getThingList()){
+                        for (var j = 0; j < objectList.size(); j++){
+                            if(i.getObject() == objectList.get(j)){
+                                things.add(i);
+                            }
+                        }
+                    }
+
+                    if(things.size() != 0){
+                        for (var thing : things){
+                            have += thing.getGeneralHave();
+                            need += thing.getGeneralNeed();
+                        }
+                    }
+                }
+            }
+        }
+
+        if(need == 0)
+            return 0;
+
+        return (int)Math.round((have * 100.0) / need);
+    }
 }

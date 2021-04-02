@@ -19,4 +19,13 @@ public class Scope {
 
     @OneToMany(mappedBy = "scope", cascade = CascadeType.ALL)
     private List<Type> typeList;
+
+    @Override
+    public String toString() {
+        return "Scope{" +
+                "id=" + id +
+                ", scope='" + scope + '\'' +
+                ", typeList=" + typeList +
+                '}';
+    }
 }

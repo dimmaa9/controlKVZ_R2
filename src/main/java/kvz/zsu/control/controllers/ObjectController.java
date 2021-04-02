@@ -9,15 +9,15 @@ import kvz.zsu.control.services.ScopeService;
 import kvz.zsu.control.services.TypeService;
 import kvz.zsu.control.services.UserService;
 import lombok.AllArgsConstructor;
-import org.bouncycastle.util.Arrays;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,44 +26,22 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ObjectController {
 
+
     private final ObjectService objectService;
     private final UserService userService;
     private final ScopeService scopeService;
     private final TypeService typeService;
 
+    List<Object> listObjectService;
+
 
     @GetMapping
-    public String getView() {
+    public String getObjectTable() {
+
         return "table-objects";
     }
 
-    @GetMapping("/create")
-    public String getCreate(Model model) {
-        Object object = new Object();
-        model.addAttribute("object", object);
 
-        return "create-object";
-    }
-
-    @PostMapping(value = "/save")
-    public String saveObject(Object object) {
-        objectService.save(object);
-
-        return "redirect:/object";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id) {
-        objectService.deleteById(id);
-        return "redirect:/object";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("object", objectService.findById(id));
-
-        return "edit-object";
-    }
 
 
     @ModelAttribute("user")

@@ -24,10 +24,6 @@ public class User implements UserDetails {
     private String password;
     private String roles;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name="unit_id", nullable=false)
-    private Unit unit;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> listRole = new ArrayList<>();
