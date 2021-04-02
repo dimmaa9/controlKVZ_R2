@@ -69,86 +69,59 @@
 
     <!-- Content -->
     <div class="u-content">
-
-
         <div class="u-body">
-            <!--фильтр-->
-            <div>
-                <!-- по units -->
-                <h4 class="h4 mb-2"> По підрозділам</h4>
-                <div id="selector-div" style="display: flex;">
-                    <select class="selectpicker unit" data-size="10" multiple data-actions-box="true" data-live-search="true" required="required" name="_units_1" id="_units_1">
-                        <option th:each="unit : ${unitsParentNull}" th:value="${unit.id}"
-                                th:text="${unit.nameUnit}"></option>
-                    </select>
-                </div>
-
-                <!-- по object -->
-                <h4 class="h4 mb-2"> По техніці</h4>
-                <div id="selector-div-object" style="display: flex;">
-                    <select class="selectpicker" data-size="10" data-live-search="true" multiple data-actions-box="true" required="required" name="_scope_" id="_scope_">
-                        <option th:each="scope : ${scopes}" th:value="${scope.id}"
-                                th:text="${scope.scope}"></option>
-                    </select>
-
-                </div>
-            </div>
-
-            <hr/>
-            <br><br>
-
-            <div style="display: flex; margin-bottom: 20px">
-                <h1 style="margin-top: auto; margin-bottom: auto" class="h2 mb-2">Засоби</h1>
-            </div>
-
-            <!-- Breadcrumb -->
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/">Головна</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Таблиця</li>
-                </ol>
-            </nav>
-            <!-- End Breadcrumb -->
-
-            <div style="display: flex; justify-content: center" id="load-spinner">
-                <div class="spinner-border text-primary mb-2 mr-2 mr-md-4" style="width: 4rem; height: 4rem;"  role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-
-            <!-- Card -->
-            <div>
-                <div class="card mb-5" id="card-table">
-                    <!-- Card Header -->
-                    <header class="card-header">
-                        <h2 class="h4 card-header-title" id="title">Укомплектованість</h2>
-                    </header>
-                    <!-- End Card Header -->
-
-                    <!-- Crad Body -->
-                    <div class="card-body pt-0">
-                        <!-- Table -->
-                        <div class="table-responsive" id="_table_">
-                            <table class="table table-hover mb-0 fold-table">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Найменування</th>
-                                    <th>Укомплектованість</th>
-                                    <th class="text-center">Подія</th>
-                                </tr>
-                                </thead>
-
-                                <tbody id="_tbody_">
-
-                                </tbody>
-                            </table>
+            <div style="display: flex; justify-content: space-between">
+                <ul class="nav nav-pills" id="demo-docs-tab" role="tablist" style="display: flex; flex-direction: row">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="demo-docs-tab-tab1" data-toggle="tab"
+                           href="#demo-docs-tab-tab1-content" role="tab" aria-controls="demo-docs-tab-tab1-content"
+                           aria-selected="true">По підрозділам</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="demo-docs-tab-tab2" data-toggle="tab" href="#demo-docs-tab-tab2-content"
+                           role="tab" aria-controls="demo-docs-tab-tab2-content" aria-selected="false">По техніці</a>
+                    </li>
+                    <li class="nav-item" style="margin-left: 20px; display: flex; align-items: center"
+                        id="load-spinner">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
                         </div>
-                        <!-- End Table -->
-                    </div>
-                    <!-- Crad Body -->
+                    </li>
+                </ul>
+                <div>
+                    <button type="button" class="btn btn-outline-primary" id="btnAll">Показати результат</button>
+                    <button type="button" class="btn btn-outline-danger" id="btnClear">Очистити</button>
                 </div>
             </div>
+            <div class="tab-content" id="demo-docs-tabContent">
+                <div class="tab-pane bg-light fade p-3 show active" id="demo-docs-tab-tab1-content" role="tabpanel"
+                     aria-labelledby="demo-docs-tab-tab1">
+                    <div id="selector-div" style="display: flex;">
+                        <select class="selectpicker unit" data-size="10" multiple data-actions-box="true"
+                                data-live-search="true" required="required" name="_units_1" id="_units_1">
+                            <option th:each="unit : ${unitsParentNull}" th:value="${unit.id}"
+                                    th:text="${unit.nameUnit}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="tab-pane bg-light fade p-3" id="demo-docs-tab-tab2-content" role="tabpanel"
+                     aria-labelledby="demo-docs-tab-tab2">
+                    <div id="selector-div-object" style="display: flex;">
+                        <select class="selectpicker" data-size="10" data-live-search="true" multiple
+                                data-actions-box="true"
+                                required="required" name="_scope_" id="_scope_">
+                            <option th:each="scope : ${scopes}" th:value="${scope.id}"
+                                    th:text="${scope.scope}"></option>
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+
+            <!--фильтр-->
+            <hr/>
+            <br>
+            <div id="div-table"></div>
 
         </div>
         <!-- End Content Body -->

@@ -129,50 +129,6 @@ $(document).ready(function () {
             if (size > 0) {
                 addElement(checkId + 1);
                 fillElement(checkId + 1, data);
-
-                let i = 1;
-                $('#_tbody_').empty();
-
-                $.get("/table/unit?unit=" + String(s) +
-                        "&valueScope=" + String(valueScope) +
-                        "&valueType=" + String(valueType) +
-                        "&valueObject=" + String(valueObject), function (dataIneger) {
-                    if(valueScope != null && valueType != null && valueObject != null){
-                        $("#title").text("Укомплектованість 3");
-                    }else {
-                        $.each(dataIneger, function (key, value) {
-                            let option = '<tr>' + '<td class="font-weight-semi-bold">' + i++ + '</td>' +
-                                '<td class="font-weight-semi-bold">' + key + '</td>' +
-                                '<td class="font-weight-semi-bold">' + value + '%</td>' +
-                                '<td class="text-center">' +
-                                '<div class="dropdown">' +
-                                '<a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"' +
-                                'role="button" aria-haspopup="true" aria-expanded="false"' +
-                                'data-toggle="dropdown"' +
-                                'data-offset="8">' +
-                                '<span class="ti-more"></span>' +
-                                '</a>' +
-                                '<div class="dropdown-menu dropdown-menu-right" style="width: 150px;">' +
-                                '<div class="card border-0 p-3">' +
-                                '<ul class="list-unstyled mb-0">' +
-                                '<li class="mb-3">' +
-                                '<a class="d-block link-dark" href="/table/edit/'  +
-                                '">Редагувати</a>' +
-                                '</li>' +
-                                '<li>' +
-                                '<a class="d-block link-dark" href="/table/delete/'  +
-                                '">Видалити</a>' +
-                                '</li>' +
-                                '</ul>' +
-                                '</div>' +
-                                '</div>' +
-                                '</div>' +
-                                '</td>' + '</tr>';
-                            $('#_tbody_').append(option);
-                        });
-                    }
-                });
-
             } else if (size === 0) {
                 $('#_tbody_').empty();
                 $.each(mass, function (k, v) {
@@ -185,14 +141,13 @@ $(document).ready(function () {
 
                 console.log('mass = ' + mass.toString());
             }
-
         });
     });
 });
 
+
 $(document).ready(function () {
     $(document).on('change', '#_scope_', function () {
-        let id = $(this).prop('id');
         let s = $('#_scope_').val();
 
 
@@ -279,27 +234,258 @@ $(document).ready(function () {
             valueObject = null;
         } else {
             valueObject = s;
-            $('#title').text("Укомплектованість" + s);
         }
 
     });
 });
 
+$(document).ready(function () {
+    $(document).on('click', '#btnAll', function () {
+        let s = $('#_units_' + mass[0]).val();
+        // если всё пустое
+        if (mass.length === 1 && valueScope == null && valueType == null && valueObject == null && s.toString() === '') {
+            $('#div-table').empty();
+        } else if (valueScope == null && valueType == null && valueObject == null) {
+            //пустая техника
+            let unitsVal = "";
+            if ($('#_units_' + mass[mass.length - 1]).val().toString() === '' && mass.length > 1) {
+                unitsVal = $('#_units_' + mass[mass.length - 2]).val().toString();
+            } else if (mass.length === 0 && $('#_units_' + mass[0]).val().toString() != '') {
+                unitsVal = $('#_units_' + mass[0]).val().toString();
+            } else {
+                unitsVal = $('#_units_' + mass[mass.length - 1]).val().toString();
+            }
+            let str = "/table/filterUnit?unit=" + unitsVal;
+            $.get(str, function (data) {
+                $('#div-table').empty();
 
+                let html = "<div>" +
+                    "                <div class=\"card mb-5\">" +
+                    "                    <header class=\"card-header\">" +
+                    "                        <h2 class=\"h4 card-header-title\">Укомплектованість</h2>" +
+                    "                    </header>" +
+                    "                    <div class=\"card-body pt-0\">" +
+                    "                        <div class=\"table-responsive\">" +
+                    "                            <table class=\"table table-hover mb-0 fold-table\">" +
+                    "                                <thead>" +
+                    "                                <tr>" +
+                    "                                    <th>#</th>" +
+                    "                                    <th>Найменування</th>" +
+                    "                                    <th>Укомплектованість</th>" +
+                    "                                    <th class=\"text-center\">Подія</th>" +
+                    "                                </tr>" +
+                    "                                </thead>" +
+                    "                                <tbody id='tbody'>" +
+                    "                                </tbody>" +
+                    "                            </table>" +
+                    "                        </div>" +
+                    "                    </div>" +
+                    "                </div>" +
+                    "            </div>";
+                $('#div-table').append(html);
 
+                let i = 1;
+                $.each(data, function (k, v){
+                    let tr = '<tr>' + '<td class="font-weight-semi-bold">' + i++ + '</td>' +
+                        '<td class="font-weight-semi-bold">' + k + '</td>' +
+                        '<td class="font-weight-semi-bold">' + v + '%</td>' +
+                        '<td class="text-center">' +
+                        '<div class="dropdown">' +
+                        '<a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"' +
+                        'role="button" aria-haspopup="true" aria-expanded="false"' +
+                        'data-toggle="dropdown"' +
+                        'data-offset="8">' +
+                        '<span class="ti-more"></span>' +
+                        '</a>' +
+                        '<div class="dropdown-menu dropdown-menu-right" style="width: 150px;">' +
+                        '<div class="card border-0 p-3">' +
+                        '<ul class="list-unstyled mb-0">' +
+                        '<li class="mb-3">' +
+                        '<a class="d-block link-dark" href="/table/edit/' +
+                        '">Редагувати</a>' +
+                        '</li>' +
+                        '<li>' +
+                        '<a class="d-block link-dark" href="/table/delete/' +
+                        '">Видалити</a>' +
+                        '</li>' +
+                        '</ul>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</td>' + '</tr>';
+                    $('tbody').append(tr);
+                });
+
+            });
+        } else if (mass.length === 1 && s.toString() === '') {
+            let str = "/table/filterObject?" +
+                "valueScope=" + valueScope +
+                "&valueType=" + valueType +
+                "&valueObject=" + valueObject;
+            $.get(str, function (data) {
+                $('#div-table').empty();
+
+                let html = "<div>" +
+                    "                <div class=\"card mb-5\">" +
+                    "                    <header class=\"card-header\">" +
+                    "                        <h2 class=\"h4 card-header-title\">Укомплектованість</h2>" +
+                    "                    </header>" +
+                    "                    <div class=\"card-body pt-0\">" +
+                    "                        <div class=\"table-responsive\">" +
+                    "                            <table class=\"table table-hover mb-0 fold-table\">" +
+                    "                                <thead>" +
+                    "                                <tr>" +
+                    "                                    <th>#</th>" +
+                    "                                    <th>Найменування</th>" +
+                    "                                    <th>Укомплектованість</th>" +
+                    "                                    <th class=\"text-center\">Подія</th>" +
+                    "                                </tr>" +
+                    "                                </thead>" +
+                    "                                <tbody id='tbody'>" +
+                    "                                </tbody>" +
+                    "                            </table>" +
+                    "                        </div>" +
+                    "                    </div>" +
+                    "                </div>" +
+                    "            </div>";
+                $('#div-table').append(html);
+
+                let i = 1;
+                $.each(data, function (k, v){
+                    let tr = '<tr>' + '<td class="font-weight-semi-bold">' + i++ + '</td>' +
+                        '<td class="font-weight-semi-bold">' + k + '</td>' +
+                        '<td class="font-weight-semi-bold">' + v + '%</td>' +
+                        '<td class="text-center">' +
+                        '<div class="dropdown">' +
+                        '<a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"' +
+                        'role="button" aria-haspopup="true" aria-expanded="false"' +
+                        'data-toggle="dropdown"' +
+                        'data-offset="8">' +
+                        '<span class="ti-more"></span>' +
+                        '</a>' +
+                        '<div class="dropdown-menu dropdown-menu-right" style="width: 150px;">' +
+                        '<div class="card border-0 p-3">' +
+                        '<ul class="list-unstyled mb-0">' +
+                        '<li class="mb-3">' +
+                        '<a class="d-block link-dark" href="/table/edit/' +
+                        '">Редагувати</a>' +
+                        '</li>' +
+                        '<li>' +
+                        '<a class="d-block link-dark" href="/table/delete/' +
+                        '">Видалити</a>' +
+                        '</li>' +
+                        '</ul>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</td>' + '</tr>';
+                    $('tbody').append(tr);
+                });
+
+            });
+            console.log(" пустые unit");
+        } else {
+            let unitsVal = "";
+            if ($('#_units_' + mass[mass.length - 1]).val().toString() === '' && mass.length > 1) {
+                unitsVal = $('#_units_' + mass[mass.length - 2]).val().toString();
+            } else if (mass.length === 0 && $('#_units_' + mass[0]).val().toString() != '') {
+                unitsVal = $('#_units_' + mass[0]).val().toString();
+            } else {
+                unitsVal = $('#_units_' + mass[mass.length - 1]).val().toString();
+            }
+
+            let str = "/table/filterAll?unit=" + unitsVal +
+                "&valueScope=" + valueScope +
+                "&valueType=" + valueType +
+                "&valueObject=" + valueObject;
+            $.get(str, function (data) {
+                $('#div-table').empty();
+                let dataIndex0 = data[0];
+                let massIndex = [];
+
+                for (let i = 1; i < dataIndex0.length; i++) {
+                    let html = "<div>" +
+                        "                <div class=\"card mb-5\">" +
+                        "                    <header class=\"card-header\">" +
+                        "                        <h2 class=\"h4 card-header-title\">" + dataIndex0[i] + "</h2>" +
+                        "                    </header>" +
+                        "                    <div class=\"card-body pt-0\">" +
+                        "                        <div class=\"table-responsive\">" +
+                        "                            <table class=\"table table-hover mb-0 fold-table\">" +
+                        "                                <thead>" +
+                        "                                <tr>" +
+                        "                                    <th>#</th>" +
+                        "                                    <th>Найменування</th>" +
+                        "                                    <th>Укомплектованість</th>" +
+                        "                                    <th class=\"text-center\">Подія</th>" +
+                        "                                </tr>" +
+                        "                                </thead>" +
+                        "                                <tbody id='tbody_" + i + "'>" +
+                        "                                </tbody>" +
+                        "                            </table>" +
+                        "                        </div>" +
+                        "                    </div>" +
+                        "                </div>" +
+                        "            </div>";
+                    massIndex.push(i);
+                    $('#div-table').append(html);
+                }
+
+                for (let item = 0; item < massIndex.length; item++) {
+                    for (let i = 1; i < data.length; i++) {
+                        let output = data[i][massIndex[item]];
+                        let tr = '<tr>' + '<td class="font-weight-semi-bold">' + i + '</td>' +
+                            '<td class="font-weight-semi-bold">' + data[i][0] + '</td>' +
+                            '<td class="font-weight-semi-bold">' + output.toString() + '%</td>' +
+                            '<td class="text-center">' +
+                            '<div class="dropdown">' +
+                            '<a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"' +
+                            'role="button" aria-haspopup="true" aria-expanded="false"' +
+                            'data-toggle="dropdown"' +
+                            'data-offset="8">' +
+                            '<span class="ti-more"></span>' +
+                            '</a>' +
+                            '<div class="dropdown-menu dropdown-menu-right" style="width: 150px;">' +
+                            '<div class="card border-0 p-3">' +
+                            '<ul class="list-unstyled mb-0">' +
+                            '<li class="mb-3">' +
+                            '<a class="d-block link-dark" href="/table/edit/' +
+                            '">Редагувати</a>' +
+                            '</li>' +
+                            '<li>' +
+                            '<a class="d-block link-dark" href="/table/delete/' +
+                            '">Видалити</a>' +
+                            '</li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</td>' + '</tr>';
+                        $('#tbody_' + massIndex[item]).append(tr);
+                    }
+                }
+            });
+        }
+    });
+});
+
+$(document).ready(function (){
+    $(document).on('click', '#btnClear', function (){
+       $('#div-table').empty();
+    });
+});
 
 $(window).load(function () {
     $('#load-spinner').hide();
 });
 
 $(document).ajaxStart(function () {
-    $('#card-table').hide();
+    //$('#card-table').hide();
     $('#load-spinner').show();
 }).ajaxStop(function () {
     $('#load-spinner').hide();
-    $('#card-table').show();
+    //$('#card-table').show();
 });
-
 
 
 
