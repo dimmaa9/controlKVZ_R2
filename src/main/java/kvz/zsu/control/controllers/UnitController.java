@@ -82,17 +82,17 @@ public class UnitController {
                     thing.setUnit(unitService.findById(id));
                     thing.setObject(stringObjectMap.get(s));
 
-                    if (cellNeed.getCellType() != CellType.STRING || cellHave.getCellType() != CellType.STRING){
+                    if (cellNeed.getCellType() != CellType.BLANK && cellHave.getCellType() != CellType.BLANK){
                         thing.setGeneralNeed((int) cellNeed.getNumericCellValue());
                         thing.setGeneralHave((int) cellHave.getNumericCellValue());
+                        thingService.save(thing);
                     }
                     else {
-                        thing.setGeneralHave(0);
-                        thing.setGeneralNeed(0);
+                        continue;
                     }
                     System.out.println(thing.getObject().getObjectName());
 
-                    thingService.save(thing);
+
                 }
 
                 rowCellNeedAndHave++;
