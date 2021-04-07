@@ -13,12 +13,15 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -42,7 +45,122 @@ public class ObjectController {
     }
 
 
+    @GetMapping("/create")
+    public String create(Model model) {
+        model.addAttribute("object", new Object());
+        return "create-object";
+    }
 
+    @GetMapping("/create/type")
+    public @ResponseBody
+    Map<Long, String> getTypes(@RequestParam("scope") Long id) {
+        Map<Long, Map<Long, String>> types = typeService.getTypes(id);
+        return types.get(id);
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteObject(@PathVariable("id") Long id) {
+        Object object = objectService.findById(id);
+        if (object.getThingList().size() == 0 || object.getThingList() == null) {
+            objectService.deleteById(id);
+            return "redirect:/object";
+        } else
+            return "redirect:/object";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("object", objectService.findById(id));
+
+        return "edit-object";
+    }
+
+    @PostMapping(value = "/save")
+    public String saveObject(Object object) {
+        objectService.save(object);
+        return "redirect:/object";
+    }
+
+
+    @GetMapping("/create/scope")
+    public String createScope(Model model) {
+        Scope scope = new Scope();
+        scope.setTypeList(new ArrayList<>());
+        model.addAttribute("scope", scope);
+        return "create-scope";
+    }
+
+    @PostMapping(value = "/scope/save")
+    public String saveScope(String scope) {
+        Scope newScope = new Scope();
+        newScope.setScope(scope);
+        scopeService.save(newScope);
+        return "redirect:/object";
+    }
+
+    @GetMapping("/delete/scope/{id}")
+    public String deleteScope(@PathVariable Long id) {
+        List<Type> typeList = scopeService.findById(id).getTypeList();
+        System.out.println(typeList.toString());
+
+        if (typeList.size() == 0 || typeList == null) {
+            scopeService.deleteById(id);
+            return "redirect:/object";
+        } else {
+            return "redirect:/object";
+        }
+    }
+
+    @GetMapping("/edit/scope/{id}")
+    public ModelAndView editScope(@PathVariable Long id) {
+        ModelAndView mav = new ModelAndView("edit-scope");
+        mav.addObject("scope", scopeService.findById(id));
+
+        return mav;
+    }
+
+    @PostMapping("/scope/edit/save")
+    public String saveEdit(@ModelAttribute("scope") String name, @ModelAttribute("id") Long id) {
+        Scope scope = scopeService.findById(id);
+        scope.setScope(name);
+        scopeService.save(scope);
+
+        return "redirect:/object";
+    }
+
+    @GetMapping("/create/typeone")
+    public String createType(Model model) {
+        model.addAttribute("type", new Type());
+
+        return "create-type";
+    }
+
+    @PostMapping("/type/create/save")
+    public String saveType(Type type) {
+        //Type type = new Type();
+        //type.setType(name);
+        typeService.save(type);
+        //type.setScope(scopeService.findById(idScope));
+        return "redirect:/object";
+    }
+
+    @GetMapping("/type/delete/{id}")
+    public String deleteType(@PathVariable long id) {
+        Type type = typeService.findById(id);
+
+        if (type.getObjectList().size() == 0 || type.getObjectList() == null) {
+            typeService.deleteById(id);
+            return "redirect:/object";
+        } else
+            return "redirect:/object";
+    }
+
+    @GetMapping("/type/edit/{id}")
+    public String editType(@PathVariable long id, Model model) {
+        model.addAttribute("type", typeService.findById(id));
+
+        return "edit-type";
+    }
 
     @ModelAttribute("user")
     public User getUser(@AuthenticationPrincipal User user) {

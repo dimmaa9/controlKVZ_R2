@@ -27,6 +27,14 @@ public class TypeService {
         return repo.findById(id).get();
     }
 
+    public void save(Type type) {
+        repo.save(type);
+    }
+
+    public void deleteById(long id) {
+        repo.deleteById(id);
+    }
+
     public Map<Long, String> findByAllId(List<Integer> idArr) {
         List<Type> typeList = new ArrayList<>();
         for (var item: idArr ) {
@@ -39,5 +47,19 @@ public class TypeService {
             }
         }
         return returnMap;
+    }
+
+    public Map<Long, String> findAllByScopeId(Long id) {
+        Map<Long, String> map = new HashMap<>();
+        repo.findAll().stream()
+                .filter(x -> x.getScope().getId().equals(id))
+                .forEach(x -> map.put(x.getId(), x.getTypeName()));
+        return map;
+    }
+
+    public Map<Long, Map<Long, String>> getTypes(Long id){
+        Map<Long, Map<Long, String>> map = new HashMap<>();
+        map.put(id, findAllByScopeId(id));
+        return map;
     }
 }

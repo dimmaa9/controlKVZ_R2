@@ -35,6 +35,14 @@ public class ScopeService {
         return repo.findByScope(name);
     }
 
+    public void deleteById(Long id) {
+        repo.deleteById(id);
+    }
+
+    public void save (Scope scope) {
+        repo.save(scope);
+    }
+
     public Map<Long, String> findByAllId(List<Integer> idArr) {
         List<Scope> scopeList = new ArrayList<>();
         for (var item: idArr ) {
@@ -45,7 +53,7 @@ public class ScopeService {
 
         for(var item: scopeList){
             for (var item2: item.getTypeList()){
-                returnMap.put(item2.getId(), item2.getType());
+                returnMap.put(item2.getId(), item2.getTypeName());
             }
         }
         return returnMap;

@@ -111,12 +111,12 @@ public class TableController {
                 scopeMap.put(item, objects);
             }
 
-            for(int i = 0; i < scopeList.size(); i++){
+            for (Scope scope : scopeList) {
                 List<String> listOutput = new ArrayList<>();
-                listOutput.add(scopeList.get(i).getScope());
-                for (int j = 0; j < unitList.size(); j++){
+                listOutput.add(scope.getScope());
+                for (Unit unit : unitList) {
                     listOutput.add(thingService.percentUnitByObjectList(
-                            unitList.get(j), scopeMap.get(scopeList.get(i))).toString());
+                            unit, scopeMap.get(scope)).toString());
                 }
                 lists.add(listOutput);
             }
@@ -135,12 +135,12 @@ public class TableController {
                 typeMap.put(item, item.getObjectList());
             }
 
-            for(int i = 0; i < typeList.size(); i++){
+            for (Type type : typeList) {
                 List<String> listOutput = new ArrayList<>();
-                listOutput.add(typeList.get(i).getType());
-                for (int j = 0; j < unitList.size(); j++){
+                listOutput.add(type.getTypeName());
+                for (Unit unit : unitList) {
                     listOutput.add(thingService.percentUnitByObjectList(
-                            unitList.get(j), typeMap.get(typeList.get(i))).toString());
+                            unit, typeMap.get(type)).toString());
                 }
                 lists.add(listOutput);
             }
@@ -155,12 +155,12 @@ public class TableController {
                 flag = false;
             }
 
-            for(int i = 0; i < objectList.size(); i++){
+            for (Object object : objectList) {
                 List<String> listOutput = new ArrayList<>();
-                listOutput.add(objectList.get(i).getObjectName());
-                for (int j = 0; j < unitList.size(); j++){
+                listOutput.add(object.getObjectName());
+                for (Unit unit : unitList) {
                     listOutput.add(thingService.percentUnitByObject(
-                            unitList.get(j), objectList.get(i)).toString());
+                            unit, object).toString());
                 }
                 lists.add(listOutput);
             }
@@ -175,11 +175,9 @@ public class TableController {
                 }
             }
 
-            for (int i = 0; i < array.length; i++){
+            for (String[] strings : array) {
                 List<String> list = new ArrayList<>();
-                for (int j = 0; j < array[i].length; j++){
-                    list.add(array[i][j]);
-                }
+                Collections.addAll(list, strings);
                 lists1.add(list);
             }
             return lists1;
@@ -238,7 +236,7 @@ public class TableController {
             }
 
             for (var item : typeList){
-                stringMap.put(item.getType(), thingService.percentUnitListByObjectList(unitsAll, item.getObjectList()).toString());
+                stringMap.put(item.getTypeName(), thingService.percentUnitListByObjectList(unitsAll, item.getObjectList()).toString());
             }
 
         }else{

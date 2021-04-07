@@ -95,7 +95,7 @@
                                 <!-- Text -->
                                 <div class="form-group">
                                     <label>Область застосування</label>
-                                    <select class="custom-select" required="required" name="_scope_" id="_scope_" >
+                                    <select class="custom-select" required="required" name="scope" id="scope" >
                                         <option th:each="scope : ${scops}" th:value="${scope.id}" th:selected="${scope.scope == object.type.scope.scope}"
                                                 th:text="${scope.scope}">Default select
                                         </option>
@@ -107,8 +107,8 @@
                                 <div class="form-group">
                                     <label>Вид</label>
 
-                                    <select class="custom-select" id="_type_" name="_type_" required="required" th:field="*{type}">
-                                        <option th:each="type : ${object.type.scope.typeList}" th:value="${type.id}" th:text="${type.type}">
+                                    <select class="custom-select" id="type" name="type" required="required" th:field="*{type}">
+                                        <option th:each="type : ${object.type.scope.typeList}" th:value="${type.id}" th:text="${type.typeName}">
                                             Default select
                                         </option>
                                     </select>
@@ -123,6 +123,12 @@
                                            placeholder="Назва" th:field="*{objectName}">
                                 </div>
                                 <!-- End Disabled Text -->
+
+                                <div class="form-group">
+                                    <label for="price">Ціна</label>
+                                    <input id="price" class="form-control" type="text"
+                                           placeholder="Ціна" th:field="*{price}">
+                                </div>
 
                             </div>
                             <!-- End Card Body -->

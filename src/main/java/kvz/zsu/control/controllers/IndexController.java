@@ -57,7 +57,7 @@ public class IndexController {
                 }
             }
 
-            map.put(type.getType(), list);
+            map.put(type.getTypeName(), list);
         }
 
         ObjectExcelExporterImporter excelExporter = new ObjectExcelExporterImporter(map);

@@ -112,7 +112,7 @@
                                         <label>Вид</label>
 
                                         <select class="custom-select" id="_type_">
-                                            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.type}">
+                                            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.typeName}">
                                                 Default select
                                             </option>
                                         </select>
@@ -210,7 +210,7 @@
                                         <label>Вид</label>
 
                                         <select class="custom-select">
-                                            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.type}">
+                                            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.typeName}">
                                                 Default select
                                             </option>
                                         </select>
@@ -323,7 +323,7 @@
                                         <label>Вид</label>
 
                                         <select class="custom-select" id="__type__">
-                                            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.type}">
+                                            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.typeName}">
                                                 Default select
                                             </option>
                                         </select>

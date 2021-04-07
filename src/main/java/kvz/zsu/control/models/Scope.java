@@ -1,5 +1,6 @@
 package kvz.zsu.control.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import java.util.List;
 @Entity(name = "scope")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Scope {
 
     @Id
@@ -22,10 +24,6 @@ public class Scope {
 
     @Override
     public String toString() {
-        return "Scope{" +
-                "id=" + id +
-                ", scope='" + scope + '\'' +
-                ", typeList=" + typeList +
-                '}';
+        return scope;
     }
 }

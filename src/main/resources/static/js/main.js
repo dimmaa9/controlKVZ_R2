@@ -490,4 +490,52 @@ $(document).ajaxStart(function () {
 });
 
 
+$(document).ready(function() {
+    $('#scope').change(function() {
+        sendAjaxRequest();
+    });
+});
+
+function sendAjaxRequest() {
+    let s = $("#scope").val();
+    console.log(s);
+    $.get( "/object/create/type?scope=" + s, function( data ) {
+        $('#type').empty();
+        $.each(data, function(k, v) {
+            let option = "<option value = " + k + ">" + v +  "</option>";
+            $("#type").append(option);
+        });
+    });
+}
+
+
+$(document).ready(function() {
+
+    // get the name of uploaded file
+    $('input[type="file"]').change(function(){
+        let value = $("input[type='file']").val();
+        $('.js-value').text(value);
+    });
+
+});
+
+
+// $(document).ready(function() {
+//     $('#type').change(function() {
+//         sendAjaxRequest2();
+//     });
+// });
+
+// function sendAjaxRequest2() {
+//     let s = $("#_type_").val();
+//     console.log(s);
+//     $.get( "obj?_type_=" + s, function( data ) {
+//         $('#_object_').empty();
+//         $.each(data, function(k, v) {
+//             let option = "<option value = " + k + ">" + v +  "</option>";
+//             $("#_object_").append(option);
+//         });
+//     });
+// }
+
 

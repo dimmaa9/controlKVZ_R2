@@ -63,7 +63,7 @@
     <div class="u-content">
         <!-- Content Body -->
         <div class="u-body">
-            <form class="h-100" th:action="@{/object/save}" th:object="${object}" method="post">
+            <form class="h-100" th:action="@{/object/type/create/save}" th:object="${type}" method="post">
                 <div style="display: flex; margin-bottom: 20px">
                     <h1 style="margin-top: auto; margin-bottom: auto" class="h2 mb-2">Створення</h1>
                     <button style="margin-left: 10px;"  class="btn btn-success btn-pill" name="saveObject">Зберегти</button>
@@ -94,9 +94,9 @@
                                 <!-- Text -->
                                 <div class="form-group">
                                     <label>Область застосування</label>
-                                    <select class="custom-select" required="required" name="scope" id="scope">
+                                    <select class="custom-select" required="required" name="id" th:field="*{scope.id}">
                                         <option th:each="scope : ${scops}" th:value="${scope.id}"
-                                                th:text="${scope.scope}">Default select
+                                                th:text="${scope.scope}" >Default select
                                         </option>
                                     </select>
                                 </div>
@@ -104,30 +104,12 @@
 
                                 <!-- Input with Left Icon -->
                                 <div class="form-group">
-                                    <label>Вид</label>
-
-                                    <select class="custom-select" id="type" name="type" required="required" th:field="*{type}">
-<!--                                        <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.type}">-->
-<!--                                            Default select-->
-<!--                                        </option>-->
-                                    </select>
-
+                                    <label for="exampleInputText">Тип</label>
+                                    <input id="exampleInputText" class="form-control" type="text"
+                                           placeholder="Назва" th:field="*{typeName}">
                                 </div>
                                 <!-- End Input with Left Icon -->
 
-                                <!-- Disabled Text -->
-                                <div class="form-group">
-                                    <label for="exampleInputText">Обєкт</label>
-                                    <input id="exampleInputText" class="form-control" type="text"
-                                           placeholder="Назва" th:field="*{objectName}">
-                                </div>
-                                <!-- End Disabled Text -->
-
-                                <div class="form-group">
-                                    <label for="price">Ціна</label>
-                                    <input id="price" class="form-control" type="text"
-                                           placeholder="Ціна" th:field="*{price}">
-                                </div>
 
                             </div>
                             <!-- End Card Body -->
