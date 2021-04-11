@@ -57,7 +57,6 @@ public class ObjectService {
     }
 
     public boolean isExist(String name) {
-
         return !repo.findByObjectName(name).getObjectName().equals("") ;
     }
 }

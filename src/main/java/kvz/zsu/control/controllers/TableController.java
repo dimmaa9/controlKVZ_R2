@@ -30,22 +30,19 @@ public class TableController {
     }
 
     @GetMapping(value = "/units")
-    @ResponseBody
-    public Map<Long, String> getUnits(@RequestParam(value = "_units_") String arr) {
-        if (arr.equals("") || arr.equals("undefined")) {
+    public @ResponseBody Map<Long, String> getUnits(@RequestParam(value = "_units_") String arr) {
+        if (arr.equals("") || arr.equals("undefined"))
             return new HashMap<>();
-        }
 
         List<Integer> list = new ArrayList<>();
-        for (var item : arr.split(",")) {
+        for (var item : arr.split(","))
             list.add(Integer.parseInt(item));
-        }
+
         return unitService.findByAllId(list);
     }
 
     @GetMapping("/scopes")
-    @ResponseBody
-    public Map<Long, String> getTypes(@RequestParam(value = "_scope_") String arr) {
+    public @ResponseBody Map<Long, String> getTypes(@RequestParam(value = "_scope_") String arr) {
         if (arr.equals(""))
             return new HashMap<>();
 
@@ -57,8 +54,7 @@ public class TableController {
     }
 
     @GetMapping("/types")
-    @ResponseBody
-    public Map<Long, String> getObjects(@RequestParam(value = "_type_") String arr) {
+    public @ResponseBody Map<Long, String> getObjects(@RequestParam(value = "_type_") String arr) {
         if (arr.equals(""))
             return new HashMap<>();
 
@@ -70,11 +66,10 @@ public class TableController {
     }
 
     @GetMapping("/filterAll")
-    @ResponseBody
-    public List<List<String>> getAllData(@RequestParam(value = "unit") String unitStr,
-                                   @RequestParam(value = "valueScope") String valueScope,
-                                   @RequestParam(value = "valueType") String valueType,
-                                   @RequestParam(value = "valueObject") String valueObject) {
+    public @ResponseBody List<List<String>> getAllData(@RequestParam(value = "unit") String unitStr,
+                                                       @RequestParam(value = "valueScope") String valueScope,
+                                                       @RequestParam(value = "valueType") String valueType,
+                                                       @RequestParam(value = "valueObject") String valueObject) {
         boolean flag = true;
         List<Unit> unitList = new ArrayList<>();
         for (var item : unitStr.split(",")){
@@ -188,8 +183,7 @@ public class TableController {
 
 
     @GetMapping("/filterUnit")
-    @ResponseBody
-    public Map<String, String> getUnitsData(@RequestParam(value = "unit") String unitStr){
+    public @ResponseBody Map<String, String> getUnitsData(@RequestParam(value = "unit") String unitStr){
         List<Unit> unitList = new ArrayList<>();
         for (var item : unitStr.split(",")){
             unitList.add(unitService.findById(Long.parseLong(item)));
@@ -204,10 +198,9 @@ public class TableController {
     }
 
     @GetMapping("/filterObject")
-    @ResponseBody
-    public Map<String, String> getObjectData(@RequestParam(value = "valueScope") String valueScope,
-                                             @RequestParam(value = "valueType") String valueType,
-                                             @RequestParam(value = "valueObject") String valueObject){
+    public @ResponseBody Map<String, String> getObjectData(@RequestParam(value = "valueScope") String valueScope,
+                                                           @RequestParam(value = "valueType") String valueType,
+                                                           @RequestParam(value = "valueObject") String valueObject){
         Map<String, String> stringMap = new HashMap<>();
         List<Unit> unitsAll = unitService.findAll();
 

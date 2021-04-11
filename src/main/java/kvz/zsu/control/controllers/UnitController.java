@@ -13,6 +13,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,10 +33,18 @@ public class UnitController {
     private final ThingService thingService;
     private final ObjectService objectService;
     private final TypeService typeService;
+    private final ScopeService scopeService;
 
     @GetMapping
     public String getUnitsTable() {
         return "table-units";
+    }
+
+    @GetMapping("/create")
+    public String createUnit (Model model) {
+        model.addAttribute("unit", new Unit());
+
+        return "create-unit";
     }
 
     @PostMapping("/{id}")
@@ -102,11 +111,76 @@ public class UnitController {
             return "redirect:/units";
         }
 
-
         return "redirect:/units";
 
     }
 
+    @GetMapping("/table/{id}")
+    public ModelAndView getTableUnit(@PathVariable long id) {
+        ModelAndView mav = new ModelAndView("table-unit-things");
+        mav.addObject("unit", unitService.findById(id));
+        return mav;
+    }
+
+    @GetMapping("/{id}/create")
+    public String createThing (@PathVariable long id, Model model) {
+        Thing thing = new Thing();
+        thing.setUnit(unitService.findById(id));
+        model.addAttribute("thing", thing);
+
+        return "create-thing";
+    }
+
+    @PostMapping("/save")
+    public String saveThing(Thing thing){
+        thingService.save(thing);
+        return "redirect:/units/table/" + thing.getUnit().getId().toString();
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteThing(@PathVariable long id) {
+        String idUnit = thingService.findById(id).getUnit().getId().toString();
+        thingService.deleteById(id);
+
+        return "redirect:/units/table/" + idUnit;
+    }
+
+    @GetMapping("/edit/{id}")
+    public ModelAndView editThing(@PathVariable long id) {
+        ModelAndView mav = new ModelAndView("edit-thing");
+        mav.addObject("thing", thingService.findById(id));
+
+        return mav;
+    }
+
+    @PostMapping("/unit/saveNull")
+    public String saveUnitNull(Unit unit){
+        unit.setParentUnit(null);
+        unitService.save(unit);
+        return "redirect:/units";
+    }
+
+    @PostMapping("/unit/save")
+    public String saveUnit(Unit unit){
+        unitService.save(unit);
+        return "redirect:/units";
+    }
+
+    @GetMapping("/unit/edit/{id}")
+    public ModelAndView editUnit(@PathVariable long id){
+        ModelAndView mav = new ModelAndView("edit-unit");
+        mav.addObject("unit", unitService.findById(id));
+        return mav;
+    }
+
+    @GetMapping("/unit/delete/{id}")
+    public String deleteUnit(@PathVariable long id){
+        Unit unit = unitService.findById(id);
+        if(unit.getThingList().size() == 0 || unit.getThingList() == null || unit.getUnits() == null || unit.getUnits().size() == 0){
+            unitService.deleteById(id);
+        }
+        return "redirect:/units";
+    }
 
 //    @GetMapping("/generate/{id}")
 //    public void exportToExcel (HttpServletResponse response,
@@ -160,6 +234,21 @@ public class UnitController {
     @ModelAttribute("user")
     public User getUser(@AuthenticationPrincipal User user) {
         return userService.findById(user.getId());
+    }
+
+    @ModelAttribute("scopes")
+    public List<Scope> scopeList() {
+        return scopeService.findAll();
+    }
+
+    @ModelAttribute("types")
+    public List<Type> typeList() {
+        return typeService.findAll();
+    }
+
+    @ModelAttribute("objects")
+    public List<Object> objectList() {
+        return objectService.findAll();
     }
 
     @ModelAttribute("units")

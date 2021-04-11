@@ -9,16 +9,12 @@ import kvz.zsu.control.services.ScopeService;
 import kvz.zsu.control.services.TypeService;
 import kvz.zsu.control.services.UserService;
 import lombok.AllArgsConstructor;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,10 +36,8 @@ public class ObjectController {
 
     @GetMapping
     public String getObjectTable() {
-
         return "table-objects";
     }
-
 
     @GetMapping("/create")
     public String create(Model model) {
@@ -52,10 +46,15 @@ public class ObjectController {
     }
 
     @GetMapping("/create/type")
-    public @ResponseBody
-    Map<Long, String> getTypes(@RequestParam("scope") Long id) {
+    public @ResponseBody Map<Long, String> getTypes(@RequestParam("scope") Long id) {
         Map<Long, Map<Long, String>> types = typeService.getTypes(id);
         return types.get(id);
+    }
+
+    @GetMapping(value = "/create/object")
+    public @ResponseBody Map<Long, String> getObject(@RequestParam(value = "type") Long id) {
+        Map<Long, Map<Long, String>> objects = objectService.getObject(id);
+        return objects.get(id);
     }
 
     @GetMapping("/delete/{id}")
@@ -63,9 +62,8 @@ public class ObjectController {
         Object object = objectService.findById(id);
         if (object.getThingList().size() == 0 || object.getThingList() == null) {
             objectService.deleteById(id);
-            return "redirect:/object";
-        } else
-            return "redirect:/object";
+        }
+        return "redirect:/object";
     }
 
     @GetMapping("/edit/{id}")
@@ -80,7 +78,6 @@ public class ObjectController {
         objectService.save(object);
         return "redirect:/object";
     }
-
 
     @GetMapping("/create/scope")
     public String createScope(Model model) {
@@ -101,14 +98,11 @@ public class ObjectController {
     @GetMapping("/delete/scope/{id}")
     public String deleteScope(@PathVariable Long id) {
         List<Type> typeList = scopeService.findById(id).getTypeList();
-        System.out.println(typeList.toString());
 
-        if (typeList.size() == 0 || typeList == null) {
+        if (typeList.size() == 0) {
             scopeService.deleteById(id);
-            return "redirect:/object";
-        } else {
-            return "redirect:/object";
         }
+        return "redirect:/object";
     }
 
     @GetMapping("/edit/scope/{id}")

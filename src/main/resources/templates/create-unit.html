@@ -56,17 +56,17 @@
 <!-- Main -->
 <main class="u-main">
     <!-- Sidebar -->
-    <aside th:replace="~{fragments/slide-bar :: bar(2)}"></aside>
+    <aside th:replace="~{fragments/slide-bar :: bar(3)}"></aside>
     <!-- End Sidebar -->
 
     <!-- Content -->
     <div class="u-content">
         <!-- Content Body -->
         <div class="u-body">
-            <form class="h-100" th:action="@{/units/save}" th:object="${thing}" method="post">
+            <form class="h-100" id="form" th:action="@{/units/unit/save}" th:object="${unit}" method="post">
                 <div style="display: flex; margin-bottom: 20px">
                     <h1 style="margin-top: auto; margin-bottom: auto" class="h2 mb-2">Створення</h1>
-                    <button style="margin-left: 10px;"  class="btn btn-success btn-pill">Зберегти</button>
+                    <button style="margin-left: 10px;" class="btn btn-success btn-pill">Зберегти</button>
                 </div>
 
                 <!-- Breadcrumb -->
@@ -74,7 +74,6 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Головна</a></li>
                         <li class="breadcrumb-item"><a href="/units">Підрозділи</a></li>
-                        <li class="breadcrumb-item"><a th:href="@{'/table/' + ${thing.unit.id}}" th:text="${thing.unit.nameUnit}"></a></li>
                         <li class="breadcrumb-item active" aria-current="page">Створення</li>
                     </ol>
                 </nav>
@@ -86,66 +85,42 @@
                         <div class="card h-100">
                             <!-- Card Header -->
                             <header class="card-header">
-                                <h2 class="h4 card-header-title">Текст</h2>
+                                <h2 class="h4 card-header-title">Підрозділ</h2>
                             </header>
                             <!-- End Card Header -->
 
                             <!-- Card Body -->
                             <div class="card-body pt-0">
-
-                                <input hidden="hidden" readonly="readonly" th:field="*{unit}">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                           id="inlineRadio2" value="option2" checked>
+                                    <label class="form-check-label" for="inlineRadio2">Підпорядкований</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                           id="inlineRadio1" value="option1" >
+                                    <label class="form-check-label" for="inlineRadio1">Не підпорядкований</label>
+                                </div>
 
                                 <!-- Text -->
                                 <div class="form-group">
-                                    <label>Область застосування</label>
-                                    <select class="custom-select" required="required" name="scope" id="scope">
-                                        <option th:each="scope : ${scopes}" th:value="${scope.id}"
-                                                th:text="${scope.scope}">Default select
+                                    <br>
+                                    <label>Підпорядкованість</label>
+                                    <select class="custom-select" required="required" th:field="*{parentUnit}" id="sel1">
+                                        <option th:each="unit : ${units}" th:value="${unit.id}"
+                                                th:text="${unit.nameUnit}">Default select
                                         </option>
                                     </select>
                                 </div>
                                 <!-- End Text -->
 
-                                <!-- Input with Left Icon -->
-                                <div class="form-group">
-                                    <label>Вид</label>
-
-                                    <select class="custom-select" id="type" name="type" required="required">
-                                        <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.typeName}">
-                                            Default select
-                                        </option>
-                                    </select>
-
-                                </div>
-                                <!-- End Input with Left Icon -->
-
-                                <!-- Input with Right Icon -->
-                                <div class="form-group">
-                                    <label>Засіб</label>
-
-                                    <select class="custom-select" required="required" name="object" id="object" th:field="*{object}">
-                                        <option th:each="object : ${objects}" th:value="${object.id}"
-                                                th:text="${object.objectName}">Default select
-                                        </option>
-                                    </select>
-                                </div>
-                                <!-- End Input with Right Icon -->
-
-                                <hr class="my-4">
 
                                 <div class="form-group">
-                                    <label for="exampleInputText4">За штатом</label>
+                                    <label for="exampleInputText4">Назва</label>
                                     <input id="exampleInputText4" class="form-control" type="text"
-                                           placeholder="Кількість" th:field="*{generalNeed}">
-                                    <small class="form-text text-muted">кількість в одиницях (комплектах)</small>
+                                           placeholder="Назва" th:field="*{nameUnit}">
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="exampleInputText5">В наявності</label>
-                                    <input id="exampleInputText5" class="form-control" type="text"
-                                           placeholder="Кількість" th:field="*{generalHave}">
-                                    <small class="form-text text-muted">кількість в одиницях (комплектах)</small>
-                                </div>
 
                             </div>
                             <!-- End Card Body -->

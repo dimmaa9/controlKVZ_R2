@@ -510,32 +510,38 @@ function sendAjaxRequest() {
 
 
 $(document).ready(function() {
-
-    // get the name of uploaded file
-    $('input[type="file"]').change(function(){
-        let value = $("input[type='file']").val();
-        $('.js-value').text(value);
+    $('#type').change(function() {
+        sendAjaxRequest2();
     });
-
 });
 
+function sendAjaxRequest2() {
+    let s = $("#type").val();
+    console.log(s);
+    $.get( "/object/create/object?type=" + s, function( data ) {
+        $('#object').empty();
+        $.each(data, function(k, v) {
+            let option = "<option value = " + k + ">" + v +  "</option>";
+            $("#object").append(option);
+        });
+    });
+}
 
-// $(document).ready(function() {
-//     $('#type').change(function() {
-//         sendAjaxRequest2();
-//     });
-// });
+$(document).ready(function(){
+    $('input:radio[name="inlineRadioOptions"]').change(function(){
+        if($(this).val() === 'option2'){
+            $("#sel1").removeAttr('disabled');
+            $("#form").prop("action", "/units/unit/save");
+        }else {
+            $("#sel1").prop("disabled", true);
+            $("#form").prop("action", "/units/unit/saveNull");
+        }
+    });
+});
 
-// function sendAjaxRequest2() {
-//     let s = $("#_type_").val();
-//     console.log(s);
-//     $.get( "obj?_type_=" + s, function( data ) {
-//         $('#_object_').empty();
-//         $.each(data, function(k, v) {
-//             let option = "<option value = " + k + ">" + v +  "</option>";
-//             $("#_object_").append(option);
-//         });
-//     });
-// }
-
-
+$(document).ready(function(){
+    $(document).on('click', '#dtnSave', function () {
+        let element = document.getElementById('div-table');
+        html2pdf(element);
+    });
+});
