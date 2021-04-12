@@ -26,7 +26,7 @@ public class TableController {
 
     @GetMapping
     public String getTable(Model model) {
-        return "tables";
+        return "tables/tables";
     }
 
     @GetMapping(value = "/units")

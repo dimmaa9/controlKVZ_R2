@@ -36,13 +36,13 @@ public class ObjectController {
 
     @GetMapping
     public String getObjectTable() {
-        return "table-objects";
+        return "tables/table-objects";
     }
 
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("object", new Object());
-        return "create-object";
+        return "create/create-object";
     }
 
     @GetMapping("/create/type")
@@ -70,7 +70,7 @@ public class ObjectController {
     public String edit(@PathVariable("id") Long id, Model model) {
         model.addAttribute("object", objectService.findById(id));
 
-        return "edit-object";
+        return "edit/edit-object";
     }
 
     @PostMapping(value = "/save")
@@ -84,7 +84,7 @@ public class ObjectController {
         Scope scope = new Scope();
         scope.setTypeList(new ArrayList<>());
         model.addAttribute("scope", scope);
-        return "create-scope";
+        return "create/create-scope";
     }
 
     @PostMapping(value = "/scope/save")
@@ -107,7 +107,7 @@ public class ObjectController {
 
     @GetMapping("/edit/scope/{id}")
     public ModelAndView editScope(@PathVariable Long id) {
-        ModelAndView mav = new ModelAndView("edit-scope");
+        ModelAndView mav = new ModelAndView("edit/edit-scope");
         mav.addObject("scope", scopeService.findById(id));
 
         return mav;
@@ -126,7 +126,7 @@ public class ObjectController {
     public String createType(Model model) {
         model.addAttribute("type", new Type());
 
-        return "create-type";
+        return "create/create-type";
     }
 
     @PostMapping("/type/create/save")
@@ -153,7 +153,7 @@ public class ObjectController {
     public String editType(@PathVariable long id, Model model) {
         model.addAttribute("type", typeService.findById(id));
 
-        return "edit-type";
+        return "edit/edit-type";
     }
 
     @ModelAttribute("user")

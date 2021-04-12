@@ -1,11 +1,9 @@
 package kvz.zsu.control.controllers;
 
-import kvz.zsu.control.excel.ObjectExcelExporterImporter;
 import kvz.zsu.control.models.*;
 import kvz.zsu.control.models.Object;
 import kvz.zsu.control.services.*;
 import lombok.AllArgsConstructor;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -18,10 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -37,18 +31,18 @@ public class UnitController {
 
     @GetMapping
     public String getUnitsTable() {
-        return "table-units";
+        return "tables/table-units";
     }
 
     @GetMapping("/create")
     public String createUnit (Model model) {
         model.addAttribute("unit", new Unit());
 
-        return "create-unit";
+        return "create/create-unit";
     }
 
     @PostMapping("/{id}")
-    public String mapReapExcelDatatoDB(@RequestParam("file") MultipartFile reapExcelDataFile,
+    public String mapReapExcelDataToDB(@RequestParam("file") MultipartFile reapExcelDataFile,
                                        @PathVariable("id") Long id) {
 
         try (XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream())) {
@@ -91,13 +85,11 @@ public class UnitController {
                     thing.setUnit(unitService.findById(id));
                     thing.setObject(stringObjectMap.get(s));
 
-                    if (cellNeed.getCellType() != CellType.BLANK && cellHave.getCellType() != CellType.BLANK){
+                    if (cellNeed.getCellType() != CellType.BLANK && cellHave.getCellType() != CellType.BLANK &&
+                    cellNeed.getCellType() != CellType.STRING && cellHave.getCellType() != CellType.STRING){
                         thing.setGeneralNeed((int) cellNeed.getNumericCellValue());
                         thing.setGeneralHave((int) cellHave.getNumericCellValue());
                         thingService.save(thing);
-                    }
-                    else {
-                        continue;
                     }
                     System.out.println(thing.getObject().getObjectName());
 
@@ -117,7 +109,7 @@ public class UnitController {
 
     @GetMapping("/table/{id}")
     public ModelAndView getTableUnit(@PathVariable long id) {
-        ModelAndView mav = new ModelAndView("table-unit-things");
+        ModelAndView mav = new ModelAndView("tables/table-unit-things");
         mav.addObject("unit", unitService.findById(id));
         return mav;
     }
@@ -128,7 +120,7 @@ public class UnitController {
         thing.setUnit(unitService.findById(id));
         model.addAttribute("thing", thing);
 
-        return "create-thing";
+        return "create/create-thing";
     }
 
     @PostMapping("/save")
@@ -147,7 +139,7 @@ public class UnitController {
 
     @GetMapping("/edit/{id}")
     public ModelAndView editThing(@PathVariable long id) {
-        ModelAndView mav = new ModelAndView("edit-thing");
+        ModelAndView mav = new ModelAndView("edit/edit-thing");
         mav.addObject("thing", thingService.findById(id));
 
         return mav;
@@ -168,7 +160,7 @@ public class UnitController {
 
     @GetMapping("/unit/edit/{id}")
     public ModelAndView editUnit(@PathVariable long id){
-        ModelAndView mav = new ModelAndView("edit-unit");
+        ModelAndView mav = new ModelAndView("edit/edit-unit");
         mav.addObject("unit", unitService.findById(id));
         return mav;
     }
