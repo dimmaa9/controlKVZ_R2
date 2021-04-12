@@ -91,6 +91,12 @@
                     <span class="ti-pencil-alt"></span>
                     <span class="u-sidebar-nav-menu__item-title" style="margin-left: 5px">Додати</span>
                 </a>
+
+                <a style="margin-left: 30px;" type="button" class="btn bg-danger btn-pill text-light"
+                   th:href="@{'/units/' + ${unit.id} + '/deleteAll'}">
+                    <span class="ti-trash"></span>
+                    <span class="u-sidebar-nav-menu__item-title" style="margin-left: 5px">Видалити все</span>
+                </a>
             </div>
             <div class="card mb-5">
                 <!-- Card Header -->

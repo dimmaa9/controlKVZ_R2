@@ -174,6 +174,12 @@ public class UnitController {
         return "redirect:/units";
     }
 
+    @GetMapping("/{id}/deleteAll")
+    public String deleteAllThings(@PathVariable long id) {
+        thingService.deleteByUnit(unitService.findById(id));
+        return "redirect:/units/table/" + id;
+    }
+
 //    @GetMapping("/generate/{id}")
 //    public void exportToExcel (HttpServletResponse response,
 //                               @PathVariable("id") Long id) throws IOException, InvalidFormatException {
