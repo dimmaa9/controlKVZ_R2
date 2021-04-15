@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org">
+<!-- Head -->
+<head>
+    <title>Tables | Awesome Dashboard UI Kit</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+
+    <!--  Social tags -->
+    <meta name="keywords"
+          content="Awesome Dashboard UI Kit, Bootstrap, Template, Theme, Freebies, MIT license, Free, Download">
+    <meta name="description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+    <meta name="author" content="htmlstream.com">
+
+    <!-- Schema.org -->
+    <meta itemprop="name" content="Awesome Dashboard UI Kit">
+    <meta itemprop="description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+    <meta itemprop="image" content="assets/img-temp/aduik-preview.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@htmlstream">
+    <meta name="twitter:title" content="Awesome Dashboard UI Kit">
+    <meta name="twitter:description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+    <meta name="twitter:creator" content="@htmlstream">
+    <meta name="twitter:image" content="assets/img-temp/aduik-preview.png">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Htmlstream">
+    <meta property="og:title" content="Awesome Dashboard UI Kit">
+    <meta property="og:description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+    <meta property="og:url" content="https://htmlstream.com/preview/awesome-dashboard-ui-kit/">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="assets/img-temp/aduik-preview.png">
+    <meta property="og:image:secure_url" content="assets/img-temp/aduik-preview.png">
+
+    <!-- Web Fonts -->
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/data-tables/datatables.min.css}">
+
+    <!-- Components Vendor Styles -->
+    <link rel="stylesheet" th:href="@{/vendor/themify-icons/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css}">
+
+    <!-- Theme Styles -->
+    <link rel="stylesheet" th:href="@{/css/theme.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<!-- End Head -->
+
+<!-- Body -->
+<body>
+<!-- Header (Topbar) -->
+<header th:replace="~{fragments/slide-bar :: header(${user})}"></header>
+<!-- End Header (Topbar) -->
+
+<!-- Main -->
+<main class="u-main">
+    <!-- Sidebar -->
+    <aside th:replace="~{fragments/slide-bar :: bar(7)}"></aside>
+    <!-- End Sidebar -->
+
+    <!-- Content -->
+    <div class="u-content">
+        <!-- Content Body -->
+        <div class="u-body">
+            <div style="display: flex; margin-bottom: 20px">
+                <h1 style="margin-top: auto; margin-bottom: auto" class="h2 mb-2">Засоби зв'язку</h1>
+            </div>
+
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Головна</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Засоби зв'язку</li>
+                </ol>
+            </nav>
+            <!-- End Breadcrumb -->
+
+            <!-- Card -->
+            <ul class="nav nav-tabs" id="demo-docs-tab" role="tablist" style="display: flex; flex-direction: row">
+                <li class="nav-item">
+                    <a class="nav-link active" id="demo-docs-tab-tab1" data-toggle="tab"
+                       href="#demo-docs-tab-tab1-content" role="tab" aria-controls="demo-docs-tab-tab1-content"
+                       aria-selected="true">Область застосування</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="demo-docs-tab-tab2" data-toggle="tab" href="#demo-docs-tab-tab2-content"
+                       role="tab" aria-controls="demo-docs-tab-tab2-content" aria-selected="false">Види</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="demo-docs-tab-tab3" data-toggle="tab" href="#demo-docs-tab-tab3-content"
+                       role="tab" aria-controls="demo-docs-tab-tab3-content" aria-selected="false">Техніка</a>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="demo-docs-tabContent">
+                <br>
+
+                <div class="tab-pane bg-light fade p-3 show active" id="demo-docs-tab-tab1-content" role="tabpanel"
+                     aria-labelledby="demo-docs-tab-tab2">
+                    <div style="display: flex; margin-bottom: 20px">
+                        <h1 style="margin-top: auto; margin-bottom: auto" class="h3 mb-2">Область застосування</h1>
+                        <a style="margin-left: 30px;" type="button" class="btn bg-dark btn-pill text-light"
+                           href="/object/create/scope">
+                            <span class="ti-pencil-alt"></span>
+                            <span class="u-sidebar-nav-menu__item-title" style="margin-left: 5px">Додати</span>
+                        </a>
+                    </div>
+                    <div class="card mb-5">
+                        <!-- Card Header -->
+                        <header class="card-header">
+                        </header>
+                        <!-- End Card Header -->
+
+                        <!-- Crad Body -->
+                        <div class="card-body pt-0">
+                            <!-- Table -->
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0 fold-table myTable">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Область застосування</th>
+                                        <th class="text-center">Подія</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="scope, num : ${scops}">
+                                        <td class="font-weight-semi-bold" th:text="${num.count}"></td>
+                                        <td class="font-weight-semi-bold" th:text="${scope.scope}"></td>
+                                        <td class="text-center">
+                                            <a style="margin-left: 10px;" type="button"
+                                               class="btn bg-secondary btn-pill text-light"
+                                               th:href="@{'/object/edit/scope/'+ ${scope.id}}">Редагувати</a>
+                                            <a style="margin-left: 10px;" type="button"
+                                               class="btn bg-danger btn-pill text-light"
+                                               th:href="@{'/object/delete/scope/' + ${scope.id}}">Видалити</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <!-- End Table -->
+                        </div>
+                        <!-- Crad Body -->
+                    </div>
+                </div>
+                <div class="tab-pane bg-light fade p-3" id="demo-docs-tab-tab2-content" role="tabpanel"
+                     aria-labelledby="demo-docs-tab-tab2">
+                    <div style="display: flex; margin-bottom: 20px">
+                        <h1 style="margin-top: auto; margin-bottom: auto" class="h3 mb-2">Види</h1>
+                        <a style="margin-left: 30px;" type="button" class="btn bg-dark btn-pill text-light"
+                           href="/object/create/typeone">
+                            <span class="ti-pencil-alt"></span>
+                            <span class="u-sidebar-nav-menu__item-title" style="margin-left: 5px">Додати</span>
+                        </a>
+                    </div>
+                    <div class="card mb-5">
+                        <!-- Card Header -->
+                        <header class="card-header">
+                        </header>
+                        <!-- End Card Header -->
+
+                        <!-- Crad Body -->
+                        <div class="card-body pt-0">
+                            <!-- Table -->
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0 fold-table myTable">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Вид</th>
+                                        <th>Область застосування</th>
+                                        <th class="text-center">Подія</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="type, num : ${types}">
+                                        <td class="font-weight-semi-bold" th:text="${num.count}"></td>
+                                        <td class="font-weight-semi-bold" th:text="${type.typeName}"></td>
+                                        <td class="font-weight-semi-bold" th:text="${type.scope.scope}"></td>
+                                        <td class="text-center">
+                                            <a style="margin-left: 10px;" type="button"
+                                               class="btn bg-secondary btn-pill text-light"
+                                               th:href="@{'/object/type/edit/'+ ${type.id}}">Редагувати</a>
+                                            <a style="margin-left: 10px;" type="button"
+                                               class="btn bg-danger btn-pill text-light"
+                                               th:href="@{'/object/type/delete/' + ${type.id}}">Видалити</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <!-- End Table -->
+                        </div>
+                        <!-- Crad Body -->
+                    </div>
+                </div>
+                <div class="tab-pane bg-light fade p-3" id="demo-docs-tab-tab3-content" role="tabpanel"
+                     aria-labelledby="demo-docs-tab-tab1">
+                    <div style="display: flex; margin-bottom: 20px">
+                        <h1 style="margin-top: auto; margin-bottom: auto" class="h3 mb-2">Техніка</h1>
+                        <a style="margin-left: 30px;" type="button" class="btn bg-dark btn-pill text-light"
+                           href="/object/create">
+                            <span class="ti-pencil-alt"></span>
+                            <span class="u-sidebar-nav-menu__item-title" style="margin-left: 5px">Додати</span>
+                        </a>
+
+                        <a style="margin-left: 15px;" type="button" class="btn bg-dark btn-pill text-light"
+                           href="/generate">
+                            <span class="ti-save"></span>
+                            <span class="u-sidebar-nav-menu__item-title" style="margin-left: 5px">Завантажити шаблон Excel</span>
+                        </a>
+                    </div>
+
+                    <div class="card mb-5">
+                        <!-- Card Header -->
+                        <header class="card-header">
+                        </header>
+                        <!-- End Card Header -->
+
+                        <!-- Crad Body -->
+                        <div class="card-body pt-0">
+                            <!-- Table -->
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0 fold-table myTable">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Назва</th>
+                                        <th>Ціна</th>
+                                        <th>Тип</th>
+                                        <th>Область</th>
+                                        <th class="text-center">Подія</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="object, num : ${objects}">
+                                        <td class="font-weight-semi-bold" th:text="${num.count}"></td>
+                                        <td class="font-weight-semi-bold" th:text="${object.objectName}"></td>
+                                        <td class="font-weight-semi-bold" th:text="${object.price}"></td>
+                                        <td class="font-weight-semi-bold" th:text="${object.type.typeName}"></td>
+                                        <td class="font-weight-semi-bold" th:text="${object.type.scope.scope}"></td>
+                                        <td class="text-center">
+                                            <!-- Actions -->
+                                            <div class="dropdown">
+                                                <!-- Actions Invoker -->
+                                                <a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"
+                                                   role="button" aria-haspopup="true" aria-expanded="false"
+                                                   data-toggle="dropdown"
+                                                   data-offset="8">
+                                                    <span class="ti-more"></span>
+                                                </a>
+                                                <!-- End Actions Invoker -->
+                                                <!-- Actions Menu -->
+                                                <div class="dropdown-menu dropdown-menu-right" style="width: 150px;">
+                                                    <div class="card border-0 p-3">
+                                                        <ul class="list-unstyled mb-0">
+                                                            <li class="mb-3">
+                                                                <a class="d-block link-dark"
+                                                                   th:href="@{'/object/edit/' + ${object.id}}">Редагувати</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="d-block link-dark"
+                                                                   th:href="@{'/object/delete/' + ${object.id}}">Видалити</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- End Actions Menu -->
+                                            </div>
+                                            <!-- End Actions -->
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <!-- End Table -->
+                        </div>
+                        <!-- Crad Body -->
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- End Content Body -->
+
+        <!-- Footer -->
+        <footer th:replace="~{fragments/slide-bar :: footer}"></footer>
+        <!-- End Footer -->
+    </div>
+    <!-- End Content -->
+</main>
+<!-- End Main -->
+
+<!-- Global Vendor -->
+<script th:src="@{/vendor/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/vendor/jquery-migrate/jquery-migrate.min.js}"></script>
+<script th:src="@{/vendor/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/dist/js/bootstrap.min.js}"></script>
+
+<!-- Plugins -->
+<script th:src="@{/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js}"></script>
+<!-- Initialization  -->
+<script th:src="@{/js/sidebar-nav.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:src="@{/data-tables/datatables.min.js}"></script>
+<script th:src="@{/data-tables/datatables.js}"></script>
+
+</body>
+<!-- End Body -->
+</html>

@@ -2,16 +2,15 @@ package kvz.zsu.control.controllers;
 
 import kvz.zsu.control.excel.ObjectExcelExporterImporter;
 import kvz.zsu.control.models.Object;
+import kvz.zsu.control.models.Thing;
 import kvz.zsu.control.models.Type;
 import kvz.zsu.control.models.User;
-import kvz.zsu.control.services.ObjectService;
-import kvz.zsu.control.services.ThingService;
-import kvz.zsu.control.services.TypeService;
-import kvz.zsu.control.services.UserService;
+import kvz.zsu.control.services.*;
 import lombok.AllArgsConstructor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -28,9 +27,26 @@ public class IndexController {
     private final ThingService thingService;
     private final ObjectService objectService;
     private final TypeService typeService;
+    private final UnitService unitService;
 
     @GetMapping("/")
-    public String getIndex() {
+    public String getIndex(Model model) {
+        double sum = 0;
+        for (var item : thingService.findAll()){
+            if(item.getObject().getPrice() != null)
+                sum += item.getObject().getPrice();
+            else continue;
+        }
+
+        Integer intUk = thingService.percentUnitListByObjectList(unitService.findAll(), objectService.findAll());
+        Integer intNotUk = 100 - intUk;
+
+        model.addAttribute("totalSum", (int)sum);
+        model.addAttribute("countObjects", objectService.findAll().size());
+        model.addAttribute("sumThingsHave", thingService.findAll().stream().mapToInt(Thing::getGeneralHave).sum());
+        model.addAttribute("countUnits", unitService.findAll().size());
+        model.addAttribute("intUk", intUk.toString());
+        model.addAttribute("intNoyUk", intNotUk.toString());
 
         return "index";
     }
@@ -57,7 +73,7 @@ public class IndexController {
                 }
             }
 
-            map.put(type.getType(), list);
+            map.put(type.getTypeName(), list);
         }
 
         ObjectExcelExporterImporter excelExporter = new ObjectExcelExporterImporter(map);

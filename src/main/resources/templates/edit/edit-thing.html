@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редарувати</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+
+    <!--  Social tags -->
+    <meta name="keywords"
+          content="Awesome Dashboard UI Kit, Bootstrap, Template, Theme, Freebies, MIT license, Free, Download">
+    <meta name="description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+    <meta name="author" content="htmlstream.com">
+
+    <!-- Schema.org -->
+    <meta itemprop="name" content="Awesome Dashboard UI Kit">
+    <meta itemprop="description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+    <meta itemprop="image" content="assets/img-temp/aduik-preview.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@htmlstream">
+    <meta name="twitter:title" content="Awesome Dashboard UI Kit">
+    <meta name="twitter:description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+    <meta name="twitter:creator" content="@htmlstream">
+    <meta name="twitter:image" content="assets/img-temp/aduik-preview.png">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Htmlstream">
+    <meta property="og:title" content="Awesome Dashboard UI Kit">
+    <meta property="og:description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+    <meta property="og:url" content="https://htmlstream.com/preview/awesome-dashboard-ui-kit/">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="assets/img-temp/aduik-preview.png">
+    <meta property="og:image:secure_url" content="assets/img-temp/aduik-preview.png">
+
+    <!-- Web Fonts -->
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+    <!-- Components Vendor Styles -->
+    <link rel="stylesheet" th:href="@{/vendor/themify-icons/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css}">
+
+    <!-- Theme Styles -->
+    <link rel="stylesheet" th:href="@{/css/theme.css}">
+</head>
+<body>
+<header th:replace="~{fragments/slide-bar :: header(${user})}"></header>
+
+<!-- Main -->
+<main class="u-main">
+    <!-- Sidebar -->
+    <aside th:replace="~{fragments/slide-bar :: bar(2)}"></aside>
+    <!-- End Sidebar -->
+
+    <!-- Content -->
+    <div class="u-content">
+        <!-- Content Body -->
+        <div class="u-body">
+            <form class="h-100"  method="post" th:action="@{/units/save}" th:object="${thing}">
+                <div>
+                    <div style="display: flex; margin-bottom: 20px" >
+                        <h1 style="margin-top: auto; margin-bottom: auto" class="h2 mb-2">Редагування</h1>
+                        <button style="margin-left: 10px;"  class="btn btn-success btn-pill">Зберегти</button>
+                    </div>
+
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Головна</a></li>
+                            <li class="breadcrumb-item"><a href="/units">Підрозділи</a></li>
+                            <li class="breadcrumb-item"><a th:href="@{'/table/' + ${thing.unit.id}}" th:text="${thing.unit.nameUnit}"></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Редагування</li>
+                        </ol>
+                    </nav>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-5">
+                            <!-- Card -->
+                            <div class="card h-100">
+                                <!-- Card Header -->
+                                <header class="card-header">
+                                    <h2 class="h4 card-header-title">Основний</h2>
+                                </header>
+                                <!-- End Card Header -->
+
+                                <!-- Card Body -->
+                                <div class="card-body pt-0">
+                                    <input type="hidden" readonly="readonly" th:field="*{id}">
+                                    <input type="hidden" readonly="readonly" th:field="*{unit}">
+                                    <!-- Text -->
+                                    <div class="form-group">
+                                        <label>Область застосування</label>
+                                        <select class="custom-select" id="scope">
+                                            <option th:each="scope : ${scopes}" th:value="${scope.id}"
+                                                    th:text="${scope.scope}">Default select
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <!-- End Text -->
+
+                                    <!-- Input with Left Icon -->
+                                    <div class="form-group">
+                                        <label>Вид</label>
+
+                                        <select class="custom-select" id="type">
+                                            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.typeName}">
+                                                Default select
+                                            </option>
+                                        </select>
+
+                                    </div>
+                                    <!-- End Input with Left Icon -->
+
+                                    <!-- Input with Right Icon -->
+                                    <div class="form-group">
+                                        <label>Засіб</label>
+
+                                        <select class="custom-select" th:field="*{object}">
+                                            <option th:each="object : ${objects}" th:value="${object.id}"
+                                                    th:text="${object.objectName}">Default select
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <!-- End Input with Right Icon -->
+
+                                    <hr class="my-4">
+
+                                    <div class="form-group">
+                                        <label for="exampleInputText4">За штатом</label>
+                                        <input id="exampleInputText4" class="form-control" type="text"
+                                               placeholder="Кількість" th:field="*{generalNeed}">
+                                        <small class="form-text text-muted">кількість в одиницях (комплектах)</small>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputText5">В наявності</label>
+                                        <input id="exampleInputText5" class="form-control" type="text"
+                                               placeholder="Кількість" th:field="*{generalHave}">
+                                        <small class="form-text text-muted">кількість в одиницях (комплектах)</small>
+                                    </div>
+
+
+                                </div>
+                                <!-- End Card Body -->
+                            </div>
+                            <!-- End Card -->
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <!-- End Content Body -->
+
+        <!-- Footer -->
+        <footer th:replace="~{fragments/slide-bar :: footer}"></footer>
+        <!-- End Footer -->
+    </div>
+    <!-- End Content -->
+</main>
+<!-- End Main -->
+
+<!-- Global Vendor -->
+<script th:src="@{/vendor/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/vendor/jquery-migrate/jquery-migrate.min.js}"></script>
+<script th:src="@{/vendor/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/dist/js/bootstrap.min.js}"></script>
+
+<!-- Plugins -->
+<script th:src="@{/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js}"></script>
+
+<!-- Initialization  -->
+<script th:src="@{/js/sidebar-nav.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

@@ -64,7 +64,7 @@
 <!-- Main -->
 <main class="u-main">
     <!-- Sidebar -->
-    <aside th:replace="~{fragments/slide-bar :: bar(7)}"></aside>
+    <aside th:replace="~{fragments/slide-bar :: bar(3)}"></aside>
     <!-- End Sidebar -->
 
     <!-- Content -->
@@ -72,78 +72,80 @@
         <!-- Content Body -->
         <div class="u-body">
             <div style="display: flex; margin-bottom: 20px">
-                <h1 style="margin-top: auto; margin-bottom: auto" class="h2 mb-2">Техніка</h1>
-                <a style="margin-left: 30px;" type="button" class="btn btn-primary btn-pill text-light" href="/object/create">Додати</a>
+                <h1 style="margin-top: auto; margin-bottom: auto" class="h3 mb-2">Підрозділи</h1>
+                <a style="margin-left: 30px;" type="button" class="btn bg-dark btn-pill text-light"
+                   href="/units/create">
+                    <span class="ti-pencil-alt"></span>
+                    <span class="u-sidebar-nav-menu__item-title" style="margin-left: 5px">Додати</span>
+                </a>
+
             </div>
 
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Головна</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Техніка</li>
+                    <li class="breadcrumb-item active" aria-current="page">Підрозділи</li>
                 </ol>
             </nav>
             <!-- End Breadcrumb -->
 
             <!-- Card -->
             <div class="card mb-5">
+
                 <!-- Card Header -->
-                <header class="card-header">
-                </header>
+
                 <!-- End Card Header -->
 
                 <!-- Crad Body -->
                 <div class="card-body pt-0">
                     <!-- Table -->
                     <div class="table-responsive">
-                        <table class="table table-hover mb-0 fold-table" id="myTable">
+                        <br>
+                        <table class="table table-hover mb-0 fold-table myTable">
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Назва</th>
-                                <th>Тип</th>
-                                <th>Область</th>
-                                <th class="text-center">Подія</th>
+                                <th>Підрозділ</th>
+                                <th>Подія</th>
+                                <th>Опції</th>
                             </tr>
                             </thead>
-                            <tbody>
-                                <tr th:each="object, num : ${objects}">
-                                    <td class="font-weight-semi-bold" th:text="${num.count}"></td>
-                                    <td class="font-weight-semi-bold" th:text="${object.objectName}"></td>
-                                    <td class="font-weight-semi-bold" th:text="${object.type.type}"></td>
-                                    <td class="font-weight-semi-bold" th:text="${object.type.scope.scope}"></td>
-                                    <td class="text-center">
-                                        <!-- Actions -->
-                                        <div class="dropdown">
-                                            <!-- Actions Invoker -->
-                                            <a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"
-                                               role="button" aria-haspopup="true" aria-expanded="false"
-                                               data-toggle="dropdown"
-                                               data-offset="8">
-                                                <span class="ti-more"></span>
-                                            </a>
-                                            <!-- End Actions Invoker -->
-                                            <!-- Actions Menu -->
-                                            <div class="dropdown-menu dropdown-menu-right" style="width: 150px;">
-                                                <div class="card border-0 p-3">
-                                                    <ul class="list-unstyled mb-0">
-                                                        <li class="mb-3">
-                                                            <a class="d-block link-dark" th:href="@{'/object/edit/' + ${object.id}}">Редагувати</a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="d-block link-dark" th:href="@{'/object/delete/' + ${object.id}}">Видалити</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <!-- End Actions Menu -->
-                                        </div>
-                                        <!-- End Actions -->
-                                    </td>
-                                </tr>
-                            </tbody>
 
+                            <tbody>
+                            <tr th:each="unit, num : ${units}">
+                                <td class="font-weight-semi-bold" th:text="${num.count}">1</td>
+                                <td class="font-weight-semi-bold" th:text="${unit.nameUnit}">name unit</td>
+                                <td class="font-weight-semi-bold">
+                                    <form th:action="@{'/units/' + ${unit.id}}" method="post" enctype="multipart/form-data">
+                                        <div style="display: flex; justify-content: space-around">
+                                            <input type="file" name="file"/>
+                                            <button type="submit" class="btn btn-primary btn-circle btn-with-icon mb-2 mr-2 mr-md-4">
+                                                <snap class="btn-icon ti-import"></snap>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </td>
+                                <td class="text-center">
+                                    <div style="display: flex">
+                                        <a style="margin-left: 10px;" type="button"
+                                           class="btn bg-primary btn-pill text-light"
+                                           th:href="@{'/units/table/' + ${unit.id}}">Перейти
+                                        </a>
+                                        <a style="margin-left: 10px;" type="button"
+                                           class="btn bg-secondary btn-pill text-light"
+                                           th:href="@{'/units/unit/edit/' + ${unit.id}}">Редагувати
+                                        </a>
+                                        <a style="margin-left: 10px;" type="button"
+                                           class="btn bg-danger btn-pill text-light"
+                                           th:href="@{'/units/unit/delete/' + ${unit.id}}">Видалити
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
                         </table>
+
                     </div>
                     <!-- End Table -->
                 </div>
@@ -160,6 +162,7 @@
 </main>
 <!-- End Main -->
 
+
 <!-- Global Vendor -->
 <script th:src="@{/vendor/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{/vendor/jquery-migrate/jquery-migrate.min.js}"></script>
@@ -175,6 +178,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script th:src="@{/data-tables/datatables.min.js}"></script>
 <script th:src="@{/data-tables/datatables.js}"></script>
+
 </body>
 <!-- End Body -->
 </html>

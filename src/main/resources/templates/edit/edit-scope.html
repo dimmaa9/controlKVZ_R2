@@ -63,10 +63,10 @@
     <div class="u-content">
         <!-- Content Body -->
         <div class="u-body">
-            <form class="h-100" th:action="@{/object/save}" th:object="${object}" method="post">
+            <form class="h-100" th:action="@{/object/scope/edit/save}"  method="post" >
                 <div style="display: flex; margin-bottom: 20px">
-                    <h1 style="margin-top: auto; margin-bottom: auto" class="h2 mb-2">Редагування</h1>
-                    <button style="margin-left: 10px;"  class="btn btn-success btn-pill" name="saveObject">Зберегти</button>
+                    <h1 style="margin-top: auto; margin-bottom: auto" class="h2 mb-2">Створення</h1>
+                    <button style="margin-left: 10px;" name="saveScope" class="btn btn-success btn-pill">Зберегти</button>
                 </div>
 
                 <!-- Breadcrumb -->
@@ -74,7 +74,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Головна</a></li>
                         <li class="breadcrumb-item"><a href="/object">Техніка</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Редагування</li>
+                        <li class="breadcrumb-item active" aria-current="page">Створення</li>
                     </ol>
                 </nav>
                 <!-- End Breadcrumb -->
@@ -85,44 +85,23 @@
                         <div class="card h-100">
                             <!-- Card Header -->
                             <header class="card-header">
-                                <h2 class="h4 card-header-title">Основний</h2>
+                                <h2 class="h4 card-header-title">Область застосування</h2>
                             </header>
                             <!-- End Card Header -->
+                            <input type="hidden" readonly="readonly" th:field="*{scope.id}">
 
-                            <input type="hidden" readonly="readonly" th:field="*{id}">
+
                             <!-- Card Body -->
                             <div class="card-body pt-0">
-                                <!-- Text -->
-                                <div class="form-group">
-                                    <label>Область застосування</label>
-                                    <select class="custom-select" required="required" name="_scope_" id="_scope_" >
-                                        <option th:each="scope : ${scops}" th:value="${scope.id}" th:selected="${scope.scope == object.type.scope.scope}"
-                                                th:text="${scope.scope}">Default select
-                                        </option>
-                                    </select>
-                                </div>
-                                <!-- End Text -->
-
-                                <!-- Input with Left Icon -->
-                                <div class="form-group">
-                                    <label>Вид</label>
-
-                                    <select class="custom-select" id="_type_" name="_type_" required="required" th:field="*{type}">
-                                        <option th:each="type : ${object.type.scope.typeList}" th:value="${type.id}" th:text="${type.type}">
-                                            Default select
-                                        </option>
-                                    </select>
-
-                                </div>
-                                <!-- End Input with Left Icon -->
 
                                 <!-- Disabled Text -->
                                 <div class="form-group">
-                                    <label for="exampleInputText">Обєкт</label>
+                                    <label for="exampleInputText">Назва</label>
                                     <input id="exampleInputText" class="form-control" type="text"
-                                           placeholder="Назва" th:field="*{objectName}">
+                                           placeholder="Назва" th:field="*{scope.scope}">
                                 </div>
                                 <!-- End Disabled Text -->
+
 
                             </div>
                             <!-- End Card Body -->

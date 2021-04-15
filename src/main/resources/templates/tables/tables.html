@@ -71,7 +71,7 @@
     <div class="u-content">
         <div class="u-body">
             <div style="display: flex; justify-content: space-between">
-                <ul class="nav nav-pills" id="demo-docs-tab" role="tablist" style="display: flex; flex-direction: row">
+                <ul class="nav nav-tabs" id="demo-docs-tab" role="tablist" style="display: flex; flex-direction: row">
                     <li class="nav-item">
                         <a class="nav-link active" id="demo-docs-tab-tab1" data-toggle="tab"
                            href="#demo-docs-tab-tab1-content" role="tab" aria-controls="demo-docs-tab-tab1-content"
@@ -90,6 +90,7 @@
                 </ul>
                 <div>
                     <button type="button" class="btn btn-outline-primary" id="btnAll">Показати результат</button>
+                    <button type="button" class="btn btn-outline-secondary" id="dtnSave">Зберегти PDF</button>
                     <button type="button" class="btn btn-outline-danger" id="btnClear">Очистити</button>
                 </div>
             </div>
@@ -147,8 +148,14 @@
 
 
 <script th:src="@{/js/bootstrap-select.min.js}"></script>
-<script th:src="@{/js/main.js}"></script>
 
+<script th:src="@{/data-tables/datatables.min.js}"></script>
+<script th:src="@{/data-tables/datatables.js}"></script>
+
+<!--PDF-->
+<script th:src="@{/js/html2pdf.bundle.min.js}"></script>
+
+<script th:src="@{/js/main.js}"></script>
 <!--&lt;!&ndash; (Optional) Latest compiled and minified JavaScript translation files &ndash;&gt;-->
 <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>-->
 <!--https://github.com/snapappointments/bootstrap-select/tree/v1.14-dev/dist/js/i18n-->

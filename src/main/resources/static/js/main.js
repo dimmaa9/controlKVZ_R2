@@ -490,4 +490,58 @@ $(document).ajaxStart(function () {
 });
 
 
+$(document).ready(function() {
+    $('#scope').change(function() {
+        sendAjaxRequest();
+    });
+});
 
+function sendAjaxRequest() {
+    let s = $("#scope").val();
+    console.log(s);
+    $.get( "/object/create/type?scope=" + s, function( data ) {
+        $('#type').empty();
+        $.each(data, function(k, v) {
+            let option = "<option value = " + k + ">" + v +  "</option>";
+            $("#type").append(option);
+        });
+    });
+}
+
+
+$(document).ready(function() {
+    $('#type').change(function() {
+        sendAjaxRequest2();
+    });
+});
+
+function sendAjaxRequest2() {
+    let s = $("#type").val();
+    console.log(s);
+    $.get( "/object/create/object?type=" + s, function( data ) {
+        $('#object').empty();
+        $.each(data, function(k, v) {
+            let option = "<option value = " + k + ">" + v +  "</option>";
+            $("#object").append(option);
+        });
+    });
+}
+
+$(document).ready(function(){
+    $('input:radio[name="inlineRadioOptions"]').change(function(){
+        if($(this).val() === 'option2'){
+            $("#sel1").removeAttr('disabled');
+            $("#form").prop("action", "/units/unit/save");
+        }else {
+            $("#sel1").prop("disabled", true);
+            $("#form").prop("action", "/units/unit/saveNull");
+        }
+    });
+});
+
+$(document).ready(function(){
+    $(document).on('click', '#dtnSave', function () {
+        let element = document.getElementById('div-table');
+        html2pdf(element);
+    });
+});

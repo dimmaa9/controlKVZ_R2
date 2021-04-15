@@ -15,7 +15,8 @@ public class Type {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String type;
+    @Column(name = "type")
+    private String typeName;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Scope scope;
@@ -25,6 +26,6 @@ public class Type {
 
     @Override
     public String toString() {
-        return type;
+        return typeName;
     }
 }

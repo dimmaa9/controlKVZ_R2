@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
-<form th:action="@{/test}" method="post" enctype="multipart/form-data">
-    <input type="file" th:name="file"/>
-    <input th:type="submit" value="Import"/>
-</form>
+<div class="custom-file">
+    <input type="file" class="custom-file-input" id="customFileLang" lang="ru">
+    <label class="custom-file-label" for="customFileLang">Выберите файл</label>
+</div>
+
+<script th:src="@{/js/bootstrap.min.js}"></script>
 </body>
 </html>

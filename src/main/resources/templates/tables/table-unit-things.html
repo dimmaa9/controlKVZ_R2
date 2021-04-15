@@ -43,6 +43,7 @@
 
     <!-- Web Fonts -->
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/data-tables/datatables.min.css}">
 
     <!-- Components Vendor Styles -->
     <link rel="stylesheet" th:href="@{/vendor/themify-icons/themify-icons.css}">
@@ -70,22 +71,36 @@
     <div class="u-content">
         <!-- Content Body -->
         <div class="u-body">
-
+            <div style="display: flex; margin-bottom: 20px">
+                <h1 style="margin-top: auto; margin-bottom: auto" class="h2 mb-2">Засоби зв'язку</h1>
+            </div>
 
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Головна</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Підрозділи</li>
+                    <li class="breadcrumb-item"><a href="/units">Підрозділи</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" th:text="${unit.nameUnit}"></li>
                 </ol>
             </nav>
             <!-- End Breadcrumb -->
+            <div style="display: flex; margin-bottom: 20px">
+                <h1 style="margin-top: auto; margin-bottom: auto" class="h3 mb-2" th:text="${unit.nameUnit}"></h1>
+                <a style="margin-left: 30px;" type="button" class="btn bg-dark btn-pill text-light"
+                   th:href="@{'/units/' + ${unit.id} + '/create'}">
+                    <span class="ti-pencil-alt"></span>
+                    <span class="u-sidebar-nav-menu__item-title" style="margin-left: 5px">Додати</span>
+                </a>
 
-            <!-- Card -->
+                <a style="margin-left: 30px;" type="button" class="btn bg-danger btn-pill text-light"
+                   th:href="@{'/units/' + ${unit.id} + '/deleteAll'}">
+                    <span class="ti-trash"></span>
+                    <span class="u-sidebar-nav-menu__item-title" style="margin-left: 5px">Видалити все</span>
+                </a>
+            </div>
             <div class="card mb-5">
                 <!-- Card Header -->
                 <header class="card-header">
-                    <h2 class="h4 card-header-title">Підрозділи</h2>
                 </header>
                 <!-- End Card Header -->
 
@@ -93,64 +108,40 @@
                 <div class="card-body pt-0">
                     <!-- Table -->
                     <div class="table-responsive">
-
-                        <table class="table table-hover mb-0 fold-table">
+                        <table class="table table-hover mb-0 fold-table myTable">
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Підрозділ</th>
-                                <th>Подія</th>
+                                <th>Засіб</th>
+                                <th>За штатом</th>
+                                <th>В наявності</th>
+                                <th class="text-center">Подія</th>
                             </tr>
                             </thead>
-
-                            <tbody th:each="unit, num : ${units}">
-                            <tr>
-                                <td class="font-weight-semi-bold" th:text="${num.count}">1</td>
-                                <td class="font-weight-semi-bold" th:text="${unit.nameUnit}">name unit</td>
-                                <td class="font-weight-semi-bold">
-                                    <form th:action="@{'/units/' + ${unit.id}}" method="post" enctype="multipart/form-data">
-                                        <input type="file" th:name="file"/>
-                                        <input th:type="submit" value="Import"/>
-                                    </form>
-                                    <!-- End Actions </form>-->
+                            <tbody>
+                            <tr th:each="thing, num : ${unit.thingList}">
+                                <td class="font-weight-semi-bold" th:text="${num.count}"></td>
+                                <td class="font-weight-semi-bold" th:text="${thing.object.objectName}"></td>
+                                <td class="font-weight-semi-bold" th:text="${thing.generalNeed}"></td>
+                                <td class="font-weight-semi-bold" th:text="${thing.generalHave}"></td>
+                                <td class="text-center">
+                                    <a style="margin-left: 10px;" type="button"
+                                       class="btn bg-secondary btn-pill text-light"
+                                       th:href="@{'/units/edit/'+ ${thing.id}}">Редагувати</a>
+                                    <a style="margin-left: 10px;" type="button"
+                                       class="btn bg-danger btn-pill text-light"
+                                       th:href="@{'/units/delete/' + ${thing.id}}">Видалити</a>
                                 </td>
-<!--                                <td class="text-center">-->
-<!--                                    &lt;!&ndash; Actions &ndash;&gt;-->
-<!--                                    <div class="dropdown">-->
-<!--                                        &lt;!&ndash; Actions Invoker &ndash;&gt;-->
-<!--                                        <a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"-->
-<!--                                           role="button" aria-haspopup="true" aria-expanded="false"-->
-<!--                                           data-toggle="dropdown"-->
-<!--                                           data-offset="8">-->
-<!--                                            <span class="ti-more"></span>-->
-<!--                                        </a>-->
-<!--                                        &lt;!&ndash; End Actions Invoker &ndash;&gt;-->
-<!--                                        &lt;!&ndash; Actions Menu &ndash;&gt;-->
-<!--                                        <div class="dropdown-menu dropdown-menu-right" style="width: 150px;">-->
-<!--                                            <div class="card border-0 p-3">-->
-<!--                                                <ul class="list-unstyled mb-0">-->
-<!--                                                    <li class="mb-3">-->
-<!--                                                        <a class="d-block link-dark" th:href="@{'/units/generate/' + ${unit.id}}">Експортувати</a>-->
-<!--                                                    </li>-->
-
-<!--                                                </ul>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        &lt;!&ndash; End Actions Menu &ndash;&gt;-->
-<!--                                    </div>-->
-<!--                                    &lt;!&ndash; End Actions &ndash;&gt;-->
-<!--                                </td>-->
-
                             </tr>
-
                             </tbody>
-                        </table>
 
+                        </table>
                     </div>
                     <!-- End Table -->
                 </div>
                 <!-- Crad Body -->
             </div>
+
         </div>
         <!-- End Content Body -->
 
@@ -161,7 +152,6 @@
     <!-- End Content -->
 </main>
 <!-- End Main -->
-
 
 <!-- Global Vendor -->
 <script th:src="@{/vendor/jquery/dist/jquery.min.js}"></script>
@@ -176,6 +166,9 @@
 <script th:src="@{/js/main.js}"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:src="@{/data-tables/datatables.min.js}"></script>
+<script th:src="@{/data-tables/datatables.js}"></script>
+
 </body>
 <!-- End Body -->
 </html>
