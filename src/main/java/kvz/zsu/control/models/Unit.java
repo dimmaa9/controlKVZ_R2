@@ -1,5 +1,6 @@
 package kvz.zsu.control.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity(name = "unit")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Unit {
 
     @Id
@@ -27,6 +29,8 @@ public class Unit {
 
     @OneToMany(mappedBy = "unit", fetch = FetchType.EAGER)
     private List<Thing> thingList;
+
+    private String filename;
 
     @Override
     public String toString() {

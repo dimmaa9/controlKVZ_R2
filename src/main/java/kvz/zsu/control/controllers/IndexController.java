@@ -39,14 +39,14 @@ public class IndexController {
         }
 
         Integer intUk = thingService.percentUnitListByObjectList(unitService.findAll(), objectService.findAll());
-        Integer intNotUk = 100 - intUk;
+        int intNotUk = 100 - intUk;
 
         model.addAttribute("totalSum", (int)sum);
         model.addAttribute("countObjects", objectService.findAll().size());
         model.addAttribute("sumThingsHave", thingService.findAll().stream().mapToInt(Thing::getGeneralHave).sum());
         model.addAttribute("countUnits", unitService.findAll().size());
         model.addAttribute("intUk", intUk.toString());
-        model.addAttribute("intNoyUk", intNotUk.toString());
+        model.addAttribute("intNoyUk", Integer.toString(intNotUk));
 
         return "index";
     }

@@ -4,11 +4,13 @@ import kvz.zsu.control.models.*;
 import kvz.zsu.control.models.Object;
 import kvz.zsu.control.services.*;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
 import java.util.*;
 
 @Controller
@@ -28,6 +31,7 @@ public class UnitController {
     private final ObjectService objectService;
     private final TypeService typeService;
     private final ScopeService scopeService;
+
 
     @GetMapping
     public String getUnitsTable() {
@@ -180,54 +184,48 @@ public class UnitController {
         return "redirect:/units/table/" + id;
     }
 
-//    @GetMapping("/generate/{id}")
-//    public void exportToExcel (HttpServletResponse response,
-//                               @PathVariable("id") Long id) throws IOException, InvalidFormatException {
-//        DateFormat dataFormat = new SimpleDateFormat("dd-MM-yyyy_HH:mm:ss");
-//
-//        String fileName = "attachement; filename=" + "dodatok_" + dataFormat.format(new Date()) + ".xlsx";
-//
-//        response.setContentType("application/octet-stream");
-//        response.setHeader("Content-Disposition", fileName);
-//
-//        Map<String, List<String>> map = new HashMap<>();
-//        List<Type> typeList = typeService.findAll();
-//        System.out.println(typeList.toString());
-//        for (Type type : typeList) {
-//
-//            List<String> list = new ArrayList<>();
-//            var objectList = objectService.findAll();
-//
-//            for (Object object : objectList) {
-//                if (object.getType().equals(type)) {
-//                    list.add(object.getObjectName());
-//                }
-//            }
-//
-//            map.put(type.getType(), list);
-//        }
-//
-//        ObjectExcelExporterImporter excelExporter = new ObjectExcelExporterImporter(map);
-//        excelExporter.export(response);
-//    }
+    @PostMapping("/table/{id}")
+    @SneakyThrows
+    public String avatar(@RequestParam("file") MultipartFile file,
+                         @PathVariable long id) {
+        Unit unit = unitService.findById(id);
+        if (file != null) {
 
-//    @GetMapping("/edit/{id}")
-//    public ModelAndView getEditPage(@PathVariable("id") Long id) {
-//        ModelAndView mav = new ModelAndView("edit-units");
-//        mav.addObject("unitEdit", unitService.findById(id));
-//        return mav;
-//    }
-//
-//    @PostMapping(value = "/create", params = {"saveUnit"})
-//    public String save(Unit unit) {
-//        unitService.save(unit);
-//        return "redirect:/units";
-//    }
-//
-//    @PostMapping(value = "/edit/{id}", params = {"saveUnit"})
-//    public String saveEditUnit(Unit unit) {
-//        return save(unit);
-//    }
+            File uploadDir = new File("src/main/resources/static/avatars");
+
+            if (!uploadDir.exists())
+                uploadDir.mkdir();
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+            String absolutePath = new File("src/main/resources/static/avatars").getAbsolutePath();
+
+            file.transferTo(new File( absolutePath+ "\\avatars" + resultFilename));
+
+            unit.setFilename("avatars" + resultFilename);
+        }
+
+        unitService.save(unit);
+
+        return "redirect:/units/table/" + id;
+    }
+
+    @GetMapping("/delete-avatar/{id}")
+    public String deleteAvatar(@PathVariable long id) {
+        Unit byId = unitService.findById(id);
+
+        File ava = new File("src/main/resources/static/avatars/" + byId.getFilename());
+        if (ava.exists()){
+            ava.delete();
+        }
+
+        byId.setFilename(null);
+        unitService.save(byId);
+
+        return "redirect:/units/table/" + id;
+    }
+
 
     @ModelAttribute("user")
     public User getUser(@AuthenticationPrincipal User user) {

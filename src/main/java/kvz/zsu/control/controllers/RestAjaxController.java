@@ -21,7 +21,6 @@ import java.util.Map;
 public class RestAjaxController {
 
     private final ScopeService scopeService;
-    private final UserService userService;
     private final ThingService thingService;
     private final UnitService unitService;
     private final ObjectService objectService;
@@ -59,45 +58,5 @@ public class RestAjaxController {
         listOutput.add(intNoyUk.toString());
         return listOutput;
     }
-
-//    @GetMapping(value = "/getPrice", produces = "application/json")
-//    public String getD() {
-//        user = userService.findById(user.getId());
-//        List<Thing> thing = user.getUnit().getThingList();
-//
-//        List<Double> temp = new ArrayList<>();
-//        for (var item : thing) {
-//            temp.add(item.getPrice());
-//        }
-//
-//        return new JSONObject().put("price", temp).toString();
-//    }
-//
-//    @GetMapping(value = "/getState", produces = "application/json")
-//    public String getState(@AuthenticationPrincipal User user) {
-//        user = userService.findById(user.getId());
-//        List<Thing> thing = user.getUnit().getThingList();
-//        int vn = 0, pb = 0, rm = 0;
-//
-//        for (int i = 0; i < thing.size(); i++) {
-//            if (thing.get(i).getState().getState().equals("В наявності"))
-//                vn++;
-//            else if (thing.get(i).getState().getState().equals("Потреба"))
-//                pb++;
-//            else if (thing.get(i).getState().getState().equals("Ремонт"))
-//                rm++;
-//        }
-//        return new JSONObject().put("vn", vn).put("pb", pb).put("rm", rm).toString();
-//    }
-//
-//    @GetMapping(value = "/getStateByCategory", produces = "application/json")
-//    public String getStateByCategory(@AuthenticationPrincipal User user) {
-//        user = userService.findById(user.getId());
-//        return new JSONObject()
-//                .put("listVn", thingService.getListCountVnInCategory(user.getUnit()))
-//                .put("listPb", thingService.getListCountPbInCategory(user.getUnit()))
-//                .put("listRm", thingService.getListCountRmInCategory(user.getUnit())).toString();
-//    }
-
 
 }

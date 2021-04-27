@@ -274,7 +274,6 @@ $(document).ready(function () {
                     "                                    <th>#</th>" +
                     "                                    <th>Найменування</th>" +
                     "                                    <th>Укомплектованість</th>" +
-                    "                                    <th class=\"text-center\">Подія</th>" +
                     "                                </tr>" +
                     "                                </thead>" +
                     "                                <tbody id='tbody'>" +
@@ -291,30 +290,7 @@ $(document).ready(function () {
                     let tr = '<tr>' + '<td class="font-weight-semi-bold">' + i++ + '</td>' +
                         '<td class="font-weight-semi-bold">' + k + '</td>' +
                         '<td class="font-weight-semi-bold">' + v + '%</td>' +
-                        '<td class="text-center">' +
-                        '<div class="dropdown">' +
-                        '<a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"' +
-                        'role="button" aria-haspopup="true" aria-expanded="false"' +
-                        'data-toggle="dropdown"' +
-                        'data-offset="8">' +
-                        '<span class="ti-more"></span>' +
-                        '</a>' +
-                        '<div class="dropdown-menu dropdown-menu-right" style="width: 150px;">' +
-                        '<div class="card border-0 p-3">' +
-                        '<ul class="list-unstyled mb-0">' +
-                        '<li class="mb-3">' +
-                        '<a class="d-block link-dark" href="/table/edit/' +
-                        '">Редагувати</a>' +
-                        '</li>' +
-                        '<li>' +
-                        '<a class="d-block link-dark" href="/table/delete/' +
-                        '">Видалити</a>' +
-                        '</li>' +
-                        '</ul>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '</td>' + '</tr>';
+                        '</tr>';
                     $('tbody').append(tr);
                 });
 
@@ -340,7 +316,6 @@ $(document).ready(function () {
                     "                                    <th>#</th>" +
                     "                                    <th>Найменування</th>" +
                     "                                    <th>Укомплектованість</th>" +
-                    "                                    <th class=\"text-center\">Подія</th>" +
                     "                                </tr>" +
                     "                                </thead>" +
                     "                                <tbody id='tbody'>" +
@@ -357,30 +332,7 @@ $(document).ready(function () {
                     let tr = '<tr>' + '<td class="font-weight-semi-bold">' + i++ + '</td>' +
                         '<td class="font-weight-semi-bold">' + k + '</td>' +
                         '<td class="font-weight-semi-bold">' + v + '%</td>' +
-                        '<td class="text-center">' +
-                        '<div class="dropdown">' +
-                        '<a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"' +
-                        'role="button" aria-haspopup="true" aria-expanded="false"' +
-                        'data-toggle="dropdown"' +
-                        'data-offset="8">' +
-                        '<span class="ti-more"></span>' +
-                        '</a>' +
-                        '<div class="dropdown-menu dropdown-menu-right" style="width: 150px;">' +
-                        '<div class="card border-0 p-3">' +
-                        '<ul class="list-unstyled mb-0">' +
-                        '<li class="mb-3">' +
-                        '<a class="d-block link-dark" href="/table/edit/' +
-                        '">Редагувати</a>' +
-                        '</li>' +
-                        '<li>' +
-                        '<a class="d-block link-dark" href="/table/delete/' +
-                        '">Видалити</a>' +
-                        '</li>' +
-                        '</ul>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '</td>' + '</tr>';
+                        '</tr>';
                     $('tbody').append(tr);
                 });
 
@@ -419,7 +371,6 @@ $(document).ready(function () {
                         "                                    <th>#</th>" +
                         "                                    <th>Найменування</th>" +
                         "                                    <th>Укомплектованість</th>" +
-                        "                                    <th class=\"text-center\">Подія</th>" +
                         "                                </tr>" +
                         "                                </thead>" +
                         "                                <tbody id='tbody_" + i + "'>" +
@@ -439,30 +390,7 @@ $(document).ready(function () {
                         let tr = '<tr>' + '<td class="font-weight-semi-bold">' + i + '</td>' +
                             '<td class="font-weight-semi-bold">' + data[i][0] + '</td>' +
                             '<td class="font-weight-semi-bold">' + output.toString() + '%</td>' +
-                            '<td class="text-center">' +
-                            '<div class="dropdown">' +
-                            '<a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"' +
-                            'role="button" aria-haspopup="true" aria-expanded="false"' +
-                            'data-toggle="dropdown"' +
-                            'data-offset="8">' +
-                            '<span class="ti-more"></span>' +
-                            '</a>' +
-                            '<div class="dropdown-menu dropdown-menu-right" style="width: 150px;">' +
-                            '<div class="card border-0 p-3">' +
-                            '<ul class="list-unstyled mb-0">' +
-                            '<li class="mb-3">' +
-                            '<a class="d-block link-dark" href="/table/edit/' +
-                            '">Редагувати</a>' +
-                            '</li>' +
-                            '<li>' +
-                            '<a class="d-block link-dark" href="/table/delete/' +
-                            '">Видалити</a>' +
-                            '</li>' +
-                            '</ul>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</td>' + '</tr>';
+                            '</tr>';
                         $('#tbody_' + massIndex[item]).append(tr);
                     }
                 }
