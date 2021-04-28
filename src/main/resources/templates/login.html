@@ -2,7 +2,7 @@
 <html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org">
 	<!-- Head -->
 	<head>
-		<title>Log In | Awesome Dashboard UI Kit</title>
+		<title>Вхід</title>
 
 		<!-- Meta -->
 		<meta charset="utf-8">
@@ -66,8 +66,20 @@
 								<div class="card-body p-4 p-lg-7">
 									<h2 class="text-center mb-4">Вхід</h2>
 
-									<h4 class="text-center text-danger mb-4" th:if="${param.error}">Невірні данні для авторизації</h4>
-									<h4 class="text-center text-danger mb-4" th:if="${param.logout}">Ви успішно вийшли з аккаунту</h4>
+									<!-- Danger -->
+									<div class="alert alert-danger fade show" role="alert" th:if="${param.error}">
+										<span class="alert-icon ti-alert mr-3"></span>
+										Невірні данні для авторизації
+									</div>
+									<!-- End Danger -->
+
+									<!-- Info -->
+									<div class="alert alert-info fade show" role="alert" th:if="${param.logout}">
+										<span class="alert-icon ti-info-alt mr-3"></span>
+										Ви успішно вийшли з аккаунту
+									</div>
+									<!-- End Info -->
+									<br>
 
 									<!-- Sign in Form -->
 									<form action="/">
@@ -157,6 +169,8 @@
 			<!-- End Footer -->
 		</main>
 		<!-- End Main -->
+
+
 	</body>
 	<!-- End Body -->
 </html>
