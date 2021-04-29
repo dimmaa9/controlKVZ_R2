@@ -1,9 +1,7 @@
 package kvz.zsu.control.controllers;
 
+import kvz.zsu.control.models.*;
 import kvz.zsu.control.models.Object;
-import kvz.zsu.control.models.Thing;
-import kvz.zsu.control.models.Type;
-import kvz.zsu.control.models.User;
 import kvz.zsu.control.services.*;
 import lombok.AllArgsConstructor;
 import org.json.JSONObject;
@@ -15,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -57,6 +56,18 @@ public class RestAjaxController {
         listOutput.add(intUk.toString());
         listOutput.add(intNoyUk.toString());
         return listOutput;
+    }
+
+    @GetMapping("/getNullUnitValue")
+    public Map<String, Integer> getNullUnitValue() {
+        Map<String, Integer> map = new HashMap<>();
+        List<Unit> unitList = unitService.findAll().stream().filter(x -> x.getParentUnit() == null).collect(Collectors.toList());
+        List<Object> objectList = objectService.findAll();
+
+        for (var item : unitList){
+            map.put(item.getNameUnit(), thingService.percentUnitByObjectList(item, objectList));
+        }
+        return map;
     }
 
 }

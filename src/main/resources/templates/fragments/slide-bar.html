@@ -123,17 +123,24 @@
                 <li class="u-sidebar-nav-menu__item">
                     <a class="u-sidebar-nav-menu__link" th:classappend="${num == 1 ? 'active' : ''}" href="/">
                         <span class="ti-dashboard u-sidebar-nav-menu__item-icon"></span>
-                        <span class="u-sidebar-nav-menu__item-title">Статистика</span>
+                        <span class="u-sidebar-nav-menu__item-title">Головна</span>
                     </a>
                 </li>
                 <!-- End Головна -->
+
+                <li class="u-sidebar-nav-menu__item">
+                    <a class="u-sidebar-nav-menu__link" th:classappend="${num == 8 ? 'active' : ''}" href="/statistic">
+                        <span class="ti-layout u-sidebar-nav-menu__item-icon"></span>
+                        <span class="u-sidebar-nav-menu__item-title">Статистика</span>
+                    </a>
+                </li>
 
 
                 <!-- Tables -->
                 <li class="u-sidebar-nav-menu__item">
                     <a class="u-sidebar-nav-menu__link" th:classappend="${num == 2 ? 'active' : ''}" href="/table">
                         <span class="ti-layout u-sidebar-nav-menu__item-icon"></span>
-                        <span class="u-sidebar-nav-menu__item-title">Таблиця</span>
+                        <span class="u-sidebar-nav-menu__item-title">Фільтр</span>
                     </a>
                 </li>
                 <!-- End Tables -->
