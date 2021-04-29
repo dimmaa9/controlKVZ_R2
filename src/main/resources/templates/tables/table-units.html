@@ -52,6 +52,8 @@
     <!-- Theme Styles -->
     <link rel="stylesheet" th:href="@{/css/theme.css}">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <link th:href="@{/filestyle/js/jquery-filestyle.min.css}" rel="stylesheet" />
 </head>
 <!-- End Head -->
 
@@ -123,9 +125,9 @@
                                 </td>
                                 <td class="font-weight-semi-bold">
                                     <form th:action="@{'/units/' + ${unit.id}}" method="post" enctype="multipart/form-data">
-                                        <div style="display: flex; justify-content: space-around">
-                                            <input type="file" name="file"/>
-                                            <button type="submit" class="btn btn-primary btn-circle btn-with-icon mb-2 mr-2 mr-md-4">
+                                        <div>
+                                            <input class="test" type="file" name="file"/>
+                                            <button style="margin-left: 15px; margin-top: 10px" type="submit" class="btn btn-primary btn-circle btn-with-icon mb-2 mr-2 mr-md-4">
                                                 <snap class="btn-icon ti-import"></snap>
                                             </button>
                                         </div>
@@ -183,6 +185,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script th:src="@{/data-tables/datatables.min.js}"></script>
 <script th:src="@{/data-tables/datatables.js}"></script>
+
+<script type="text/javascript" th:src="@{/filestyle/js/jquery-filestyle.min.js}"></script>
+
+
+<script th:src="@{/filestyle/js/input.js}"></script>
 
 </body>
 <!-- End Body -->
