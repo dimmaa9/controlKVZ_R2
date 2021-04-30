@@ -2,7 +2,7 @@
 <html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org">
 <!-- Head -->
 <head>
-    <title>Tables | Awesome Dashboard UI Kit</title>
+    <title th:text="|Таблиця засобів підрозділу ${unit.nameUnit}|"></title>
 
     <!-- Meta -->
     <meta charset="utf-8">
@@ -97,6 +97,18 @@
                     <span class="ti-trash"></span>
                     <span class="u-sidebar-nav-menu__item-title" style="margin-left: 5px">Видалити все</span>
                 </a>
+
+                <a style="margin-left: 30px;" type="button" class="btn bg-danger btn-pill text-light"
+                   th:href="@{'/units/delete-avatar/' + ${unit.id}}">
+                    <span class="ti-trash"></span>
+                    <span class="u-sidebar-nav-menu__item-title" style="margin-left: 5px">Видалити зображення</span>
+                </a>
+
+                <form method="post" enctype="multipart/form-data">
+                    <input type="file" name="file">
+                    <button type="submit">Завантажити</button>
+                </form>
+                <img class="u-avatar-xs rounded-circle mr-3" th:if="${unit.filename}" th:src="@{'/avatars/' + ${unit.filename}}">
             </div>
             <div class="card mb-5">
                 <!-- Card Header -->
@@ -126,10 +138,10 @@
                                 <td class="font-weight-semi-bold" th:text="${thing.generalHave}"></td>
                                 <td class="text-center">
                                     <a style="margin-left: 10px;" type="button"
-                                       class="btn bg-secondary btn-pill text-light"
+                                       class="btn btn-outline-primary text-uppercase mb-2 mr-2"
                                        th:href="@{'/units/edit/'+ ${thing.id}}">Редагувати</a>
                                     <a style="margin-left: 10px;" type="button"
-                                       class="btn bg-danger btn-pill text-light"
+                                       class="btn btn-outline-danger text-uppercase mb-2 mr-2"
                                        th:href="@{'/units/delete/' + ${thing.id}}">Видалити</a>
                                 </td>
                             </tr>

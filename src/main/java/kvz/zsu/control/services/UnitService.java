@@ -34,6 +34,8 @@ public class UnitService {
         repo.deleteById(id);
     }
 
+
+
     public Map<Long, String> findByAllId(List<Integer> idArr) {
         List<Unit> unitList = new ArrayList<>();
         for (var item : idArr) {

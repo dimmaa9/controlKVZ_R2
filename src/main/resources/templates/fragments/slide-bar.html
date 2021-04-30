@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<!-- Header (Topbar) -->
+<!-- Header -->
 <header th:fragment="header(user)" class="u-header">
     <!-- Header Left Section -->
     <div class="u-header-left">
@@ -81,7 +81,7 @@
                         <div class="card-body p-0">
                             <ul class="list-unstyled mb-0">
                                 <li class="mb-3">
-                                    <a class="link-dark" href="#">Переглянути профіль</a>
+                                    <a class="link-dark" href="/account">Переглянути профіль</a>
                                 </li>
                                 <li class="mb-3">
                                     <a class="link-dark" href="#">Налаштування</a>
@@ -99,7 +99,7 @@
     </div>
     <!-- End Header Middle Section -->
 </header>
-<!-- End Header (Topbar) -->
+<!-- End Header -->
 
 <!-- Sidebar -->
 <aside th:fragment="bar(num)" id="sidebar" class="u-sidebar">
@@ -128,12 +128,19 @@
                 </li>
                 <!-- End Головна -->
 
+                <li class="u-sidebar-nav-menu__item">
+                    <a class="u-sidebar-nav-menu__link" th:classappend="${num == 8 ? 'active' : ''}" href="/statistic">
+                        <span class="ti-layout u-sidebar-nav-menu__item-icon"></span>
+                        <span class="u-sidebar-nav-menu__item-title">Статистика</span>
+                    </a>
+                </li>
+
 
                 <!-- Tables -->
                 <li class="u-sidebar-nav-menu__item">
                     <a class="u-sidebar-nav-menu__link" th:classappend="${num == 2 ? 'active' : ''}" href="/table">
                         <span class="ti-layout u-sidebar-nav-menu__item-icon"></span>
-                        <span class="u-sidebar-nav-menu__item-title">Таблиця</span>
+                        <span class="u-sidebar-nav-menu__item-title">Фільтр</span>
                     </a>
                 </li>
                 <!-- End Tables -->

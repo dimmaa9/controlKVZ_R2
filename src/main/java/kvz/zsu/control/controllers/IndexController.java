@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -31,6 +32,14 @@ public class IndexController {
 
     @GetMapping("/")
     public String getIndex(Model model) {
+        model.addAttribute("intUk", thingService.percentUnitListByObjectList(unitService.findAll(), objectService.findAll()).toString());
+        model.addAttribute("dateNow", LocalDate.now().getDayOfMonth() + "." + LocalDate.now().getMonthValue() + "." + LocalDate.now().getYear());
+
+        return "index";
+    }
+
+    @GetMapping("/statistic")
+    public String statistic(Model model) {
         double sum = 0;
         for (var item : thingService.findAll()){
             if(item.getObject().getPrice() != null)
@@ -39,16 +48,16 @@ public class IndexController {
         }
 
         Integer intUk = thingService.percentUnitListByObjectList(unitService.findAll(), objectService.findAll());
-        Integer intNotUk = 100 - intUk;
+        int intNotUk = 100 - intUk;
 
         model.addAttribute("totalSum", (int)sum);
         model.addAttribute("countObjects", objectService.findAll().size());
         model.addAttribute("sumThingsHave", thingService.findAll().stream().mapToInt(Thing::getGeneralHave).sum());
         model.addAttribute("countUnits", unitService.findAll().size());
         model.addAttribute("intUk", intUk.toString());
-        model.addAttribute("intNoyUk", intNotUk.toString());
+        model.addAttribute("intNoyUk", Integer.toString(intNotUk));
 
-        return "index";
+        return "statistic";
     }
 
     @GetMapping("/generate")

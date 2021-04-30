@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Створити</title>
+    <title>Створити засіб</title>
 
     <!-- Meta -->
     <meta charset="utf-8">
@@ -56,7 +56,7 @@
 <!-- Main -->
 <main class="u-main">
     <!-- Sidebar -->
-    <aside th:replace="~{fragments/slide-bar :: bar(2)}"></aside>
+    <aside th:replace="~{fragments/slide-bar :: bar(3)}"></aside>
     <!-- End Sidebar -->
 
     <!-- Content -->
@@ -74,7 +74,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Головна</a></li>
                         <li class="breadcrumb-item"><a href="/units">Підрозділи</a></li>
-                        <li class="breadcrumb-item"><a th:href="@{'/table/' + ${thing.unit.id}}" th:text="${thing.unit.nameUnit}"></a></li>
+                        <li class="breadcrumb-item"><a th:href="@{'/units/table/' + ${thing.unit.id}}" th:text="${thing.unit.nameUnit}"></a></li>
                         <li class="breadcrumb-item active" aria-current="page">Створення</li>
                     </ol>
                 </nav>

@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<!-- Head -->
+<head>
+    <title>Profile | Awesome Dashboard UI Kit</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+
+    <!--  Social tags -->
+    <meta name="keywords"
+          content="Awesome Dashboard UI Kit, Bootstrap, Template, Theme, Freebies, MIT license, Free, Download">
+    <meta name="description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+    <meta name="author" content="htmlstream.com">
+
+    <!-- Schema.org -->
+    <meta itemprop="name" content="Awesome Dashboard UI Kit">
+    <meta itemprop="description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+    <meta itemprop="image" content="img-temp/aduik-preview.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@htmlstream">
+    <meta name="twitter:title" content="Awesome Dashboard UI Kit">
+    <meta name="twitter:description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+    <meta name="twitter:creator" content="@htmlstream">
+    <meta name="twitter:image" content="img-temp/aduik-preview.png">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Htmlstream">
+    <meta property="og:title" content="Awesome Dashboard UI Kit">
+    <meta property="og:description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
+    <meta property="og:url" content="https://htmlstream.com/preview/awesome-dashboard-ui-kit/">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="img-temp/aduik-preview.png">
+    <meta property="og:image:secure_url" content="img-temp/aduik-preview.png">
+
+    <!-- Web Fonts -->
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+    <!-- Components Vendor Styles -->
+    <link rel="stylesheet" th:href="@{/vendor/themify-icons/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css}">
+
+    <!-- Theme Styles -->
+    <link rel="stylesheet" th:href="@{/css/theme.css}">
+</head>
+<!-- End Head -->
+
+<!-- Body -->
+<body>
+<!-- Header (Topbar) -->
+<header th:replace="~{fragments/slide-bar :: header(${user})}"></header>
+<!-- End Header (Topbar) -->
+
+<!-- Main -->
+<main class="u-main">
+    <!-- Sidebar -->
+    <aside th:replace="~{fragments/slide-bar :: bar(null)}"></aside>
+    <!-- End Sidebar -->
+
+    <!-- Content -->
+    <div class="u-content">
+        <!-- Content Body -->
+        <div class="u-body">
+            <div class="row">
+                <div class="col-md-5 col-lg-4">
+                    <!-- Card -->
+                    <div class="card mb-5">
+                        <!-- Card Image -->
+                        <img class="card-img-top" th:src="@{/img-temp/500x280/img4.jpg}" alt="Image Description">
+                        <!-- End Card Image -->
+
+                        <!-- Card Body -->
+                        <div class="card-body text-center pt-0">
+                            <img class="u-avatar-lg u-avatar-minus-half-offset rounded-circle mb-4"
+                                 th:src="@{/img-temp/avatars/img1.jpg}" alt="Avatar">
+                            <h3 class="mb-1">Robert Drake</h3>
+                            <h5 class="text-muted mb-4">Web developer</h5>
+
+                            <!-- Social Media -->
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item mx-2">
+                                    <a class="u-icon-sm text-facebook" href="#">
+                                        <span class="ti-facebook"></span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item mx-2">
+                                    <a class="u-icon-sm text-twitter" href="#">
+                                        <span class="ti-twitter-alt"></span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item mx-2">
+                                    <a class="u-icon-sm text-slack" href="#">
+                                        <span class="ti-dropbox"></span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item mx-2">
+                                    <a class="u-icon-sm text-linkedin" href="#">
+                                        <span class="ti-linkedin"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- End Social Media -->
+                        </div>
+                        <!-- End Card Body -->
+
+                        <!-- Card Footer -->
+                        <footer class="card-footer border-top p-0">
+                            <!-- Buttons -->
+                            <div class="row no-gutters">
+                                <div class="col-md-6 border-right">
+                                    <a class="btn btn-link btn-with-icon btn-block font-weight-semi-bold py-4" href="#">
+                                        <span class="ti-user u-icon-sm u-icon-simple mr-3"></span>
+                                        Follow
+                                    </a>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <a class="btn btn-link btn-with-icon btn-block font-weight-semi-bold py-4" href="#">
+                                        <span class="ti-comments u-icon-sm u-icon-simple mr-3"></span>
+                                        Message
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- End Buttons -->
+                        </footer>
+                        <!-- End Card Footer -->
+                    </div>
+                    <!-- End Card -->
+
+                    <!-- Card -->
+                    <div class="card mb-5">
+                        <!-- Card Header -->
+                        <header class="card-header">
+                            <h2 class="h4 card-header-title">Experience</h2>
+                        </header>
+                        <!-- End Card Header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body pt-0">
+                            <!-- Flushed List Group -->
+                            <ul class="list-group list-group-flush">
+                                <!-- List Group Item -->
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <!-- Title and Short Text -->
+                                        <div class="media-body">
+                                            <div class="text-muted mb-1">Dec 2010 - Feb 2013</div>
+                                            <h4 class="font-weight-normal mb-1">Head of Development Deparment</h4>
+                                            <a class="font-weight-semi-bold" href="#">Apple Inc.</a>
+                                        </div>
+                                        <!-- End Title and Short Text -->
+                                    </div>
+                                </li>
+                                <!-- End List Group Item -->
+
+                                <!-- List Group Item -->
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <!-- Title and Short Text -->
+                                        <div class="media-body">
+                                            <div class="text-muted mb-1">Feb 2013 - Mar 2015</div>
+                                            <h4 class="font-weight-normal mb-1">Marketing Research Manager</h4>
+                                            <a class="font-weight-semi-bold" href="#">Google Inc.</a>
+                                        </div>
+                                        <!-- End Title and Short Text -->
+                                    </div>
+                                </li>
+                                <!-- End List Group Item -->
+
+                                <!-- List Group Item -->
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <!-- Title and Short Text -->
+                                        <div class="media-body">
+                                            <div class="text-muted mb-1">Mar 2015 - Apr 2017</div>
+                                            <h4 class="font-weight-normal mb-1">Head of Development Deparment</h4>
+                                            <a class="font-weight-semi-bold" href="#">Microsoft Corp.</a>
+                                        </div>
+                                        <!-- End Title and Short Text -->
+                                    </div>
+                                </li>
+                                <!-- End List Group Item -->
+
+                                <!-- List Group Item -->
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <!-- Title and Short Text -->
+                                        <div class="media-body">
+                                            <div class="text-muted mb-1">Apr 2017 - Present</div>
+                                            <h4 class="font-weight-normal mb-1">Head of Development Deparment</h4>
+                                            <a class="font-weight-semi-bold" href="#">Dropbox Inc.</a>
+                                        </div>
+                                        <!-- End Title and Short Text -->
+                                    </div>
+                                </li>
+                                <!-- End List Group Item -->
+                            </ul>
+                            <!-- End Flushed List Group -->
+                        </div>
+                        <!-- End Card Body -->
+                    </div>
+                    <!-- End Card -->
+
+                    <!-- Card -->
+                    <div class="card mb-5">
+                        <!-- Card Header -->
+                        <header class="card-header">
+                            <h2 class="h4 card-header-title">Contacts</h2>
+                        </header>
+                        <!-- End Card Header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body py-0">
+                            <!-- Flushed List Group -->
+                            <ul class="list-group list-group-flush">
+                                <!-- List Group Item -->
+                                <li class="list-group-item border-0">
+                                    <a class="media link-dark align-items-center" href="#">
+                                        <!-- Avatar -->
+                                        <img class="u-avatar-sm rounded-circle mr-3"
+                                             th:src="@{/img-temp/avatars/img1.jpg}" alt="Image description">
+                                        <!-- End Avatar -->
+
+                                        <!-- Title and Short Text -->
+                                        <div class="media-body">
+                                            <h4 class="font-weight-normal pt-1 mb-1">Marcus Hampton</h4>
+                                            <div class="text-muted">Manager</div>
+                                        </div>
+                                        <!-- End Title and Short Text -->
+                                    </a>
+                                </li>
+                                <!-- End List Group Item -->
+
+                                <!-- List Group Item -->
+                                <li class="list-group-item border-0">
+                                    <a class="media link-dark align-items-center" href="#">
+                                        <!-- Avatar -->
+                                        <img class="u-avatar-sm rounded-circle mr-3"
+                                             th:src="@{/img-temp/avatars/img2.jpg}" alt="Image description">
+                                        <!-- End Avatar -->
+
+                                        <!-- Title and Short Text -->
+                                        <div class="media-body">
+                                            <h4 class="font-weight-normal pt-1 mb-1">Estelle Maldonado</h4>
+                                            <div class="text-muted">Designer</div>
+                                        </div>
+                                        <!-- End Title and Short Text -->
+                                    </a>
+                                </li>
+                                <!-- End List Group Item -->
+
+                                <!-- List Group Item -->
+                                <li class="list-group-item border-0">
+                                    <a class="media link-dark align-items-center" href="#">
+                                        <!-- Avatar -->
+                                        <img class="u-avatar-sm rounded-circle mr-3"
+                                             th:src="@{/img-temp/avatars/img3.jpg}" alt="Image description">
+                                        <!-- End Avatar -->
+
+                                        <!-- Title and Short Text -->
+                                        <div class="media-body">
+                                            <h4 class="font-weight-normal pt-1 mb-1">Raymond Carlson</h4>
+                                            <div class="text-muted">Developer</div>
+                                        </div>
+                                        <!-- End Title and Short Text -->
+                                    </a>
+                                </li>
+                                <!-- End List Group Item -->
+
+                                <!-- List Group Item -->
+                                <li class="list-group-item border-0">
+                                    <a class="media link-dark align-items-center" href="#">
+                                        <!-- Avatar -->
+                                        <img class="u-avatar-sm rounded-circle mr-3"
+                                             th:src="@{/img-temp/avatars/img4.jpg}" alt="Image description">
+                                        <!-- End Avatar -->
+
+                                        <!-- Title and Short Text -->
+                                        <div class="media-body">
+                                            <h4 class="font-weight-normal pt-1 mb-1">Joel Stevenson</h4>
+                                            <div class="text-muted">Sales manager</div>
+                                        </div>
+                                        <!-- End Title and Short Text -->
+                                    </a>
+                                </li>
+                                <!-- End List Group Item -->
+
+                                <!-- List Group Item -->
+                                <li class="list-group-item border-0">
+                                    <a class="media link-dark align-items-center" href="#">
+                                        <!-- Avatar -->
+                                        <img class="u-avatar-sm rounded-circle mr-3"
+                                             th:src="@{/img-temp/avatars/user-unknown.jpg}" alt="Image description">
+                                        <!-- End Avatar -->
+
+                                        <!-- Title and Short Text -->
+                                        <div class="media-body">
+                                            <h4 class="font-weight-normal pt-1 mb-1">Bradley Santiago</h4>
+                                            <div class="text-muted">Developer</div>
+                                        </div>
+                                        <!-- End Title and Short Text -->
+                                    </a>
+                                </li>
+                                <!-- End List Group Item -->
+                            </ul>
+                            <!-- End Flushed List Group -->
+                        </div>
+                        <!-- End Card Body -->
+
+                        <!-- Card Footer -->
+                        <footer class="card-footer">
+                            <a class="font-weight-semi-bold" href="#">View all contacts</a>
+                        </footer>
+                        <!-- End Card Footer -->
+                    </div>
+                    <!-- End Card -->
+                </div>
+
+                <div class="col-md-7 col-lg-8">
+                    <!-- Card -->
+                    <div class="card mb-5">
+                        <!-- Card Header -->
+                        <header class="card-header">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h2 class="h4 card-header-title">Created new project</h2>
+
+                                <!-- Card Icons -->
+                                <ul class="list-inline mb-0">
+                                    <li class="list-inline-item dropdown">
+                                        <a id="createNewProjectMenuInvoker" class="u-icon-sm link-muted" href="#"
+                                           role="button" aria-haspopup="true" aria-expanded="false"
+                                           data-toggle="dropdown"
+                                           data-offset="8">
+                                            <span class="ti-more"></span>
+                                        </a>
+
+                                        <!-- Card Menu -->
+                                        <div class="dropdown-menu dropdown-menu-right"
+                                             aria-labelledby="createNewProjectMenuInvoker" style="width: 150px;">
+                                            <div class="card border-0 p-3">
+                                                <ul class="list-unstyled mb-0">
+                                                    <li class="mb-3">
+                                                        <a class="d-block link-dark" href="#">Add</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="d-block link-dark" href="#">Remove</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- Card Menu -->
+                                    </li>
+                                </ul>
+                                <!-- End Card Icons -->
+                            </div>
+
+                            <span class="text-muted">2 hours ago</span>
+                        </header>
+                        <!-- End Card Header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body py-0">
+                            <!-- Simple List Group -->
+                            <ul class="list-group">
+                                <!-- List Group Item -->
+                                <li class="list-group-item px-3">
+                                    <div class="media align-items-center">
+                                        <!-- Icon -->
+                                        <div class="u-icon u-icon-xs rounded-circle bg-danger text-white mr-2">
+                                            <span class="ti-dribbble"></span>
+                                        </div>
+                                        <!-- End Icon -->
+
+                                        <!-- Title -->
+                                        <div class="media-body">
+                                            <h4 class="font-weight-normal mb-0"><a class="link-dark" href="#">Dribble
+                                                website redesign</a></h4>
+                                        </div>
+                                        <!-- End Title -->
+
+                                        <!-- Date -->
+                                        <span class="ml-auto">
+													<span class="text-muted">Due to:</span>
+													20 Jan 2018
+												</span>
+                                        <!-- End Date -->
+                                    </div>
+                                </li>
+                                <!-- End List Group Item -->
+                            </ul>
+                            <!-- End Simple List Group -->
+                        </div>
+                        <!-- End Card Body -->
+
+                        <!-- Card Footer -->
+                        <footer class="card-footer d-flex align-items-center justify-content-between">
+                            <!-- Comments -->
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item">
+                                    <a class="d-inline-flex align-items-center link-muted" href="#">
+                                        <span class="ti-comments u-icon-sm u-icon-simple mr-2"></span>
+                                        Comment
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- End Comments -->
+
+                            <!-- Likes and Shares -->
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item">
+											<span class="d-inline-flex align-items-center text-muted">
+												<a class="ti-thumb-up u-icon-sm u-icon-simple link-muted mr-2"
+                                                   href="#"></a>
+												18
+											</span>
+                                </li>
+                                <li class="list-inline-item">
+											<span class="d-inline-flex align-items-center text-muted">
+												<a class="ti-share u-icon-sm u-icon-simple link-muted mr-2"
+                                                   href="#"></a>
+												24
+											</span>
+                                </li>
+                            </ul>
+                            <!-- End Likes and Shares -->
+                        </footer>
+                        <!-- End Card Footer -->
+                    </div>
+                    <!-- End Card -->
+
+                    <!-- Card -->
+                    <div class="card mb-5">
+                        <!-- Card Header -->
+                        <header class="card-header">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h2 class="h4 card-header-title">
+                                    Marked 3 Tasks Done in
+                                    <a href="#">Spotify Redesign</a>
+                                </h2>
+
+                                <!-- Card Icons -->
+                                <ul class="list-inline mb-0">
+                                    <li class="list-inline-item dropdown">
+                                        <a id="completedTasksMenuInvoker" class="u-icon-sm link-muted" href="#"
+                                           role="button" aria-haspopup="true" aria-expanded="false"
+                                           data-toggle="dropdown"
+                                           data-offset="8">
+                                            <span class="ti-more"></span>
+                                        </a>
+
+                                        <!-- Card Menu -->
+                                        <div class="dropdown-menu dropdown-menu-right"
+                                             aria-labelledby="completedTasksMenuInvoker" style="width: 150px;">
+                                            <div class="card border-0 p-3">
+                                                <ul class="list-unstyled mb-0">
+                                                    <li class="mb-3">
+                                                        <a class="d-block link-dark" href="#">Add</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="d-block link-dark" href="#">Remove</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- Card Menu -->
+                                    </li>
+                                </ul>
+                                <!-- End Card Icons -->
+                            </div>
+
+                            <span class="text-muted">3 hours ago</span>
+                        </header>
+                        <!-- End Card Header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body py-0">
+                            <!-- Simple List Group -->
+                            <ul class="list-group">
+                                <!-- List Group Item -->
+                                <li class="list-group-item px-3">
+                                    <div class="media align-items-center">
+                                        <!-- Title -->
+                                        <div class="media-body">
+                                            <h4 class="font-weight-normal mb-1"><a class="link-dark" href="#">Get Best
+                                                Advertiser In Your Side Pocket</a></h4>
+                                            <p class="text-muted mb-0">Getting Free Publicity For Your Business</p>
+                                        </div>
+                                        <!-- End Title -->
+
+                                        <!-- State -->
+                                        <span class="badge badge-md badge-pill badge-success-soft ml-auto">Done</span>
+                                        <!-- End State -->
+                                    </div>
+                                </li>
+                                <!-- End List Group Item -->
+
+                                <!-- List Group Item -->
+                                <li class="list-group-item px-3">
+                                    <div class="media align-items-center">
+                                        <!-- Title -->
+                                        <div class="media-body">
+                                            <h4 class="font-weight-normal mb-1"><a class="link-dark" href="#">Effective
+                                                Advertising Pointers</a></h4>
+                                            <p class="text-muted mb-0">15 Tips To Increase Your Adwords Profits</p>
+                                        </div>
+                                        <!-- End Title -->
+
+                                        <!-- State -->
+                                        <span class="badge badge-md badge-pill badge-success-soft ml-auto">Done</span>
+                                        <!-- End State -->
+                                    </div>
+                                </li>
+                                <!-- End List Group Item -->
+
+                                <!-- List Group Item -->
+                                <li class="list-group-item px-3">
+                                    <div class="media align-items-center">
+                                        <!-- Title -->
+                                        <div class="media-body">
+                                            <h4 class="font-weight-normal mb-1"><a class="link-dark" href="#">Adwords
+                                                Keyword Research For Beginners</a></h4>
+                                            <p class="text-muted mb-0">Using Banner Stands To Increase Trade Show
+                                                Traffic</p>
+                                        </div>
+                                        <!-- End Title -->
+
+                                        <!-- State -->
+                                        <span class="badge badge-md badge-pill badge-success-soft ml-auto">Done</span>
+                                        <!-- End State -->
+                                    </div>
+                                </li>
+                                <!-- End List Group Item -->
+                            </ul>
+                            <!-- End Simple List Group -->
+                        </div>
+                        <!-- End Card Body -->
+
+                        <!-- Card Footer -->
+                        <footer class="card-footer d-flex align-items-center justify-content-between">
+                            <!-- Comments -->
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item">
+                                    <a class="d-inline-flex align-items-center link-muted" href="#">
+                                        <span class="ti-comments u-icon-sm u-icon-simple mr-2"></span>
+                                        Comment
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- End Comments -->
+
+                            <!-- Likes and Shares -->
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item">
+											<span class="d-inline-flex align-items-center text-muted">
+												<a class="ti-thumb-up u-icon-sm u-icon-simple link-muted mr-2"
+                                                   href="#"></a>
+												18
+											</span>
+                                </li>
+                                <li class="list-inline-item">
+											<span class="d-inline-flex align-items-center text-muted">
+												<a class="ti-share u-icon-sm u-icon-simple link-muted mr-2"
+                                                   href="#"></a>
+												24
+											</span>
+                                </li>
+                            </ul>
+                            <!-- End Likes and Shares -->
+                        </footer>
+                        <!-- End Card Footer -->
+                    </div>
+                    <!-- End Card -->
+
+                    <!-- Card -->
+                    <div class="card mb-5">
+                        <!-- Card Header -->
+                        <header class="card-header">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h2 class="h4 card-header-title">
+                                    Added attachments to
+                                    <a href="#">Spotify Redesign</a>
+                                </h2>
+
+                                <!-- Card Icons -->
+                                <ul class="list-inline mb-0">
+                                    <li class="list-inline-item dropdown">
+                                        <a id="addedAttachmentMenuInvoker" class="u-icon-sm link-muted" href="#"
+                                           role="button" aria-haspopup="true" aria-expanded="false"
+                                           data-toggle="dropdown"
+                                           data-offset="8">
+                                            <span class="ti-more"></span>
+                                        </a>
+
+                                        <!-- Card Menu -->
+                                        <div class="dropdown-menu dropdown-menu-right"
+                                             aria-labelledby="addedAttachmentMenuInvoker" style="width: 150px;">
+                                            <div class="card border-0 p-3">
+                                                <ul class="list-unstyled mb-0">
+                                                    <li class="mb-3">
+                                                        <a class="d-block link-dark" href="#">Add</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="d-block link-dark" href="#">Remove</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- Card Menu -->
+                                    </li>
+                                </ul>
+                                <!-- End Card Icons -->
+                            </div>
+
+                            <span class="text-muted">1 hour ago</span>
+                        </header>
+                        <!-- End Card Header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body py-0">
+                            <p>In this digital generation where information can be easily obtained within seconds,
+                                business cards still have retained their importance in the achievement of increased
+                                business exposure</p>
+
+                            <!-- Attach -->
+                            <div class="row gutters-sm">
+                                <div class="col-md-4">
+                                    <img class="img-fluid rounded" th:src="@{/img-temp/500x280/img1.jpg}"
+                                         alt="Image Description">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <img class="img-fluid rounded" th:src="@{/img-temp/500x280/img2.jpg}"
+                                         alt="Image Description">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <img class="img-fluid rounded" th:src="@{/img-temp/500x280/img3.jpg}"
+                                         alt="Image Description">
+                                </div>
+                            </div>
+                            <!-- End Attach -->
+                        </div>
+                        <!-- End Card Body -->
+
+                        <!-- Card Footer -->
+                        <footer class="card-footer d-flex align-items-center justify-content-between">
+                            <!-- Comments -->
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item">
+                                    <a class="d-inline-flex align-items-center link-muted" href="#">
+                                        <span class="ti-comments u-icon-sm u-icon-simple mr-2"></span>
+                                        Comment
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- End Comments -->
+
+                            <!-- Likes and Shares -->
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item">
+											<span class="d-inline-flex align-items-center text-muted">
+												<a class="ti-thumb-up u-icon-sm u-icon-simple link-muted mr-2"
+                                                   href="#"></a>
+												18
+											</span>
+                                </li>
+                                <li class="list-inline-item">
+											<span class="d-inline-flex align-items-center text-muted">
+												<a class="ti-share u-icon-sm u-icon-simple link-muted mr-2"
+                                                   href="#"></a>
+												24
+											</span>
+                                </li>
+                            </ul>
+                            <!-- End Likes and Shares -->
+                        </footer>
+                        <!-- End Card Footer -->
+                    </div>
+                    <!-- End Card -->
+
+                    <!-- Card -->
+                    <div class="card mb-5">
+                        <!-- Card Header -->
+                        <header class="card-header">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h2 class="h4 card-header-title">
+                                    Added 2 New Tasks in
+                                    <a href="#">Airbnb Redesign</a>
+                                </h2>
+
+                                <!-- Card Icons -->
+                                <ul class="list-inline mb-0">
+                                    <li class="list-inline-item dropdown">
+                                        <a id="addedTasksMenuInvoker" class="u-icon-sm link-muted" href="#"
+                                           role="button" aria-haspopup="true" aria-expanded="false"
+                                           data-toggle="dropdown"
+                                           data-offset="8">
+                                            <span class="ti-more"></span>
+                                        </a>
+
+                                        <!-- Card Menu -->
+                                        <div class="dropdown-menu dropdown-menu-right"
+                                             aria-labelledby="addedTasksMenuInvoker" style="width: 150px;">
+                                            <div class="card border-0 p-3">
+                                                <ul class="list-unstyled mb-0">
+                                                    <li class="mb-3">
+                                                        <a class="d-block link-dark" href="#">Add</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="d-block link-dark" href="#">Remove</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- Card Menu -->
+                                    </li>
+                                </ul>
+                                <!-- End Card Icons -->
+                            </div>
+
+                            <span class="text-muted">3 hours ago</span>
+                        </header>
+                        <!-- End Card Header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body py-0">
+                            <!-- Simple List Group -->
+                            <ul class="list-group">
+                                <!-- List Group Item -->
+                                <li class="list-group-item px-3">
+                                    <div class="media align-items-center">
+                                        <!-- Title -->
+                                        <div class="media-body">
+                                            <h4 class="font-weight-normal mb-1"><a class="link-dark" href="#">Truck Side
+                                                Advertising Isn T It Time</a></h4>
+                                            <p class="text-muted mb-0">
+                                                Assigned to
+                                                <a href="#">John Doe</a>
+                                            </p>
+                                        </div>
+                                        <!-- End Title -->
+
+                                        <!-- State -->
+                                        <span class="badge badge-md badge-pill badge-warning-soft ml-auto">In Progress</span>
+                                        <!-- End State -->
+                                    </div>
+                                </li>
+                                <!-- End List Group Item -->
+
+                                <!-- List Group Item -->
+                                <li class="list-group-item px-3">
+                                    <div class="media align-items-center">
+                                        <!-- Title -->
+                                        <div class="media-body">
+                                            <h4 class="font-weight-normal mb-1"><a class="link-dark" href="#">Free
+                                                Advertising For Your Online Business</a></h4>
+                                            <p class="text-muted mb-0">
+                                                Assigned to
+                                                <a href="#">Samuel Smith</a>
+                                            </p>
+                                        </div>
+                                        <!-- End Title -->
+
+                                        <!-- State -->
+                                        <span class="badge badge-md badge-pill badge-warning-soft ml-auto">In Progress</span>
+                                        <!-- End State -->
+                                    </div>
+                                </li>
+                                <!-- End List Group Item -->
+
+                                <!-- List Group Item -->
+                                <li class="list-group-item px-3">
+                                    <div class="media align-items-center">
+                                        <!-- Title -->
+                                        <div class="media-body">
+                                            <h4 class="font-weight-normal mb-1"><a class="link-dark" href="#">Free
+                                                Advertising For Your Online Business</a></h4>
+                                            <p class="text-muted mb-0">
+                                                Assigned to
+                                                <a href="#">Samuel Smith</a>
+                                            </p>
+                                        </div>
+                                        <!-- End Title -->
+
+                                        <!-- State -->
+                                        <span class="badge badge-md badge-pill badge-warning-soft ml-auto">In Progress</span>
+                                        <!-- End State -->
+                                    </div>
+                                </li>
+                                <!-- End List Group Item -->
+                            </ul>
+                            <!-- End Simple List Group -->
+                        </div>
+                        <!-- End Card Body -->
+
+                        <!-- Card Footer -->
+                        <footer class="card-footer d-flex align-items-center justify-content-between">
+                            <!-- Comments -->
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item">
+                                    <a class="d-inline-flex align-items-center link-muted" href="#">
+                                        <span class="ti-comments u-icon-sm u-icon-simple mr-2"></span>
+                                        Comment
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- End Comments -->
+
+                            <!-- Likes and Shares -->
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item">
+											<span class="d-inline-flex align-items-center text-muted">
+												<a class="ti-thumb-up u-icon-sm u-icon-simple link-muted mr-2"
+                                                   href="#"></a>
+												18
+											</span>
+                                </li>
+                                <li class="list-inline-item">
+											<span class="d-inline-flex align-items-center text-muted">
+												<a class="ti-share u-icon-sm u-icon-simple link-muted mr-2"
+                                                   href="#"></a>
+												24
+											</span>
+                                </li>
+                            </ul>
+                            <!-- End Likes and Shares -->
+                        </footer>
+                        <!-- End Card Footer -->
+                    </div>
+                    <!-- End Card -->
+
+                    <!--  Load More -->
+                    <div class="text-center">
+                        <a class="d-inline-flex align-items-center font-weight-semi-bold" href="#">
+                            <span class="ti-reload u-icon-sm u-icon-simple mr-2"></span>
+                            Load more
+                        </a>
+                    </div>
+                    <!--  End Load More -->
+                </div>
+            </div>
+        </div>
+        <!-- End Content Body -->
+
+        <!-- Footer -->
+        <footer th:replace="~{fragments/slide-bar :: footer}"></footer>
+        <!-- End Footer -->
+    </div>
+    <!-- End Content -->
+</main>
+<!-- End Main -->
+
+<!-- Global Vendor -->
+<script th:src="@{/vendor/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/vendor/jquery-migrate/jquery-migrate.min.js}"></script>
+<script th:src="@{/vendor/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/dist/js/bootstrap.min.js}"></script>
+
+<!-- Plugins -->
+<script th:src="@{/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js}"></script>
+
+<!-- Initialization  -->
+<script th:src="@{/js/sidebar-nav.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+<!-- End Body -->
+</html>

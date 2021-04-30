@@ -78,7 +78,6 @@
 })(jQuery);
 
 
-
 $(function () {
     $(".fold-table tr.view").on("click", function () {
         $(this).toggleClass("open").next(".fold").toggleClass("open");
@@ -274,7 +273,6 @@ $(document).ready(function () {
                     "                                    <th>#</th>" +
                     "                                    <th>Найменування</th>" +
                     "                                    <th>Укомплектованість</th>" +
-                    "                                    <th class=\"text-center\">Подія</th>" +
                     "                                </tr>" +
                     "                                </thead>" +
                     "                                <tbody id='tbody'>" +
@@ -287,34 +285,11 @@ $(document).ready(function () {
                 $('#div-table').append(html);
 
                 let i = 1;
-                $.each(data, function (k, v){
+                $.each(data, function (k, v) {
                     let tr = '<tr>' + '<td class="font-weight-semi-bold">' + i++ + '</td>' +
                         '<td class="font-weight-semi-bold">' + k + '</td>' +
                         '<td class="font-weight-semi-bold">' + v + '%</td>' +
-                        '<td class="text-center">' +
-                        '<div class="dropdown">' +
-                        '<a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"' +
-                        'role="button" aria-haspopup="true" aria-expanded="false"' +
-                        'data-toggle="dropdown"' +
-                        'data-offset="8">' +
-                        '<span class="ti-more"></span>' +
-                        '</a>' +
-                        '<div class="dropdown-menu dropdown-menu-right" style="width: 150px;">' +
-                        '<div class="card border-0 p-3">' +
-                        '<ul class="list-unstyled mb-0">' +
-                        '<li class="mb-3">' +
-                        '<a class="d-block link-dark" href="/table/edit/' +
-                        '">Редагувати</a>' +
-                        '</li>' +
-                        '<li>' +
-                        '<a class="d-block link-dark" href="/table/delete/' +
-                        '">Видалити</a>' +
-                        '</li>' +
-                        '</ul>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '</td>' + '</tr>';
+                        '</tr>';
                     $('tbody').append(tr);
                 });
 
@@ -340,7 +315,6 @@ $(document).ready(function () {
                     "                                    <th>#</th>" +
                     "                                    <th>Найменування</th>" +
                     "                                    <th>Укомплектованість</th>" +
-                    "                                    <th class=\"text-center\">Подія</th>" +
                     "                                </tr>" +
                     "                                </thead>" +
                     "                                <tbody id='tbody'>" +
@@ -353,34 +327,11 @@ $(document).ready(function () {
                 $('#div-table').append(html);
 
                 let i = 1;
-                $.each(data, function (k, v){
+                $.each(data, function (k, v) {
                     let tr = '<tr>' + '<td class="font-weight-semi-bold">' + i++ + '</td>' +
                         '<td class="font-weight-semi-bold">' + k + '</td>' +
                         '<td class="font-weight-semi-bold">' + v + '%</td>' +
-                        '<td class="text-center">' +
-                        '<div class="dropdown">' +
-                        '<a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"' +
-                        'role="button" aria-haspopup="true" aria-expanded="false"' +
-                        'data-toggle="dropdown"' +
-                        'data-offset="8">' +
-                        '<span class="ti-more"></span>' +
-                        '</a>' +
-                        '<div class="dropdown-menu dropdown-menu-right" style="width: 150px;">' +
-                        '<div class="card border-0 p-3">' +
-                        '<ul class="list-unstyled mb-0">' +
-                        '<li class="mb-3">' +
-                        '<a class="d-block link-dark" href="/table/edit/' +
-                        '">Редагувати</a>' +
-                        '</li>' +
-                        '<li>' +
-                        '<a class="d-block link-dark" href="/table/delete/' +
-                        '">Видалити</a>' +
-                        '</li>' +
-                        '</ul>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '</td>' + '</tr>';
+                        '</tr>';
                     $('tbody').append(tr);
                 });
 
@@ -419,7 +370,6 @@ $(document).ready(function () {
                         "                                    <th>#</th>" +
                         "                                    <th>Найменування</th>" +
                         "                                    <th>Укомплектованість</th>" +
-                        "                                    <th class=\"text-center\">Подія</th>" +
                         "                                </tr>" +
                         "                                </thead>" +
                         "                                <tbody id='tbody_" + i + "'>" +
@@ -439,30 +389,7 @@ $(document).ready(function () {
                         let tr = '<tr>' + '<td class="font-weight-semi-bold">' + i + '</td>' +
                             '<td class="font-weight-semi-bold">' + data[i][0] + '</td>' +
                             '<td class="font-weight-semi-bold">' + output.toString() + '%</td>' +
-                            '<td class="text-center">' +
-                            '<div class="dropdown">' +
-                            '<a id="basicTable1MenuInvoker" class="u-icon-sm link-muted" href="#"' +
-                            'role="button" aria-haspopup="true" aria-expanded="false"' +
-                            'data-toggle="dropdown"' +
-                            'data-offset="8">' +
-                            '<span class="ti-more"></span>' +
-                            '</a>' +
-                            '<div class="dropdown-menu dropdown-menu-right" style="width: 150px;">' +
-                            '<div class="card border-0 p-3">' +
-                            '<ul class="list-unstyled mb-0">' +
-                            '<li class="mb-3">' +
-                            '<a class="d-block link-dark" href="/table/edit/' +
-                            '">Редагувати</a>' +
-                            '</li>' +
-                            '<li>' +
-                            '<a class="d-block link-dark" href="/table/delete/' +
-                            '">Видалити</a>' +
-                            '</li>' +
-                            '</ul>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</td>' + '</tr>';
+                            '</tr>';
                         $('#tbody_' + massIndex[item]).append(tr);
                     }
                 }
@@ -471,9 +398,9 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function (){
-    $(document).on('click', '#btnClear', function (){
-       $('#div-table').empty();
+$(document).ready(function () {
+    $(document).on('click', '#btnClear', function () {
+        $('#div-table').empty();
     });
 });
 
@@ -490,8 +417,8 @@ $(document).ajaxStart(function () {
 });
 
 
-$(document).ready(function() {
-    $('#scope').change(function() {
+$(document).ready(function () {
+    $('#scope').change(function () {
         sendAjaxRequest();
     });
 });
@@ -499,18 +426,18 @@ $(document).ready(function() {
 function sendAjaxRequest() {
     let s = $("#scope").val();
     console.log(s);
-    $.get( "/object/create/type?scope=" + s, function( data ) {
+    $.get("/object/create/type?scope=" + s, function (data) {
         $('#type').empty();
-        $.each(data, function(k, v) {
-            let option = "<option value = " + k + ">" + v +  "</option>";
+        $.each(data, function (k, v) {
+            let option = "<option value = " + k + ">" + v + "</option>";
             $("#type").append(option);
         });
     });
 }
 
 
-$(document).ready(function() {
-    $('#type').change(function() {
+$(document).ready(function () {
+    $('#type').change(function () {
         sendAjaxRequest2();
     });
 });
@@ -518,30 +445,67 @@ $(document).ready(function() {
 function sendAjaxRequest2() {
     let s = $("#type").val();
     console.log(s);
-    $.get( "/object/create/object?type=" + s, function( data ) {
+    $.get("/object/create/object?type=" + s, function (data) {
         $('#object').empty();
-        $.each(data, function(k, v) {
-            let option = "<option value = " + k + ">" + v +  "</option>";
+        $.each(data, function (k, v) {
+            let option = "<option value = " + k + ">" + v + "</option>";
             $("#object").append(option);
         });
     });
 }
 
-$(document).ready(function(){
-    $('input:radio[name="inlineRadioOptions"]').change(function(){
-        if($(this).val() === 'option2'){
+$(document).ready(function () {
+    $('input:radio[name="inlineRadioOptions"]').change(function () {
+        if ($(this).val() === 'option2') {
             $("#sel1").removeAttr('disabled');
             $("#form").prop("action", "/units/unit/save");
-        }else {
+        } else {
             $("#sel1").prop("disabled", true);
             $("#form").prop("action", "/units/unit/saveNull");
         }
     });
 });
 
-$(document).ready(function(){
+$(document).ready(function () {
     $(document).on('click', '#dtnSave', function () {
         let element = document.getElementById('div-table');
         html2pdf(element);
     });
+});
+
+
+anychart.onDocumentReady(function () {
+
+    // set the data
+    $.get("/getNullUnitValue", function (dataInput) {
+        let data = [];
+
+        $.each(dataInput, function (k, v) {
+            data.push({x: k, value: v});
+        });
+
+        // create the chart
+        let chart = anychart.pie();
+
+
+        // add the data
+        chart.data(data);
+
+        // sort elements
+        chart.sort("desc");
+
+        // set legend position
+        chart.legend().position("right");
+        // set items layout
+        chart.legend().itemsLayout("vertical");
+
+        // display the chart in the container
+        chart.container('container');
+        chart.draw();
+    });
+
+
+
+
+
 });

@@ -2,7 +2,7 @@
 <html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org">
 <!-- Head -->
 <head>
-    <title>Tables | Awesome Dashboard UI Kit</title>
+    <title>Таблиця об'єктів</title>
 
     <!-- Meta -->
     <meta charset="utf-8">
@@ -138,10 +138,10 @@
                                         <td class="font-weight-semi-bold" th:text="${scope.scope}"></td>
                                         <td class="text-center">
                                             <a style="margin-left: 10px;" type="button"
-                                               class="btn bg-secondary btn-pill text-light"
+                                               class="btn btn-outline-primary text-uppercase mb-2 mr-2"
                                                th:href="@{'/object/edit/scope/'+ ${scope.id}}">Редагувати</a>
                                             <a style="margin-left: 10px;" type="button"
-                                               class="btn bg-danger btn-pill text-light"
+                                               class="btn btn-outline-danger text-uppercase mb-2 mr-2"
                                                th:href="@{'/object/delete/scope/' + ${scope.id}}">Видалити</a>
                                         </td>
                                     </tr>
@@ -190,10 +190,10 @@
                                         <td class="font-weight-semi-bold" th:text="${type.scope.scope}"></td>
                                         <td class="text-center">
                                             <a style="margin-left: 10px;" type="button"
-                                               class="btn bg-secondary btn-pill text-light"
+                                               class="btn btn-outline-primary text-uppercase mb-2 mr-2"
                                                th:href="@{'/object/type/edit/'+ ${type.id}}">Редагувати</a>
                                             <a style="margin-left: 10px;" type="button"
-                                               class="btn bg-danger btn-pill text-light"
+                                               class="btn btn-outline-danger text-uppercase mb-2 mr-2"
                                                th:href="@{'/object/type/delete/' + ${type.id}}">Видалити</a>
                                         </td>
                                     </tr>
