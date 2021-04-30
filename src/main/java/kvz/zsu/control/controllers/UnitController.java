@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.*;
 
 @Controller
@@ -201,7 +203,7 @@ public class UnitController {
 
             String absolutePath = new File("src/main/resources/static/avatars").getAbsolutePath();
 
-            file.transferTo(new File( absolutePath+ "\\avatars" + resultFilename));
+            file.transferTo(new File( absolutePath + "\\avatars" + resultFilename));
 
             unit.setFilename("avatars" + resultFilename);
         }
