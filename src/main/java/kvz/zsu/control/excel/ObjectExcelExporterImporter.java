@@ -21,7 +21,10 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +52,10 @@ public class ObjectExcelExporterImporter {
     private void writeObjectsToRows() {
         int rowCounter = 16;
         int counter = 1;
+
+        DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+
+        sheet.getRow(7).getCell(2).setCellValue("станом на " + format.format(new Date()));
 
         List<String> keys = new ArrayList<>(objectsMap.keySet());
 

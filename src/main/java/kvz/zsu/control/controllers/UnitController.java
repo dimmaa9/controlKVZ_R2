@@ -114,6 +114,9 @@ public class UnitController {
                     if (localDate != null){
                         thing.setLocalDate(LocalDate.of(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth()));
                     }
+                    else {
+                        thing.setLocalDate(LocalDate.now());
+                    }
 
                     System.out.println(thing.getLocalDate());
 
