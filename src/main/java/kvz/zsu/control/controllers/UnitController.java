@@ -160,6 +160,7 @@ public class UnitController {
 
     @PostMapping("/unit/save")
     public String saveUnit(Unit unit){
+        System.out.println(unit.getParentUnit().getNameUnit());
         unitService.save(unit);
         return "redirect:/units";
     }

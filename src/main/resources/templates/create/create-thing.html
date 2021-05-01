@@ -99,6 +99,7 @@
                                 <div class="form-group">
                                     <label>Область застосування</label>
                                     <select class="custom-select" required="required" name="scope" id="scope">
+                                        <option value="null">Нічого не вибрано</option>
                                         <option th:each="scope : ${scopes}" th:value="${scope.id}"
                                                 th:text="${scope.scope}">Default select
                                         </option>
@@ -111,9 +112,7 @@
                                     <label>Вид</label>
 
                                     <select class="custom-select" id="type" name="type" required="required">
-                                        <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.typeName}">
-                                            Default select
-                                        </option>
+                                        <option value="null">Нічого не вибрано</option>
                                     </select>
 
                                 </div>
@@ -124,9 +123,7 @@
                                     <label>Засіб</label>
 
                                     <select class="custom-select" required="required" name="object" id="object" th:field="*{object}">
-                                        <option th:each="object : ${objects}" th:value="${object.id}"
-                                                th:text="${object.objectName}">Default select
-                                        </option>
+                                        <option value="null">Нічого не вибрано</option>
                                     </select>
                                 </div>
                                 <!-- End Input with Right Icon -->
