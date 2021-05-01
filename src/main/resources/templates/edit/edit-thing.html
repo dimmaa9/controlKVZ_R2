@@ -98,8 +98,10 @@
                                     <div class="form-group">
                                         <label>Область застосування</label>
                                         <select class="custom-select" id="scope">
+                                            <option value="null">Нічого не вибрано</option>
                                             <option th:each="scope : ${scopes}" th:value="${scope.id}"
-                                                    th:text="${scope.scope}">Default select
+                                                    th:text="${scope.scope}"
+                                                    th:selected="${scope.scope == thing.object.type.scope.scope}">Default select
                                             </option>
                                         </select>
                                     </div>
@@ -110,7 +112,12 @@
                                         <label>Вид</label>
 
                                         <select class="custom-select" id="type">
-                                            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.typeName}">
+                                            <option value="null">Нічого не вибрано</option>
+                                            <option th:each="type : ${types}"
+                                                    th:if="${thing.object.type.scope.typeList.contains(type)}"
+                                                    th:value="${type.id}"
+                                                    th:text="${type.typeName}"
+                                                    th:selected="${type.typeName == thing.object.type.typeName}">
                                                 Default select
                                             </option>
                                         </select>
@@ -122,9 +129,12 @@
                                     <div class="form-group">
                                         <label>Засіб</label>
 
-                                        <select class="custom-select" th:field="*{object}">
+                                        <select class="custom-select" required="required" name="object" id="object">
+                                            <option value="null">Нічого не вибрано</option>
                                             <option th:each="object : ${objects}" th:value="${object.id}"
-                                                    th:text="${object.objectName}">Default select
+                                                    th:if="${thing.object.type.objectList.contains(object)}"
+                                                    th:text="${object.objectName}"
+                                                    th:selected="${object.objectName == thing.object.objectName}">
                                             </option>
                                         </select>
                                     </div>
