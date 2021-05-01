@@ -104,15 +104,15 @@
 
 
                                 <input type="hidden" readonly="readonly" th:field="*{id}">
-                                <input type="hidden" readonly="readonly" th:field="*{parentUnit}">
+                                <input type="hidden" readonly="readonly" th:field="*{units}">
                                 <input type="hidden" readonly="readonly" th:field="*{thingList}">
 
                                 <!-- Text -->
                                 <div class="form-group">
                                     <br>
                                     <label>Підпорядкованість</label>
-                                    <select class="custom-select" required="required" th:field="*{parentUnit}" th:disabled="${unit.parentUnit == null}" id="sel1">
-                                        <option th:each="unit, num: ${units}" th:value="${unit.id}"
+                                    <select class="custom-select" required="required" name="parentUnit" th:disabled="${unit.parentUnit == null}" id="sel1">
+                                        <option th:each="unit: ${units}" th:value="${unit.id}"
                                                 th:text="${unit.nameUnit}">Default select
                                         </option>
                                     </select>
