@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -32,8 +33,10 @@ public class IndexController {
 
     @GetMapping("/")
     public String getIndex(Model model) {
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
         model.addAttribute("intUk", thingService.percentUnitListByObjectList(unitService.findAll(), objectService.findAll()).toString());
-        model.addAttribute("dateNow", LocalDate.now().getDayOfMonth() + "." + LocalDate.now().getMonthValue() + "." + LocalDate.now().getYear());
+        model.addAttribute("dateNow", dateFormat.format(new Date()));
 
         return "index";
     }

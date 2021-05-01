@@ -10,7 +10,7 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +19,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @AllArgsConstructor
@@ -81,6 +85,21 @@ public class UnitController {
             }
             System.out.println(objectsName.toString());
 
+
+            String regex = "\\d{2}\\.\\d{2}\\.\\d{4}";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(sheet.getRow(7).getCell(2).getStringCellValue());
+
+            String date = "";
+
+            LocalDate localDate = null;
+            if (matcher.find()){
+                date = matcher.group();
+                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                localDate = LocalDate.parse(date, dateFormat);
+            }
+
+
             for (String s : objectsName) {
 
                 if (stringObjectMap.containsKey(s)) {
@@ -91,13 +110,20 @@ public class UnitController {
                     thing.setUnit(unitService.findById(id));
                     thing.setObject(stringObjectMap.get(s));
 
+                    System.out.println(localDate);
+                    if (localDate != null){
+                        thing.setLocalDate(LocalDate.of(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth()));
+                    }
+
+                    System.out.println(thing.getLocalDate());
+
                     if (cellNeed.getCellType() != CellType.BLANK && cellHave.getCellType() != CellType.BLANK &&
                     cellNeed.getCellType() != CellType.STRING && cellHave.getCellType() != CellType.STRING){
                         thing.setGeneralNeed((int) cellNeed.getNumericCellValue());
                         thing.setGeneralHave((int) cellHave.getNumericCellValue());
                         thingService.save(thing);
                     }
-                    System.out.println(thing.getObject().getObjectName());
+//                    System.out.println(thing.getObject().getObjectName());
 
 
                 }
@@ -116,6 +142,9 @@ public class UnitController {
     @GetMapping("/table/{id}")
     public ModelAndView getTableUnit(@PathVariable long id) {
         ModelAndView mav = new ModelAndView("tables/table-unit-things");
+
+        Calendar calendar = Calendar.getInstance();
+
         mav.addObject("unit", unitService.findById(id));
         return mav;
     }
@@ -124,6 +153,8 @@ public class UnitController {
     public String createThing (@PathVariable long id, Model model) {
         Thing thing = new Thing();
         thing.setUnit(unitService.findById(id));
+        thing.setLocalDate(LocalDate.now());
+
         model.addAttribute("thing", thing);
 
         return "create/create-thing";
@@ -131,6 +162,7 @@ public class UnitController {
 
     @PostMapping("/save")
     public String saveThing(Thing thing){
+
         thingService.save(thing);
         return "redirect:/units/table/" + thing.getUnit().getId().toString();
     }
