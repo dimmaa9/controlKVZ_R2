@@ -92,12 +92,11 @@ public class UnitController {
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(sheet.getRow(7).getCell(2).getStringCellValue());
 
-            String date = "";
 
             LocalDate localDate = null;
             if (matcher.find()){
                 DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-                localDate = LocalDate.parse(date, dateFormat);
+                localDate = LocalDate.parse(matcher.group(), dateFormat);
             }
 
 
