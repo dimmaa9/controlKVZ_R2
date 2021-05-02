@@ -87,8 +87,6 @@ $(function () {
 //test
 
 
-
-
 $(document).ready(function () {
     $('#scope').change(function () {
         sendAjaxRequest();
@@ -97,10 +95,10 @@ $(document).ready(function () {
 
 function sendAjaxRequest() {
     let s = $("#scope").val();
-    if(s ==='null'){
+    if (s === 'null') {
         $('#type').empty();
         $("#type").append("<option value='null'>Нічого не вибрано</option>");
-    }else {
+    } else {
         $.get("/object/create/type?scope=" + s, function (data) {
             $('#type').empty();
 
@@ -109,9 +107,9 @@ function sendAjaxRequest() {
                 count++;
             });
 
-            if(count === 0){
+            if (count === 0) {
                 $("#type").append("<option value='null'>Відсутня інформація</option>");
-            }else {
+            } else {
                 $("#type").append("<option value='null'>Нічого не вибрано</option>");
                 $.each(data, function (k, v) {
                     let option = "<option value = " + k + ">" + v + "</option>";
@@ -131,10 +129,10 @@ $(document).ready(function () {
 
 function sendAjaxRequest2() {
     let s = $("#type").val();
-    if(s ==='null'){
+    if (s === 'null') {
         $('#object').empty();
         $("#object").append("<option value='null'>Нічого не вибрано</option>");
-    }else {
+    } else {
         $.get("/object/create/object?type=" + s, function (data) {
             $('#object').empty();
 
@@ -143,9 +141,9 @@ function sendAjaxRequest2() {
                 count++;
             });
 
-            if(count === 0){
+            if (count === 0) {
                 $("#object").append("<option value='null'>Відсутня інформація</option>");
-            }else {
+            } else {
                 $("#object").append("<option value='null'>Нічого не вибрано</option>");
                 $.each(data, function (k, v) {
                     let option = "<option value = " + k + ">" + v + "</option>";
@@ -174,6 +172,73 @@ $(document).ready(function () {
         html2pdf(element);
     });
 });
+
+$(document).ready(function () {
+    $('#_date_').change(function () {
+        sendAjaxRequestDate();
+    });
+});
+
+function sendAjaxRequestDate() {
+    let value = $("#_date_").val();
+    let idUnit = $("#idUnit").val();
+    let table = $('#unitThingTable').DataTable();
+    table.clear().draw();
+
+    if (value === 'all') {
+        $.get("/units/table/" + idUnit.toString() + "/all", function (data) {
+            let i = 1;
+            $.each(data, function (k, v) {
+                //[0]-item.getObject().getObjectName()
+                //[1]-item.getGeneralNeed() item.getGeneralHave()
+                let values = v.split('|||');
+                let values23 = values[1].toString().split(' ');
+
+                let evensStr = "<a style=\"margin-left: 10px;\" type=\"button\"\n" +
+                "class=\"btn btn-outline-primary text-uppercase mb-2 mr-2\"\n" +
+                "href=\"/units/edit/"+ k +"\">Редагувати</a>\n" +
+                "<a style=\"margin-left: 10px;\" type=\"button\"\n" +
+                "class=\"btn btn-outline-danger text-uppercase mb-2 mr-2\"\n" +
+                "href=\"/units/delete/"+ k +"\">Видалити</a>"
+
+                table.row.add([
+                    i++,
+                    values[0],
+                    values23[0],
+                    values23[1],
+                    values23[2],
+                    evensStr
+                ]).draw();
+            });
+        });
+    } else {
+        $.get("/units/table/" + idUnit.toString() + "/" + value, function (data) {
+            let i = 1;
+            $.each(data, function (k, v) {
+                //[0]-item.getObject().getObjectName()
+                //[1]-item.getGeneralNeed() item.getGeneralHave()
+                let values = v.split('|||');
+                let values23 = values[1].toString().split(' ');
+
+                let evensStr = "<a style=\"margin-left: 10px;\" type=\"button\"\n" +
+                    "class=\"btn btn-outline-primary text-uppercase mb-2 mr-2\"\n" +
+                    "href=\"/units/edit/"+ k +"\">Редагувати</a>\n" +
+                    "<a style=\"margin-left: 10px;\" type=\"button\"\n" +
+                    "class=\"btn btn-outline-danger text-uppercase mb-2 mr-2\"\n" +
+                    "href=\"/units/delete/"+ k +"\">Видалити</a>"
+
+                table.row.add([
+                    i++,
+                    values[0],
+                    values23[0],
+                    values23[1],
+                    value,
+                    evensStr
+                ]).draw();
+            });
+        });
+    }
+}
 
 
 

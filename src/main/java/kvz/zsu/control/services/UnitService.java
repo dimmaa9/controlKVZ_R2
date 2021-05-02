@@ -26,6 +26,10 @@ public class UnitService {
         return repo.findById(id).get();
     }
 
+    public Unit findByName(String unitName){
+        return repo.findByNameUnit(unitName);
+    }
+
     public void save(Unit unit) {
         repo.save(unit);
     }

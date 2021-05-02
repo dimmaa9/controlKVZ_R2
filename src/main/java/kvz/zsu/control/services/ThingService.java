@@ -49,6 +49,40 @@ public class ThingService {
         return new Thing();
     }
 
+    //Актуальные Things (с последней датой)
+    public List<Thing> currentThings(Unit unit) {
+        List<Thing> thingList = unit.getThingList();
+
+        Map<String, List<Thing>> objectMap = new HashMap<>();
+        for (var i = 0; i < thingList.size(); i++) {
+            if (objectMap.containsKey(thingList.get(i).getObject().getObjectName())) continue;
+
+            List<Thing> tList = new ArrayList<>();
+            tList.add(thingList.get(i));
+
+            for (var j = 0; j < thingList.size(); j++) {
+                if (j == i) continue;
+
+                if (thingList.get(j).getObject().equals(thingList.get(i).getObject())) {
+                    tList.add(thingList.get(j));
+                }
+            }
+            objectMap.put(thingList.get(i).getObject().getObjectName(), tList);
+        }
+
+        List<Thing> returnList = new ArrayList<>();
+        for (Map.Entry<String, List<Thing>> entry : objectMap.entrySet()) {
+            //System.out.println(entry.getKey() + ":" + entry.getValue());
+            Thing finalThing = entry.getValue().get(0);
+            for (var item : entry.getValue()) {
+                if (item.getLocalDate().isAfter(finalThing.getLocalDate())) {
+                    finalThing = item;
+                }
+            }
+            returnList.add(finalThing);
+        }
+        return returnList;
+    }
 
     //
 
@@ -190,7 +224,6 @@ public class ThingService {
 
         if(need == 0)
             return 0;
-
 
         return (int)Math.round((have * 100.0) / need);
     }
