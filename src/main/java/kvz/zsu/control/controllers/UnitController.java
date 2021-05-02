@@ -42,7 +42,19 @@ public class UnitController {
 
 
     @GetMapping
-    public String getUnitsTable() {
+    public String getUnitsTable(Model model) {
+        List<Unit> list =  unitService.findAll().stream()
+                .filter(x -> x.getParentUnit() == null)
+                .collect(Collectors.toList());
+        model.addAttribute("unitsList", list);
+        model.addAttribute("unitParentName", "Підрозділи");
+        return "tables/table-units";
+    }
+
+    @GetMapping("/unit/{id}")
+    public String getUnitsTableFromParentUnit(@PathVariable("id") Long id, Model model){
+        model.addAttribute("unitsList", unitService.findById(id).getUnits());
+        model.addAttribute("unitParentName", "Підрозділи (" + unitService.findById(id).getNameUnit()+")");
         return "tables/table-units";
     }
 
