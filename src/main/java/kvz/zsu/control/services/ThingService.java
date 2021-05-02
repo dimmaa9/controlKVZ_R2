@@ -49,6 +49,40 @@ public class ThingService {
         return new Thing();
     }
 
+    //Актуальные Things (с последней датой)
+    public List<Thing> currentThings(Unit unit) {
+        List<Thing> thingList = unit.getThingList();
+
+        Map<String, List<Thing>> objectMap = new HashMap<>();
+        for (var i = 0; i < thingList.size(); i++) {
+            if (objectMap.containsKey(thingList.get(i).getObject().getObjectName())) continue;
+
+            List<Thing> tList = new ArrayList<>();
+            tList.add(thingList.get(i));
+
+            for (var j = 0; j < thingList.size(); j++) {
+                if (j == i) continue;
+
+                if (thingList.get(j).getObject().equals(thingList.get(i).getObject())) {
+                    tList.add(thingList.get(j));
+                }
+            }
+            objectMap.put(thingList.get(i).getObject().getObjectName(), tList);
+        }
+
+        List<Thing> returnList = new ArrayList<>();
+        for (Map.Entry<String, List<Thing>> entry : objectMap.entrySet()) {
+            //System.out.println(entry.getKey() + ":" + entry.getValue());
+            Thing finalThing = entry.getValue().get(0);
+            for (var item : entry.getValue()) {
+                if (item.getLocalDate().isAfter(finalThing.getLocalDate())) {
+                    finalThing = item;
+                }
+            }
+            returnList.add(finalThing);
+        }
+        return returnList;
+    }
 
     //
 
@@ -82,10 +116,10 @@ public class ThingService {
             }
         }
 
-        if(need == 0)
+        if (need == 0)
             return 0;
 
-        return (int)Math.round((have * 100.0) / need);
+        return (int) Math.round((have * 100.0) / need);
     }
 
     public List<Unit> unitsAllByUnit(Unit unit) {
@@ -102,7 +136,7 @@ public class ThingService {
         }
     }
 
-    public Integer percentUnitByObject(Unit unit, Object object){
+    public Integer percentUnitByObject(Unit unit, Object object) {
         Integer need = 0, have = 0;
 
         List<Unit> unitList = unitsAllByUnit(unit);
@@ -111,12 +145,12 @@ public class ThingService {
             for (var item : unitList) {
                 if (item.getThingList().size() != 0 || item.getThingList() != null) {
                     Thing thing = null;
-                    for (var i : item.getThingList()){
-                        if(i.getObject() == object)
+                    for (var i : item.getThingList()) {
+                        if (i.getObject() == object)
                             thing = i;
                     }
 
-                    if(thing != null){
+                    if (thing != null) {
                         have += thing.getGeneralHave();
                         need += thing.getGeneralNeed();
                     }
@@ -124,13 +158,13 @@ public class ThingService {
             }
         }
 
-        if(need == 0)
+        if (need == 0)
             return 0;
 
-        return (int)Math.round((have * 100.0) / need);
+        return (int) Math.round((have * 100.0) / need);
     }
 
-    public Integer percentUnitByObjectList(Unit unit, List<Object> objectList){
+    public Integer percentUnitByObjectList(Unit unit, List<Object> objectList) {
         Integer need = 0, have = 0;
 
         List<Unit> unitList = unitsAllByUnit(unit);
@@ -139,16 +173,16 @@ public class ThingService {
             for (var item : unitList) {
                 if (item.getThingList().size() != 0 || item.getThingList() != null) {
                     List<Thing> things = new ArrayList<>();
-                    for (var i : item.getThingList()){
-                        for (var j = 0; j < objectList.size(); j++){
-                            if(i.getObject() == objectList.get(j)){
+                    for (var i : item.getThingList()) {
+                        for (var j = 0; j < objectList.size(); j++) {
+                            if (i.getObject() == objectList.get(j)) {
                                 things.add(i);
                             }
                         }
                     }
 
-                    if(things.size() != 0){
-                        for (var thing : things){
+                    if (things.size() != 0) {
+                        for (var thing : things) {
                             have += thing.getGeneralHave();
                             need += thing.getGeneralNeed();
                         }
@@ -157,29 +191,29 @@ public class ThingService {
             }
         }
 
-        if(need == 0)
+        if (need == 0)
             return 0;
 
-        return (int)Math.round((have * 100.0) / need);
+        return (int) Math.round((have * 100.0) / need);
     }
 
-    public Integer percentUnitListByObjectList(List<Unit> unitList, List<Object> objectList){
+    public Integer percentUnitListByObjectList(List<Unit> unitList, List<Object> objectList) {
         Integer need = 0, have = 0;
 
         if (unitList != null || unitList.size() != 0) {
             for (var item : unitList) {
                 if (item.getThingList().size() != 0 || item.getThingList() != null) {
                     List<Thing> things = new ArrayList<>();
-                    for (var i : item.getThingList()){
-                        for (var j = 0; j < objectList.size(); j++){
-                            if(i.getObject() == objectList.get(j)){
+                    for (var i : item.getThingList()) {
+                        for (var j = 0; j < objectList.size(); j++) {
+                            if (i.getObject() == objectList.get(j)) {
                                 things.add(i);
                             }
                         }
                     }
 
-                    if(things.size() != 0){
-                        for (var thing : things){
+                    if (things.size() != 0) {
+                        for (var thing : things) {
                             have += thing.getGeneralHave();
                             need += thing.getGeneralNeed();
                         }
@@ -188,9 +222,9 @@ public class ThingService {
             }
         }
 
-        if(need == 0)
+        if (need == 0)
             return 0;
 
-        return (int)Math.round((have * 100.0) / need);
+        return (int) Math.round((have * 100.0) / need);
     }
 }

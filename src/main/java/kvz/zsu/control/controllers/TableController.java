@@ -248,6 +248,25 @@ public class TableController {
         return stringMap;
     }
 
+    @GetMapping("/countThingNeededInUnit")
+    public @ResponseBody Integer getCount(@RequestParam(value = "unitName") String unitName){
+        Unit unit = unitService.findByName(unitName);
+        Integer need = 0, have = 0;
+
+        List<Unit> unitList = thingService.unitsAllByUnit(unit);
+
+        if (unitList != null || unitList.size() != 0) {
+            for (var item : unitList) {
+                if (item.getThingList().size() != 0 || item.getThingList() != null) {
+                    need += thingService.integerNeed(thingService.currentThings(item));
+                    have += thingService.integerHave(thingService.currentThings(item));
+                }
+            }
+        }
+
+        if(need == 0) return 0;
+        return need - have;
+    }
 
     //ModelAttribute
     @ModelAttribute("things")

@@ -45,6 +45,7 @@ public class Thing {
                 ", unit=" + unit +
                 ", generalNeed=" + generalNeed +
                 ", generalHave=" + generalHave +
+                ", localDate=" + localDate +
                 '}';
     }
 }

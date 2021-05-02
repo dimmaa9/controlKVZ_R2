@@ -173,7 +173,7 @@ $(document).ready(function () {
                 $('#div-table').empty();
 
                 let html =
-                    "<div class=\"col-md-6 mb-5\">" +
+                        "<div class=\"col-md-6 mb-5\">" +
                     "                <div class=\"card mb-5\">" +
                     "                    <header class=\"card-header\">" +
                     "                        <h2 class=\"h4 card-header-title\">Укомплектованість</h2>" +
@@ -204,10 +204,20 @@ $(document).ready(function () {
                     let dataTempArr = [];
                     $.each(data, function (k, v) {
                         if (v != 0){
-                            dataTempArr.push({
-                                x: k,
-                                value: v,
-                                yoy: 30
+                            $.ajax({
+                                url: '/table/countThingNeededInUnit',         /* Куда пойдет запрос */
+                                method: 'get',                                /* Метод передачи (post или get) */
+                                data: {unitName: k},                          /* Параметры передаваемые в запросе. */
+                                async: false,
+                                success: function(data){                      /* функция которая будет выполнена после успешного запроса.  */
+                                                                              /* В переменной data содержится ответ от /table/countThingNeededInUnit */
+                                    console.log(data);
+                                    dataTempArr.push({
+                                        x: k,
+                                        value: v,
+                                        yoy: data
+                                    });
+                                }
                             });
                         }
                     });
@@ -306,9 +316,88 @@ $(document).ready(function () {
                     "                        </div>" +
                     "                    </div>" +
                     "                </div>" +
-                    "            </div>";
+                    "            </div>"+
+                    "<div class=\"col-md-6 mb-5\">" +
+                    "<div id=\"containerChart\" style=\"width: 100%; height: 450px;\"></div>" +
+                    "</div>";
                 $('#div-table').append(html);
+                anychart.onDocumentReady(function () {
 
+                    let dataTempArr = [];
+                    $.each(data, function (k, v) {
+                        if (v != 0){
+                            dataTempArr.push({
+                                x: k,
+                                value: v,
+                                yoy: 123
+                            });
+                            // $.ajax({
+                            //     url: '/table/countThingNeededInUnit',         /* Куда пойдет запрос */
+                            //     method: 'get',                                /* Метод передачи (post или get) */
+                            //     data: {unitName: k},                          /* Параметры передаваемые в запросе. */
+                            //     async: false,
+                            //     success: function(data){                      /* функция которая будет выполнена после успешного запроса.  */
+                            //         /* В переменной data содержится ответ от /table/countThingNeededInUnit */
+                            //         console.log(data);
+                            //
+                            //     }
+                            // });
+                        }
+                    });
+                    dataTempArr.sort((a, b) => a.value < b.value ? 1 : -1);
+
+
+                    let dataSet = anychart.data.set(dataTempArr);
+
+                    // set chart type
+                    var chart = anychart.column();
+
+                    chart.title().enabled(true).useHtml(true)
+                        .text("Діаграма техніки у ЗСУ <br> по укомплектованості<br> за останніми оновленнями")
+                        .hAlign("center");
+
+                    // disable x axis title
+                    chart.xAxis().title().enabled(false);
+
+                    // allow two lines in x axis labels
+                    chart.xAxis().staggerMode(2);
+
+                    // set data
+                    var column = chart.column(dataSet);
+
+                    var view = dataSet.mapAs();
+
+                    // set listener on chart
+                    column.listen(
+
+                        // listener type
+                        "pointmouseover",
+
+                        // function, if listener triggers
+                        function(e) {
+                            // receive all necessary information and summarize it in one variable
+                            var infoGetter = "Засіб:<b>" +
+                                view.get(e.pointIndex, "x") +
+                                "</b><br/> Укомплектовано на: <b>" +
+                                view.get(e.pointIndex, "value") + " % </b>" ;
+
+                            // set received information into chart title
+                            chart.title().text(infoGetter).fontWeight(300);
+                        }
+                    );
+                    column.listen(
+                        // listener type
+                        "pointmouseout",
+
+                        // function, if listener triggers
+                        function () {
+                            chart.title().fontWeight(900).text("Діаграма техніки у ЗСУ <br> по укомплектованості<br> за останніми оновленнями");
+                        }
+                    );
+
+                    // set container and draw chart
+                    chart.container("containerChart").draw();
+                });
                 let i = 1;
                 $.each(data, function (k, v) {
                     let tr = '<tr>' + '<td class="font-weight-semi-bold">' + i++ + '</td>' +
@@ -361,12 +450,97 @@ $(document).ready(function () {
                         "                        </div>" +
                         "                    </div>" +
                         "                </div>" +
-                        "            </div>";
+                        "            </div>" +
+                        "<div class=\"col-md-6 mb-5\">" +
+                        "<div id=\"containerChart"+ i +"\" style=\"width: 100%; height: 450px;\"></div>" +
+                        "</div>";
                     massIndex.push(i);
                     $('#div-table').append(html);
                 }
 
                 for (let item = 0; item < massIndex.length; item++) {
+                    anychart.onDocumentReady(function () {
+
+                        let dataTempArr = [];
+                        for (let i = 1; i < data.length; i++) {
+                            let output = data[i][massIndex[item]];
+                            if(output!=0){
+                                dataTempArr.push({
+                                    x: data[i][0],
+                                    value: output.toString(),
+                                    yoy: 123
+                                });
+                            }
+                        }
+                        // $.each(data, function (k, v) {
+                        //     if (v != 0){
+                        //
+                        //         // $.ajax({
+                        //         //     url: '/table/countThingNeededInUnit',         /* Куда пойдет запрос */
+                        //         //     method: 'get',                                /* Метод передачи (post или get) */
+                        //         //     data: {unitName: k},                          /* Параметры передаваемые в запросе. */
+                        //         //     async: false,
+                        //         //     success: function(data){                      /* функция которая будет выполнена после успешного запроса.  */
+                        //         //         /* В переменной data содержится ответ от /table/countThingNeededInUnit */
+                        //         //         console.log(data);
+                        //         //
+                        //         //     }
+                        //         // });
+                        //     }
+                        // });
+                        dataTempArr.sort((a, b) => a.value < b.value ? 1 : -1);
+
+                        let dataSet = anychart.data.set(dataTempArr);
+
+                        // set chart type
+                        var chart = anychart.column();
+
+                        chart.title().enabled(true).useHtml(true)
+                            .text("Діаграма <br> по укомплектованості<br> за останніми оновленнями")
+                            .hAlign("center");
+
+                        // disable x axis title
+                        chart.xAxis().title().enabled(false);
+
+                        // allow two lines in x axis labels
+                        chart.xAxis().staggerMode(2);
+
+                        // set data
+                        let column = chart.column(dataSet);
+
+                        let view = dataSet.mapAs();
+
+                        // set listener on chart
+                        column.listen(
+
+                            // listener type
+                            "pointmouseover",
+
+                            // function, if listener triggers
+                            function(e) {
+                                // receive all necessary information and summarize it in one variable
+                                let infoGetter = "Об'єкт:<b>" +
+                                    view.get(e.pointIndex, "x") +
+                                    "</b><br/> Укомплектовано на: <b>" +
+                                    view.get(e.pointIndex, "value") + " % </b>" ;
+
+                                // set received information into chart title
+                                chart.title().text(infoGetter).fontWeight(300);
+                            }
+                        );
+                        column.listen(
+                            // listener type
+                            "pointmouseout",
+
+                            // function, if listener triggers
+                            function () {
+                                chart.title().fontWeight(900).text("Діаграма <br> по укомплектованості<br> за останніми оновленнями");
+                            }
+                        );
+
+                        // set container and draw chart
+                        chart.container("containerChart"+massIndex[item]).draw();
+                    });
                     for (let i = 1; i < data.length; i++) {
                         let output = data[i][massIndex[item]];
                         let tr = '<tr>' + '<td class="font-weight-semi-bold">' + i + '</td>' +
