@@ -1,11 +1,13 @@
 package kvz.zsu.control.controllers;
 
-import kvz.zsu.control.models.*;
 import kvz.zsu.control.models.Object;
-import kvz.zsu.control.services.*;
+import kvz.zsu.control.models.Thing;
+import kvz.zsu.control.models.Unit;
+import kvz.zsu.control.services.ObjectService;
+import kvz.zsu.control.services.ScopeService;
+import kvz.zsu.control.services.ThingService;
+import kvz.zsu.control.services.UnitService;
 import lombok.AllArgsConstructor;
-import org.json.JSONObject;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,7 +41,13 @@ public class RestAjaxController {
             }
             Integer countOutput = 0;
             for (var i : things){
-                countOutput += i.getGeneralHave();
+                try {
+                    countOutput += i.getGeneralHave();
+                }
+                catch (NullPointerException ex) {
+                    countOutput = 0;
+                }
+
             }
 
             scopeData.put(item.getScope(), countOutput.toString());
@@ -50,11 +58,19 @@ public class RestAjaxController {
 
     @GetMapping("/getPercent")
     public List<String> getPercentInfo(){
-        Integer intUk = thingService.percentUnitListByObjectList(unitService.findAll(), objectService.findAll());
-        Integer intNoyUk = 100 - intUk;
+        Integer intUk = 0;
+
+        try {
+            intUk = thingService.percentUnitListByObjectList(unitService.findAll(), objectService.findAll());
+        }
+        catch (NullPointerException ex) {
+            intUk = 0;
+        }
+
+        int intNoyUk = 100 - intUk;
         List<String> listOutput = new ArrayList<>();
         listOutput.add(intUk.toString());
-        listOutput.add(intNoyUk.toString());
+        listOutput.add(String.valueOf(intNoyUk));
         return listOutput;
     }
 
@@ -65,7 +81,13 @@ public class RestAjaxController {
         List<Object> objectList = objectService.findAll();
 
         for (var item : unitList){
-            map.put(item.getNameUnit(), thingService.percentUnitByObjectList(item, objectList));
+            try {
+                map.put(item.getNameUnit(), thingService.percentUnitByObjectList(item, objectList));
+            }
+            catch (NullPointerException ex){
+                map.put(item.getNameUnit(), 0);
+            }
+
         }
         return map;
     }

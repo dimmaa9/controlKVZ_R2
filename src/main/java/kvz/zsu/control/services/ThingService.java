@@ -191,6 +191,7 @@ public class ThingService {
         if(need == 0)
             return 0;
 
+
         return (int)Math.round((have * 100.0) / need);
     }
 }
