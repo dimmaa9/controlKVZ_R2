@@ -47,7 +47,7 @@ public class UnitController {
     }
 
     @GetMapping("/create")
-    public String createUnit(Model model) {
+    public String createUnit (Model model) {
         model.addAttribute("unit", new Unit());
 
         return "create/create-unit";
@@ -95,8 +95,7 @@ public class UnitController {
             String date = "";
 
             LocalDate localDate = null;
-            if (matcher.find()) {
-                date = matcher.group();
+            if (matcher.find()){
                 DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
                 localDate = LocalDate.parse(date, dateFormat);
             }
@@ -146,6 +145,7 @@ public class UnitController {
     @GetMapping("/table/{id}")
     public ModelAndView getTableUnit(@PathVariable long id) {
         ModelAndView mav = new ModelAndView("tables/table-unit-things");
+
         Calendar calendar = Calendar.getInstance();
         Unit unit = unitService.findById(id);
 

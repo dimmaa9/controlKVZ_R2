@@ -11,14 +11,13 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -35,7 +34,13 @@ public class IndexController {
     public String getIndex(Model model) {
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
-        model.addAttribute("intUk", thingService.percentUnitListByObjectList(unitService.findAll(), objectService.findAll()).toString());
+        try {
+            model.addAttribute("intUk", thingService.percentUnitListByObjectList(unitService.findAll(), objectService.findAll()).toString());
+        }
+        catch (NullPointerException ex) {
+            model.addAttribute("intUk", "0");
+        }
+        
         model.addAttribute("dateNow", dateFormat.format(new Date()));
 
         return "index";
@@ -50,12 +55,23 @@ public class IndexController {
             else continue;
         }
 
-        Integer intUk = thingService.percentUnitListByObjectList(unitService.findAll(), objectService.findAll());
+        Integer intUk = 0;
+        int sumThingsHave = 0;
+
+        try {
+            intUk = thingService.percentUnitListByObjectList(unitService.findAll(), objectService.findAll());
+            sumThingsHave = thingService.findAll().stream().mapToInt(Thing::getGeneralHave).sum();
+        }
+        catch (NullPointerException ex) {
+            intUk = 0;
+            sumThingsHave = 0;
+        }
+
         int intNotUk = 100 - intUk;
 
         model.addAttribute("totalSum", (int)sum);
         model.addAttribute("countObjects", objectService.findAll().size());
-        model.addAttribute("sumThingsHave", thingService.findAll().stream().mapToInt(Thing::getGeneralHave).sum());
+        model.addAttribute("sumThingsHave", sumThingsHave);
         model.addAttribute("countUnits", unitService.findAll().size());
         model.addAttribute("intUk", intUk.toString());
         model.addAttribute("intNoyUk", Integer.toString(intNotUk));
