@@ -1,7 +1,7 @@
 package kvz.zsu.control.controllers;
 
-import kvz.zsu.control.models.*;
 import kvz.zsu.control.models.Object;
+import kvz.zsu.control.models.*;
 import kvz.zsu.control.services.*;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -10,7 +10,6 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -83,20 +80,16 @@ public class UnitController {
                     row++;
                 } else break;
             }
-            System.out.println(objectsName.toString());
 
 
             String regex = "\\d{2}\\.\\d{2}\\.\\d{4}";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(sheet.getRow(7).getCell(2).getStringCellValue());
 
-            String date = "";
-
             LocalDate localDate = null;
             if (matcher.find()){
-                date = matcher.group();
                 DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-                localDate = LocalDate.parse(date, dateFormat);
+                localDate = LocalDate.parse(matcher.group(), dateFormat);
             }
 
 
@@ -110,7 +103,6 @@ public class UnitController {
                     thing.setUnit(unitService.findById(id));
                     thing.setObject(stringObjectMap.get(s));
 
-                    System.out.println(localDate);
                     if (localDate != null){
                         thing.setLocalDate(LocalDate.of(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth()));
                     }

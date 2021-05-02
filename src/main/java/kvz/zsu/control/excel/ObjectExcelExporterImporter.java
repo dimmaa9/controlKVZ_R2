@@ -67,6 +67,7 @@ public class ObjectExcelExporterImporter {
         font.setFontName("Times New Roman");
 
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
+
         cellStyle.setBorderBottom(BorderStyle.THIN);
         cellStyle.setBorderLeft(BorderStyle.THIN);
         cellStyle.setBorderTop(BorderStyle.THIN);
