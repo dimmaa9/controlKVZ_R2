@@ -44,10 +44,10 @@
 		<link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
 
 		<!-- Components Vendor Styles -->
-		<link rel="stylesheet" href="assets/vendor/themify-icons/themify-icons.css">
+		<link rel="stylesheet" th:href="@{/vendor/themify-icons/themify-icons.css}">
 
 		<!-- Theme Styles -->
-		<link rel="stylesheet" href="assets/css/theme.css">
+		<link rel="stylesheet" th:href="@{/css/theme.css}">
 	</head>
 	<!-- End Head -->
 
@@ -57,8 +57,8 @@
 		<header class="u-header u-header--error-page">
 			<!-- Header Logo -->
 			<a class="u-header-logo" href="index.html">
-					<img class="u-header-logo__icon" src="assets/svg/logo-mini.svg" alt="Awesome Icon">
-					<img class="u-header-logo__text ml-1" src="assets/svg/logo-text-dark.svg" alt="Awesome" width="140">
+					<img class="u-header-logo__icon" th:src="@{/svg/logo-mini.svg}" alt="Awesome Icon">
+					<img class="u-header-logo__text ml-1" th:src="@{/svg/logo-text-dark.svg}" alt="Awesome" width="140">
 			</a>
 			<!-- End Header Logo -->
 		</header>
@@ -75,16 +75,16 @@
 
 				<!-- SVG Shapes -->
 				<figure class="u-shape u-shape-top-left">
-					<img src="assets/svg/shapes/shape-1.svg" alt="Image description">
+					<img th:src="@{/svg/shapes/shape-1.svg}" alt="Image description">
 				</figure>
 				<figure class="u-shape u-shape-top-right">
-					<img src="assets/svg/shapes/shape-2.svg" alt="Image description">
+					<img th:src="@{/svg/shapes/shape-2.svg}" alt="Image description">
 				</figure>
 				<figure class="u-shape u-shape-bottom-left">
-					<img src="assets/svg/shapes/shape-3.svg" alt="Image description">
+					<img th:src="@{/svg/shapes/shape-3.svg}" alt="Image description">
 				</figure>
 				<figure class="u-shape u-shape-bottom-right">
-					<img src="assets/svg/shapes/shape-4.svg" alt="Image description">
+					<img th:src="@{/svg/shapes/shape-4.svg}" alt="Image description">
 				</figure>
 				<!-- End SVG Shapes -->
 			</div>

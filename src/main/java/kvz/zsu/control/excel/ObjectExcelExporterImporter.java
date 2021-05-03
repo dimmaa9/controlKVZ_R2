@@ -38,7 +38,7 @@ public class ObjectExcelExporterImporter {
 
     public ObjectExcelExporterImporter(Map<String, List<String>> map) throws IOException, InvalidFormatException {
         objectsMap = map;
-        workbook = new XSSFWorkbook(new File("src/main/resources/excel/dodatok_01-04-2021_18_28_30.xlsx"));
+        workbook = new XSSFWorkbook(new File(Thread.currentThread().getContextClassLoader().getResource("excel/dodatok_01-04-2021_18_28_30.xlsx").getPath()));
         sheet = workbook.getSheetAt(0);
     }
 
