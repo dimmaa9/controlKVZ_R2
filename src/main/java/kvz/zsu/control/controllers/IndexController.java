@@ -30,6 +30,7 @@ public class IndexController {
     private final TypeService typeService;
     private final UnitService unitService;
 
+
     @GetMapping("/")
     public String getIndex(Model model) {
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
