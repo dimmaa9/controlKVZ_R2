@@ -117,7 +117,7 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <div class="user" style="margin-left: auto;">
-                        <img th:src="@{'/avatars/' + ${unit.filename}}" class="main-profile-img"/>
+                        <img th:src="@{${unit.filename != null ? '/avatars/' + unit.filename : '/avatars/default-avatar.jpg'}}" class="main-profile-img"/>
                         <span class="icon">
                             <a type="button" href="#exampleModalCenter" data-toggle="modal">
                                 <i class="fa fa-edit" ></i>

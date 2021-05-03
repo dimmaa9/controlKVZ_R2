@@ -119,8 +119,8 @@
                                 <td class="font-weight-semi-bold" th:text="${num.count}">1</td>
                                 <td class="font-weight-semi-bold">
                                     <div class="media align-items-center">
-                                        <img class="u-avatar-xs rounded-circle mr-3" th:if="${unit.filename}"
-                                             th:src="@{'/avatars/' + ${unit.filename}}">
+                                        <img class="u-avatar-xs rounded-circle mr-3"
+                                             th:src="@{${unit.filename != null ? '/avatars/' + unit.filename : '/avatars/default-avatar.jpg'}}">
                                         <span class="media-body" th:text="${unit.nameUnit}"></span>
                                     </div>
                                 </td>
