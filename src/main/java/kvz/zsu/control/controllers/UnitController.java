@@ -20,8 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -157,7 +155,6 @@ public class UnitController {
     public ModelAndView getTableUnit(@PathVariable long id) {
         ModelAndView mav = new ModelAndView("tables/table-unit-things");
 
-        Calendar calendar = Calendar.getInstance();
         Unit unit = unitService.findById(id);
 
         //Уникальные элементи
