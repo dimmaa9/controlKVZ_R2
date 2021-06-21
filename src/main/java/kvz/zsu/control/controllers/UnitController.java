@@ -41,7 +41,7 @@ public class UnitController {
 
     @GetMapping
     public String getUnitsTable(Model model) {
-        List<Unit> list =  unitService.findAll().stream()
+        List<Unit> list = unitService.findAll().stream()
                 .filter(x -> x.getParentUnit() == null)
                 .collect(Collectors.toList());
         model.addAttribute("unitsList", list);
@@ -50,14 +50,14 @@ public class UnitController {
     }
 
     @GetMapping("/unit/{id}")
-    public String getUnitsTableFromParentUnit(@PathVariable("id") Long id, Model model){
+    public String getUnitsTableFromParentUnit(@PathVariable("id") Long id, Model model) {
         model.addAttribute("unitsList", unitService.findById(id).getUnits());
-        model.addAttribute("unitParentName", "Підрозділи (" + unitService.findById(id).getNameUnit()+")");
+        model.addAttribute("unitParentName", "Підрозділи (" + unitService.findById(id).getNameUnit() + ")");
         return "tables/table-units";
     }
 
     @GetMapping("/create")
-    public String createUnit (Model model) {
+    public String createUnit(Model model) {
         model.addAttribute("unit", new Unit());
 
         return "create/create-unit";
@@ -72,8 +72,10 @@ public class UnitController {
 
             //thingService.deleteByUnit(unitService.findById(id));
 
-            int row = 16;
-            int rowCellNeedAndHave = 16;
+            int row = 7;
+
+            //Ячейка наявність
+            int rowCell = 7;
 
             Map<String, Object> stringObjectMap = new HashMap<>();
 
@@ -87,7 +89,7 @@ public class UnitController {
 
 
             while (true) {
-                Cell cell = sheet.getRow(row).getCell(1);
+                Cell cell = sheet.getRow(row).getCell(0);
 
 
                 if (!getCellText(cell).equals("")) {
@@ -100,11 +102,11 @@ public class UnitController {
 
             String regex = "\\d{2}\\.\\d{2}\\.\\d{4}";
             Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(sheet.getRow(7).getCell(2).getStringCellValue());
+            Matcher matcher = pattern.matcher(sheet.getRow(3).getCell(2).getStringCellValue());
 
 
             LocalDate localDate = null;
-            if (matcher.find()){
+            if (matcher.find()) {
                 DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
                 localDate = LocalDate.parse(matcher.group(), dateFormat);
             }
@@ -114,8 +116,6 @@ public class UnitController {
 
                 if (stringObjectMap.containsKey(s)) {
                     Thing thing = new Thing();
-                    Cell cellNeed = sheet.getRow(rowCellNeedAndHave).getCell(3);
-                    Cell cellHave = sheet.getRow(rowCellNeedAndHave).getCell(2);
 
                     thing.setUnit(unitService.findById(id));
                     thing.setObject(stringObjectMap.get(s));
@@ -127,20 +127,62 @@ public class UnitController {
                         thing.setLocalDate(LocalDate.now());
                     }
 
-                    System.out.println(thing.getLocalDate());
+                    //Не вистаяає
+                    Cell cellNotEnough = sheet.getRow(rowCell).getCell(5);
+                    System.out.println(cellNotEnough.getNumericCellValue());
+                    //Надлишок
+                    Cell cellExcess = sheet.getRow(rowCell).getCell(6);
+                    System.out.println(cellExcess.getNumericCellValue());
+                    //Наявність
+                    Cell cellHave = sheet.getRow(rowCell).getCell(4);
+                    System.out.println(cellHave.getNumericCellValue());
 
-                    if (cellNeed.getCellType() != CellType.BLANK && cellHave.getCellType() != CellType.BLANK &&
-                            cellNeed.getCellType() != CellType.STRING && cellHave.getCellType() != CellType.STRING) {
-                        thing.setGeneralNeed((int) cellNeed.getNumericCellValue());
+                    if (cellHave.getCellType() == CellType.BLANK && cellExcess.getCellType() == CellType.BLANK &&
+                            cellNotEnough.getCellType() == CellType.BLANK) {
+                        continue;
+                    } else {
+                        if ((int) cellHave.getNumericCellValue() == 0 && (int) cellExcess.getNumericCellValue() == 0 &&
+                                (int) cellNotEnough.getNumericCellValue() == 0) {
+                            continue;
+                        }
+
                         thing.setGeneralHave((int) cellHave.getNumericCellValue());
+
+                        if ((cellNotEnough.getCellType() == CellType.BLANK && cellExcess.getCellType() == CellType.BLANK) ||
+                                ((int)cellNotEnough.getNumericCellValue() == 0 && (int)cellExcess.getNumericCellValue() == 0)) {
+
+                            thing.setGeneralNeed((int) cellHave.getNumericCellValue());
+
+                        } else if (cellNotEnough.getCellType() == CellType.BLANK || (int) cellNotEnough.getNumericCellValue() == 0) {
+
+                            thing.setGeneralNeed(((int) cellHave.getNumericCellValue()) - ((int) cellExcess.getNumericCellValue()));
+
+                        } else if (cellExcess.getCellType() == CellType.BLANK || (int)cellExcess.getNumericCellValue() == 0) {
+
+                            thing.setGeneralNeed(((int) cellHave.getNumericCellValue()) + ((int) cellNotEnough.getNumericCellValue()));
+
+                        }
+                        System.out.println(thing.getLocalDate());
                         thingService.save(thing);
                     }
+
+
+                    rowCell++;
+
+
+//                    if (cellNeed.getCellType() != CellType.BLANK && cellHave.getCellType() != CellType.BLANK &&
+//                            cellNeed.getCellType() != CellType.STRING && cellHave.getCellType() != CellType.STRING) {
+//                        thing.setGeneralNeed((int) cellNeed.getNumericCellValue());
+//                        thing.setGeneralHave((int) cellHave.getNumericCellValue());
+//                        thingService.save(thing);
+//                    }
 //                    System.out.println(thing.getObject().getObjectName());
 
 
                 }
 
-                rowCellNeedAndHave++;
+//                rowCellNeedAndHave++;
+
 
             }
         } catch (Exception exception) {
@@ -171,27 +213,29 @@ public class UnitController {
     }
 
     @GetMapping("/table/{id}/all")
-    public @ResponseBody Map<Long, String> allThingsFromUnit(@PathVariable long id) {
+    public @ResponseBody
+    Map<Long, String> allThingsFromUnit(@PathVariable long id) {
         Map<Long, String> thingMap = new HashMap<>();
         List<Thing> list = unitService.findById(id).getThingList();
         for (var item : list) {
             thingMap.put(item.getId(),
                     item.getObject().getObjectName() + "|||" +
-                    item.getGeneralNeed() + " " +
-                    item.getGeneralHave()+ " " +
-                    item.getLocalDate().toString());
+                            item.getGeneralNeed() + " " +
+                            item.getGeneralHave() + " " +
+                            item.getLocalDate().toString());
         }
         return thingMap;
     }
 
     @GetMapping("/table/{id}/{date}")
-    public @ResponseBody Map<Long, String> findDateThingsFromUnit(@PathVariable long id,
-                                                                  @PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate date) {
+    public @ResponseBody
+    Map<Long, String> findDateThingsFromUnit(@PathVariable long id,
+                                             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Map<Long, String> thingMap = new HashMap<>();
         List<Thing> list = unitService.findById(id).getThingList()
-                                .stream()
-                                    .filter(x -> x.getLocalDate().equals(date))
-                                    .collect(Collectors.toList());
+                .stream()
+                .filter(x -> x.getLocalDate().equals(date))
+                .collect(Collectors.toList());
         for (var item : list) {
             thingMap.put(item.getId(),
                     item.getObject().getObjectName() + "|||" +

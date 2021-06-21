@@ -39,7 +39,7 @@ public class ObjectExcelExporterImporter {
 
     public ObjectExcelExporterImporter(Map<String, List<String>> map) throws IOException, InvalidFormatException {
         objectsMap = map;
-        workbook = new XSSFWorkbook(new File(Thread.currentThread().getContextClassLoader().getResource("excel/dodatok_01-04-2021_18_28_30.xlsx").getPath()));
+        workbook = new XSSFWorkbook(new File("src/main/resources/newExcel/1.xlsx"));
         sheet = workbook.getSheetAt(0);
     }
 
@@ -51,12 +51,12 @@ public class ObjectExcelExporterImporter {
 
 
     private void writeObjectsToRows() {
-        int rowCounter = 16;
+        int rowCounter = 7;
         int counter = 1;
 
         DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
-        sheet.getRow(7).getCell(2).setCellValue("станом на " + format.format(new Date()));
+        sheet.getRow(3).getCell(2).setCellValue("станом на " + format.format(new Date()));
 
         List<String> keys = new ArrayList<>(objectsMap.keySet());
 
@@ -64,30 +64,32 @@ public class ObjectExcelExporterImporter {
         XSSFFont font = workbook.createFont();
 
         font.setFontHeightInPoints((short) 12);
-        font.setBold(true);
+//        font.setBold(true);
         font.setFontName("Times New Roman");
 
-        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+//        cellStyle.setAlignment(HorizontalAlignment.CENTER);
 
         cellStyle.setBorderBottom(BorderStyle.THIN);
         cellStyle.setBorderLeft(BorderStyle.THIN);
         cellStyle.setBorderTop(BorderStyle.THIN);
         cellStyle.setBorderRight(BorderStyle.THIN);
         cellStyle.setFont(font);
+        cellStyle.setWrapText(true);
 
         for (String key : keys) {
             if (objectsMap.get(key).size() == 0)
                 continue;
 
-            sheet.getRow(rowCounter).getCell(1).setCellStyle(cellStyle);
-            sheet.getRow(rowCounter++).getCell(1).setCellValue(key);
+
 
             for (int j = 0; j < objectsMap.get(key).size(); j++) {
-                sheet.getRow(rowCounter).getCell(0).setCellValue(counter++);
-                sheet.getRow(rowCounter++).getCell(1).setCellValue(objectsMap.get(key).get(j));
+                sheet.getRow(rowCounter).getCell(0).setCellStyle(cellStyle);
+                sheet.getRow(rowCounter++).getCell(0).setCellValue(objectsMap.get(key).get(j));
             }
         }
     }
+
+
 
 
 

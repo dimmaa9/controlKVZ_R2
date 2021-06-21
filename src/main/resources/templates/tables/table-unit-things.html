@@ -58,7 +58,7 @@
                         <h1 style="margin-top: auto; margin-bottom: auto" class="h3 mb-2"
                             data-th-text="${unit.nameUnit}"></h1>
                         <a style="margin-left: 30px;" type="button" class="btn bg-dark btn-pill text-light"
-                           th:href="@{'/units/' + ${unit.id} + '/create'}">
+                           data-th-href="@{'/units/' + ${unit.id} + '/create'}">
                             <span class="ti-pencil-alt"></span>
                             <span class="u-sidebar-nav-menu__item-title" style="margin-left: 5px">Додати</span>
                         </a>
