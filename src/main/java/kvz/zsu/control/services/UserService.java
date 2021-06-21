@@ -34,4 +34,8 @@ public class UserService implements UserDetailsService {
     public User findById( Long id) {
         return repo.findById(id).get();
     }
+
+    public void save(User user) {
+        repo.save(user);
+    }
 }

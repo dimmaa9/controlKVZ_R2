@@ -4,42 +4,7 @@
 <head>
     <title>Таблиця підрозділів</title>
 
-    <!-- Meta -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-
-    <!--  Social tags -->
-    <meta name="keywords"
-          content="Awesome Dashboard UI Kit, Bootstrap, Template, Theme, Freebies, MIT license, Free, Download">
-    <meta name="description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
-    <meta name="author" content="htmlstream.com">
-
-    <!-- Schema.org -->
-    <meta itemprop="name" content="Awesome Dashboard UI Kit">
-    <meta itemprop="description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
-    <meta itemprop="image" content="assets/img-temp/aduik-preview.png">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@htmlstream">
-    <meta name="twitter:title" content="Awesome Dashboard UI Kit">
-    <meta name="twitter:description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
-    <meta name="twitter:creator" content="@htmlstream">
-    <meta name="twitter:image" content="assets/img-temp/aduik-preview.png">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Htmlstream">
-    <meta property="og:title" content="Awesome Dashboard UI Kit">
-    <meta property="og:description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
-    <meta property="og:url" content="https://htmlstream.com/preview/awesome-dashboard-ui-kit/">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:image" content="assets/img-temp/aduik-preview.png">
-    <meta property="og:image:secure_url" content="assets/img-temp/aduik-preview.png">
 
     <!-- Web Fonts -->
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
@@ -120,7 +85,7 @@
                                 <td class="font-weight-semi-bold">
                                     <div class="media align-items-center">
                                         <img class="u-avatar-xs rounded-circle mr-3"
-                                             th:src="@{${unit.filename != null ? '/avatars/' + unit.filename : '/avatars/default-avatar.jpg'}}">
+                                             th:src="${unit.filename != null ? '/avatars/' + unit.filename : '/avatars/default-avatar.jpg'}">
                                         <span class="media-body" th:text="${unit.nameUnit}"></span>
                                     </div>
                                 </td>
@@ -142,7 +107,7 @@
                                            th:href="@{'/units/table/' + ${unit.id}}">Відкрити
                                         </a>
                                         <a style="margin-left: 10px;" type="button"
-                                           class="btn btn-outline-warning text-uppercase mb-2 mr-2"
+                                           class="btn btn-outline-dark text-uppercase mb-2 mr-2"
                                            th:href="@{'/units/unit/' + ${unit.id}}">Підрозділи
                                         </a>
                                         <a style="margin-left: 10px;" type="button"

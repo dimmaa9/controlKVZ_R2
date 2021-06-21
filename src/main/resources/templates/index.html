@@ -3,46 +3,6 @@
 <head>
     <title>Головна</title>
 
-    <!-- Meta -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-
-    <!--  Social tags -->
-    <meta name="keywords"
-          content="Awesome Dashboard UI Kit, Bootstrap, Template, Theme, Freebies, MIT license, Free, Download">
-    <meta name="description"
-          content="Awesome Dashboard UI Kit is a beautiful Open Source Bootstrap 4 Dashboard UI Kit crafted by Htmlstream.">
-    <meta name="author" content="htmlstream.com">
-
-    <!-- Schema.org -->
-    <meta itemprop="name" content="Awesome Dashboard UI Kit">
-    <meta itemprop="description"
-          content="Awesome Dashboard UI Kit is a beautiful Open Source Bootstrap 4 Dashboard UI Kit crafted by Htmlstream.">
-    <meta itemprop="image" content="assets/img-temp/aduik-preview.png">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@htmlstream">
-    <meta name="twitter:title" content="Awesome Dashboard UI Kit">
-    <meta name="twitter:description"
-          content="Awesome Dashboard UI Kit is a beautiful Open Source Bootstrap 4 Dashboard UI Kit crafted by Htmlstream.">
-    <meta name="twitter:creator" content="@htmlstream">
-    <meta name="twitter:image" content="assets/img-temp/aduik-preview.png">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Htmlstream">
-    <meta property="og:title" content="Awesome Dashboard UI Kit">
-    <meta property="og:description"
-          content="Awesome Dashboard UI Kit is a beautiful Open Source Bootstrap 4 Dashboard UI Kit crafted by Htmlstream.">
-    <meta property="og:url" content="https://htmlstream.com/preview/awesome-dashboard-ui-kit/">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:image" content="assets/img-temp/aduik-preview.png">
-    <meta property="og:image:secure_url" content="assets/img-temp/aduik-preview.png">
 
     <!-- Web Fonts -->
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
@@ -61,11 +21,11 @@
 
 <!-- Body -->
 <body>
-<header th:replace="~{fragments/slide-bar :: header(${user})}"></header>
+<header data-th-replace="~{fragments/slide-bar :: header(${user})}"></header>
 
 <!-- Main -->
 <main class="u-main">
-    <aside th:replace="~{fragments/slide-bar :: bar(1)}"></aside>
+    <aside data-th-replace="~{fragments/slide-bar :: bar(1)}"></aside>
     <!-- Content -->
     <div class="u-content">
         <!-- Content Body -->
@@ -76,7 +36,7 @@
                     <div class="card h-100">
                         <!-- Card Header -->
                         <header class="card-header d-flex align-items-center justify-content-center">
-                            <h2 class="h2 card-header-title" th:text="|Укомплектованість ЗСУ, всього - ${intUk}%, станом на ${dateNow}|"></h2>
+                            <h2 class="h2 card-header-title" data-th-text="|Укомплектованість ЗСУ, всього - ${intUk}%, станом на ${dateNow}|"></h2>
                         </header>
                         <!-- End Card Header -->
 
@@ -102,7 +62,7 @@
         </div>
         <!-- End Content Body -->
 
-        <footer th:replace="~{fragments/slide-bar :: footer}"></footer>
+        <footer data-th-replace="~{fragments/slide-bar :: footer}"></footer>
 
 
         <!-- End Footer -->
@@ -112,7 +72,7 @@
 <!-- End Main -->
 
 <!-- Global Vendor -->
-<script th:src="@{/vendor/jquery/dist/jquery.min.js}"></script>
+<script data-th-src="@{/vendor/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{/vendor/jquery-migrate/jquery-migrate.min.js}"></script>
 <script th:src="@{/vendor/popper.js/dist/umd/popper.min.js}"></script>
 <script th:src="@{/vendor/bootstrap/dist/js/bootstrap.min.js}"></script>
