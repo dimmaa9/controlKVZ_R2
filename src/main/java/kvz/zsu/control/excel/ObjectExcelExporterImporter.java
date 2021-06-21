@@ -5,11 +5,10 @@ import kvz.zsu.control.models.Thing;
 import kvz.zsu.control.models.Unit;
 import kvz.zsu.control.services.ObjectService;
 import kvz.zsu.control.services.ThingService;
+import kvz.zsu.control.services.UnitService;
+import lombok.SneakyThrows;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +23,11 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ObjectExcelExporterImporter {
 
@@ -35,7 +35,14 @@ public class ObjectExcelExporterImporter {
     private XSSFWorkbook workbook;
     private Sheet sheet;
 
+    private MultipartFile file;
+    private long id;
+
     private Map<String, List<String>> objectsMap;
+
+    private ObjectService objectService;
+    private UnitService unitService;
+    private ThingService thingService;
 
     public ObjectExcelExporterImporter(Map<String, List<String>> map) throws IOException, InvalidFormatException {
         objectsMap = map;
@@ -43,12 +50,122 @@ public class ObjectExcelExporterImporter {
         sheet = workbook.getSheetAt(0);
     }
 
-    public ObjectExcelExporterImporter(MultipartFile file) throws IOException {
-        workbook = new XSSFWorkbook(file.getInputStream());
-        sheet = workbook.getSheetAt(0);
+    public ObjectExcelExporterImporter(MultipartFile file, long id,
+                                       ObjectService objectService,
+                                       UnitService unitService,
+                                       ThingService thingService) {
+        this.file = file;
+        this.id = id;
+        this.objectService = objectService;
+        this.unitService = unitService;
+        this.thingService = thingService;
     }
 
+    @SneakyThrows
+    public void importExcel() {
+        XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+            Sheet sheet = workbook.getSheetAt(0);
 
+            //thingService.deleteByUnit(unitService.findById(id));
+
+            int row = 7;
+
+            //Ячейка наявність
+            int rowCell = 7;
+
+            Map<String, Object> stringObjectMap = new HashMap<>();
+
+            List<Object> objectList = objectService.findAll();
+            List<String> objectsName = new ArrayList<>();
+
+
+            for (var item : objectList) {
+                stringObjectMap.put(item.getObjectName(), item);
+            }
+
+
+            while (true) {
+                Cell cell = sheet.getRow(row).getCell(0);
+
+
+                if (!getCellText(cell).equals("")) {
+                    objectsName.add(getCellText(cell));
+                    row++;
+                } else break;
+            }
+            System.out.println(objectsName.toString());
+
+
+            String regex = "\\d{2}\\.\\d{2}\\.\\d{4}";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(sheet.getRow(3).getCell(2).getStringCellValue());
+
+
+            LocalDate localDate = null;
+            if (matcher.find()) {
+                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                localDate = LocalDate.parse(matcher.group(), dateFormat);
+            }
+
+
+            for (String s : objectsName) {
+
+                if (stringObjectMap.containsKey(s)) {
+                    Thing thing = new Thing();
+
+                    thing.setUnit(unitService.findById(id));
+                    thing.setObject(stringObjectMap.get(s));
+
+                    System.out.println(localDate);
+                    if (localDate != null) {
+                        thing.setLocalDate(LocalDate.of(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth()));
+                    } else {
+                        thing.setLocalDate(LocalDate.now());
+                    }
+
+                    //Не вистаяає
+                    Cell cellNotEnough = sheet.getRow(rowCell).getCell(5);
+                    System.out.println(cellNotEnough.getNumericCellValue());
+                    //Надлишок
+                    Cell cellExcess = sheet.getRow(rowCell).getCell(6);
+                    System.out.println(cellExcess.getNumericCellValue());
+                    //Наявність
+                    Cell cellHave = sheet.getRow(rowCell).getCell(4);
+                    System.out.println(cellHave.getNumericCellValue());
+
+                    if (cellHave.getCellType() == CellType.BLANK && cellExcess.getCellType() == CellType.BLANK &&
+                            cellNotEnough.getCellType() == CellType.BLANK) {
+                        continue;
+                    } else {
+                        if ((int) cellHave.getNumericCellValue() == 0 && (int) cellExcess.getNumericCellValue() == 0 &&
+                                (int) cellNotEnough.getNumericCellValue() == 0) {
+                            continue;
+                        }
+
+                        thing.setGeneralHave((int) cellHave.getNumericCellValue());
+
+                        if ((cellNotEnough.getCellType() == CellType.BLANK && cellExcess.getCellType() == CellType.BLANK) ||
+                                ((int)cellNotEnough.getNumericCellValue() == 0 && (int)cellExcess.getNumericCellValue() == 0)) {
+
+                            thing.setGeneralNeed((int) cellHave.getNumericCellValue());
+
+                        } else if (cellNotEnough.getCellType() == CellType.BLANK || (int) cellNotEnough.getNumericCellValue() == 0) {
+
+                            thing.setGeneralNeed(((int) cellHave.getNumericCellValue()) - ((int) cellExcess.getNumericCellValue()));
+
+                        } else if (cellExcess.getCellType() == CellType.BLANK || (int)cellExcess.getNumericCellValue() == 0) {
+
+                            thing.setGeneralNeed(((int) cellHave.getNumericCellValue()) + ((int) cellNotEnough.getNumericCellValue()));
+
+                        }
+                        System.out.println(thing.getLocalDate());
+                        thingService.save(thing);
+                    }
+                    rowCell++;
+                }
+            }
+            workbook.close();
+    }
 
     private void writeObjectsToRows() {
         int rowCounter = 7;
@@ -89,9 +206,33 @@ public class ObjectExcelExporterImporter {
         }
     }
 
+    private String getCellText(Cell cell) {
+        String res = "";
 
+        switch (cell.getCellType()) {
+            case STRING:
+                res = cell.getRichStringCellValue().getString();
+                break;
+            case NUMERIC:
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    res = cell.getDateCellValue().toString();
+                } else {
+                    res = Double.toString(cell.getNumericCellValue());
+                }
+                break;
+            case BOOLEAN:
+                res = Boolean.toString(cell.getBooleanCellValue());
+                break;
+            case FORMULA:
+                res = cell.getCellFormula().toString();
+                break;
 
+            default:
+                break;
+        }
 
+        return res;
+    }
 
     public void export(HttpServletResponse response) {
         try (ServletOutputStream outputStream = response.getOutputStream()) {
@@ -102,10 +243,4 @@ public class ObjectExcelExporterImporter {
             e.printStackTrace();
         }
     }
-
-//    public List<Thing> importToDB(Unit unit , ObjectService service) throws IOException {
-//
-//
-//        return thingList;
-//    }
 }

@@ -1,5 +1,6 @@
 package kvz.zsu.control.controllers;
 
+import kvz.zsu.control.excel.ObjectExcelExporterImporter;
 import kvz.zsu.control.models.*;
 import kvz.zsu.control.models.Object;
 import kvz.zsu.control.services.*;
@@ -67,125 +68,12 @@ public class UnitController {
     public String mapReapExcelDataToDB(@RequestParam("file") MultipartFile reapExcelDataFile,
                                        @PathVariable("id") Long id) {
 
-        try (XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream())) {
-            Sheet sheet = workbook.getSheetAt(0);
+        ObjectExcelExporterImporter objectExcelExporterImporter = new ObjectExcelExporterImporter(reapExcelDataFile, id,
+                objectService, unitService, thingService);
 
-            //thingService.deleteByUnit(unitService.findById(id));
-
-            int row = 7;
-
-            //Ячейка наявність
-            int rowCell = 7;
-
-            Map<String, Object> stringObjectMap = new HashMap<>();
-
-            List<Object> objectList = objectService.findAll();
-            List<String> objectsName = new ArrayList<>();
-
-
-            for (var item : objectList) {
-                stringObjectMap.put(item.getObjectName(), item);
-            }
-
-
-            while (true) {
-                Cell cell = sheet.getRow(row).getCell(0);
-
-
-                if (!getCellText(cell).equals("")) {
-                    objectsName.add(getCellText(cell));
-                    row++;
-                } else break;
-            }
-            System.out.println(objectsName.toString());
-
-
-            String regex = "\\d{2}\\.\\d{2}\\.\\d{4}";
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(sheet.getRow(3).getCell(2).getStringCellValue());
-
-
-            LocalDate localDate = null;
-            if (matcher.find()) {
-                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-                localDate = LocalDate.parse(matcher.group(), dateFormat);
-            }
-
-
-            for (String s : objectsName) {
-
-                if (stringObjectMap.containsKey(s)) {
-                    Thing thing = new Thing();
-
-                    thing.setUnit(unitService.findById(id));
-                    thing.setObject(stringObjectMap.get(s));
-
-                    System.out.println(localDate);
-                    if (localDate != null) {
-                        thing.setLocalDate(LocalDate.of(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth()));
-                    } else {
-                        thing.setLocalDate(LocalDate.now());
-                    }
-
-                    //Не вистаяає
-                    Cell cellNotEnough = sheet.getRow(rowCell).getCell(5);
-                    System.out.println(cellNotEnough.getNumericCellValue());
-                    //Надлишок
-                    Cell cellExcess = sheet.getRow(rowCell).getCell(6);
-                    System.out.println(cellExcess.getNumericCellValue());
-                    //Наявність
-                    Cell cellHave = sheet.getRow(rowCell).getCell(4);
-                    System.out.println(cellHave.getNumericCellValue());
-
-                    if (cellHave.getCellType() == CellType.BLANK && cellExcess.getCellType() == CellType.BLANK &&
-                            cellNotEnough.getCellType() == CellType.BLANK) {
-                        continue;
-                    } else {
-                        if ((int) cellHave.getNumericCellValue() == 0 && (int) cellExcess.getNumericCellValue() == 0 &&
-                                (int) cellNotEnough.getNumericCellValue() == 0) {
-                            continue;
-                        }
-
-                        thing.setGeneralHave((int) cellHave.getNumericCellValue());
-
-                        if ((cellNotEnough.getCellType() == CellType.BLANK && cellExcess.getCellType() == CellType.BLANK) ||
-                                ((int)cellNotEnough.getNumericCellValue() == 0 && (int)cellExcess.getNumericCellValue() == 0)) {
-
-                            thing.setGeneralNeed((int) cellHave.getNumericCellValue());
-
-                        } else if (cellNotEnough.getCellType() == CellType.BLANK || (int) cellNotEnough.getNumericCellValue() == 0) {
-
-                            thing.setGeneralNeed(((int) cellHave.getNumericCellValue()) - ((int) cellExcess.getNumericCellValue()));
-
-                        } else if (cellExcess.getCellType() == CellType.BLANK || (int)cellExcess.getNumericCellValue() == 0) {
-
-                            thing.setGeneralNeed(((int) cellHave.getNumericCellValue()) + ((int) cellNotEnough.getNumericCellValue()));
-
-                        }
-                        System.out.println(thing.getLocalDate());
-                        thingService.save(thing);
-                    }
-
-
-                    rowCell++;
-
-
-//                    if (cellNeed.getCellType() != CellType.BLANK && cellHave.getCellType() != CellType.BLANK &&
-//                            cellNeed.getCellType() != CellType.STRING && cellHave.getCellType() != CellType.STRING) {
-//                        thing.setGeneralNeed((int) cellNeed.getNumericCellValue());
-//                        thing.setGeneralHave((int) cellHave.getNumericCellValue());
-//                        thingService.save(thing);
-//                    }
-//                    System.out.println(thing.getObject().getObjectName());
-
-
-                }
-
-//                rowCellNeedAndHave++;
-
-
-            }
-        } catch (Exception exception) {
+        try {
+            objectExcelExporterImporter.importExcel();
+        } catch (Exception e) {
             return "redirect:/units";
         }
 
@@ -383,31 +271,5 @@ public class UnitController {
         return unitService.findAll();
     }
 
-    public String getCellText(Cell cell) {
-        String res = "";
 
-        switch (cell.getCellType()) {
-            case STRING:
-                res = cell.getRichStringCellValue().getString();
-                break;
-            case NUMERIC:
-                if (DateUtil.isCellDateFormatted(cell)) {
-                    res = cell.getDateCellValue().toString();
-                } else {
-                    res = Double.toString(cell.getNumericCellValue());
-                }
-                break;
-            case BOOLEAN:
-                res = Boolean.toString(cell.getBooleanCellValue());
-                break;
-            case FORMULA:
-                res = cell.getCellFormula().toString();
-                break;
-
-            default:
-                break;
-        }
-
-        return res;
-    }
 }
