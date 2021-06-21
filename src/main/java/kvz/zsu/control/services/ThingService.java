@@ -4,6 +4,7 @@ import kvz.zsu.control.models.Object;
 import kvz.zsu.control.models.Thing;
 import kvz.zsu.control.models.Unit;
 import kvz.zsu.control.repositories.ThingRepo;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

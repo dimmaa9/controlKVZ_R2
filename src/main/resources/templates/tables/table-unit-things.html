@@ -4,42 +4,6 @@
 <head>
     <title th:text="|Таблиця засобів підрозділу ${unit.nameUnit}|"></title>
 
-    <!-- Meta -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-    <!-- Favicon -->
-<!--    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">-->
-
-    <!--  Social tags -->
-    <meta name="keywords"
-          content="Awesome Dashboard UI Kit, Bootstrap, Template, Theme, Freebies, MIT license, Free, Download">
-    <meta name="description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
-    <meta name="author" content="htmlstream.com">
-
-    <!-- Schema.org -->
-    <meta itemprop="name" content="Awesome Dashboard UI Kit">
-    <meta itemprop="description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
-    <meta itemprop="image" content="assets/img-temp/aduik-preview.png">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@htmlstream">
-    <meta name="twitter:title" content="Awesome Dashboard UI Kit">
-    <meta name="twitter:description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
-    <meta name="twitter:creator" content="@htmlstream">
-    <meta name="twitter:image" content="assets/img-temp/aduik-preview.png">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Htmlstream">
-    <meta property="og:title" content="Awesome Dashboard UI Kit">
-    <meta property="og:description" content="Awesome Dashboard UI Kit crafted by Htmlstream">
-    <meta property="og:url" content="https://htmlstream.com/preview/awesome-dashboard-ui-kit/">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:image" content="assets/img-temp/aduik-preview.png">
-    <meta property="og:image:secure_url" content="assets/img-temp/aduik-preview.png">
 
     <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet"/>
 
@@ -68,7 +32,7 @@
 <!-- Main -->
 <main class="u-main">
     <!-- Sidebar -->
-    <aside th:replace="~{fragments/slide-bar :: bar(3)}"></aside>
+    <aside data-th-replace="~{fragments/slide-bar :: bar(3)}"></aside>
     <!-- End Sidebar -->
 
     <!-- Content -->
@@ -92,7 +56,7 @@
                     <!-- End Breadcrumb -->
                     <div style="display: flex; margin-bottom: 20px">
                         <h1 style="margin-top: auto; margin-bottom: auto" class="h3 mb-2"
-                            th:text="${unit.nameUnit}"></h1>
+                            data-th-text="${unit.nameUnit}"></h1>
                         <a style="margin-left: 30px;" type="button" class="btn bg-dark btn-pill text-light"
                            th:href="@{'/units/' + ${unit.id} + '/create'}">
                             <span class="ti-pencil-alt"></span>
@@ -100,7 +64,7 @@
                         </a>
 
                         <a style="margin-left: 30px;" type="button" class="btn bg-danger btn-pill text-light"
-                           th:href="@{'/units/' + ${unit.id} + '/deleteAll'}">
+                           data-th-href="@{'/units/' + ${unit.id} + '/deleteAll'}">
                             <span class="ti-trash"></span>
                             <span class="u-sidebar-nav-menu__item-title" style="margin-left: 5px">Видалити все</span>
                         </a>
