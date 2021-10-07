@@ -11,6 +11,9 @@
     <groupId>kvz.zsu</groupId>
     <artifactId>control</artifactId>
     <version>1</version>
+
+
+
     <name>control</name>
     <description>Project for Spring Boot</description>
     <properties>
@@ -114,6 +117,8 @@
             <artifactId>xercesImpl</artifactId>
             <version>2.12.1</version>
         </dependency>
+
+
 
     </dependencies>
 
